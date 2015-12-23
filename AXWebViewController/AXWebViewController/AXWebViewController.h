@@ -53,6 +53,10 @@
 @property(readonly, nonatomic) UIWebView *webView;
 /// Url.
 @property(readonly, nonatomic) NSURL *URL;
+/// Time out internal.
+@property(assign, nonatomic) NSTimeInterval timeoutInternal;
+/// Cache policy.
+@property(assign, nonatomic) NSURLRequestCachePolicy cachePolicy;
 /// Get a instance of `AXWebViewController` by a url string.
 ///
 /// @param urlString a string of url to be loaded.

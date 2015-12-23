@@ -37,6 +37,8 @@
 - (instancetype)initWithURL:(NSURL*)pageURL {
     if(self = [super init]) {
         _URL = pageURL;
+        _timeoutInternal = 10.0;
+        _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
     }
     return self;
 }
@@ -172,10 +174,27 @@
     return _progressView;
 }
 
+- (void)setTimeoutInternal:(NSTimeInterval)timeoutInternal {
+    _timeoutInternal = timeoutInternal;
+    NSMutableURLRequest *request = [self.webView.request mutableCopy];
+    request.timeoutInterval = _timeoutInternal;
+    [_webView loadRequest:request];
+}
+
+- (void)setCachePolicy:(NSURLRequestCachePolicy)cachePolicy {
+    _cachePolicy = cachePolicy;
+    NSMutableURLRequest *request = [self.webView.request mutableCopy];
+    request.cachePolicy = _cachePolicy;
+    [_webView loadRequest:request];
+}
+
 #pragma mark - Public
 - (void)loadURL:(NSURL *)pageURL {
     _URL = pageURL;
-    [_webView loadRequest:[NSURLRequest requestWithURL:pageURL]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:pageURL];
+    request.timeoutInterval = _timeoutInternal;
+    request.cachePolicy = _cachePolicy;
+    [_webView loadRequest:request];
 }
 - (void)willGoBack{
     if (_delegate && [_delegate respondsToSelector:@selector(webViewControllerWillGoBack:)]) {
@@ -232,7 +251,6 @@
 }
 - (void)actionButtonClicked:(id)sender {
     NSArray *activities = @[[AXWebViewControllerActivitySafari new], [AXWebViewControllerActivityChrome new]];
-    
     UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:@[self.self.webView.request.URL] applicationActivities:activities];
     [self presentViewController:activityController animated:YES completion:nil];
 }
