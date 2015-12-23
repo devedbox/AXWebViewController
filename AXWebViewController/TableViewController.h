@@ -1,15 +1,13 @@
 //
-//  ViewController.h
+//  TableViewController.h
 //  AXWebViewController
 //
-//  Created by ai on 15/12/22.
+//  Created by ai on 15/12/23.
 //  Copyright © 2015年 AiXing. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface TableViewController : UITableViewController
 
 @end
-
