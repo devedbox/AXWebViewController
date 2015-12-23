@@ -28,7 +28,7 @@
 @end
 
 @implementation AXWebViewController
-@synthesize URL = _URL;
+@synthesize URL = _URL, webView = _webView;
 #pragma mark - Life cycle
 - (instancetype)initWithAddress:(NSString *)urlString {
     return [self initWithURL:[NSURL URLWithString:urlString]];
@@ -177,18 +177,57 @@
     _URL = pageURL;
     [_webView loadRequest:[NSURLRequest requestWithURL:pageURL]];
 }
+- (void)willGoBack{
+    if (_delegate && [_delegate respondsToSelector:@selector(webViewControllerWillGoBack:)]) {
+        [_delegate webViewControllerWillGoBack:self];
+    }
+}
+- (void)willGoForward{
+    if (_delegate && [_delegate respondsToSelector:@selector(webViewControllerWillGoForward:)]) {
+        [_delegate webViewControllerWillGoForward:self];
+    }
+}
+- (void)willReload{
+    if (_delegate && [_delegate respondsToSelector:@selector(webViewControllerWillReload:)]) {
+        [_delegate webViewControllerWillReload:self];
+    }
+}
+- (void)willStop{
+    if (_delegate && [_delegate respondsToSelector:@selector(webViewControllerWillStop:)]) {
+        [_delegate webViewControllerWillStop:self];
+    }
+}
+- (void)didStartLoad{
+    if (_delegate && [_delegate respondsToSelector:@selector(webViewControllerDidStartLoad:)]) {
+        [_delegate webViewControllerDidStartLoad:self];
+    }
+}
+- (void)didFinishLoad{
+    if (_delegate && [_delegate respondsToSelector:@selector(webViewControllerDidFinishLoad:)]) {
+        [_delegate webViewControllerDidFinishLoad:self];
+    }
+}
+- (void)didFailLoadWithError:(NSError *)error{
+    if (_delegate && [_delegate respondsToSelector:@selector(webViewController:didFailLoadWithError:)]) {
+        [_delegate webViewController:self didFailLoadWithError:error];
+    }
+}
 
 #pragma mark - Actions
 - (void)goBackClicked:(UIBarButtonItem *)sender {
+    [self willGoBack];
     [_webView goBack];
 }
 - (void)goForwardClicked:(UIBarButtonItem *)sender {
+    [self willGoForward];
     [_webView goForward];
 }
 - (void)reloadClicked:(UIBarButtonItem *)sender {
+    [self willReload];
     [_webView reload];
 }
 - (void)stopClicked:(UIBarButtonItem *)sender {
+    [self willStop];
     [_webView stopLoading];
 }
 - (void)actionButtonClicked:(id)sender {
@@ -206,18 +245,20 @@
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [self updateToolbarItems];
+    [self didStartLoad];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    
     self.navigationItem.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     [self updateToolbarItems];
+    [self didFinishLoad];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [self updateToolbarItems];
+    [self didFailLoadWithError:error];
 }
 
 #pragma mark - NJKWebViewProgressDelegate
