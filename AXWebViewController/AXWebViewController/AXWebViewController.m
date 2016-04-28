@@ -53,6 +53,7 @@
     [super viewDidLoad];
     [self progressProxy];
     [self updateToolbarItems];
+    self.progressView.progressBarView.backgroundColor = self.navigationController.navigationBar.tintColor;
 }
 
 - (void)viewDidUnload {
@@ -341,7 +342,6 @@
         self.navigationController.toolbar.barStyle = self.navigationController.navigationBar.barStyle;
         self.navigationController.toolbar.tintColor = self.navigationController.navigationBar.tintColor;
         self.navigationController.toolbar.barTintColor = self.navigationController.navigationBar.barTintColor;
-        self.progressView.progressBarView.backgroundColor = self.navigationController.navigationBar.tintColor;
         self.toolbarItems = items;
     }
 }
