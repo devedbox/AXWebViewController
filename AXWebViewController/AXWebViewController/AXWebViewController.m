@@ -39,6 +39,7 @@
         _URL = pageURL;
         _timeoutInternal = 10.0;
         _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
+        _showsToolBar = YES;
     }
     return self;
 }
@@ -75,7 +76,7 @@
         else
             self.navigationItem.rightBarButtonItem = doneButton;
     }
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && _showsToolBar) {
         [self.navigationController setToolbarHidden:NO animated:animated];
     }
     [self.navigationController.navigationBar addSubview:self.progressView];
@@ -84,7 +85,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && _showsToolBar) {
         [self.navigationController setToolbarHidden:YES animated:animated];
     }
     [_progressView removeFromSuperview];
@@ -186,6 +187,11 @@
     NSMutableURLRequest *request = [self.webView.request mutableCopy];
     request.cachePolicy = _cachePolicy;
     [_webView loadRequest:request];
+}
+
+- (void)setShowsToolBar:(BOOL)showsToolBar {
+    _showsToolBar = showsToolBar;
+    [self updateToolbarItems];
 }
 
 #pragma mark - Public

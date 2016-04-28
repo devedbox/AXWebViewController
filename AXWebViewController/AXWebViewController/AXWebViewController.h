@@ -57,6 +57,8 @@
 @property(assign, nonatomic) NSTimeInterval timeoutInternal;
 /// Cache policy.
 @property(assign, nonatomic) NSURLRequestCachePolicy cachePolicy;
+/// Shows tool bar.
+@property(assign, nonatomic) BOOL showsToolBar;
 /// Get a instance of `AXWebViewController` by a url string.
 ///
 /// @param urlString a string of url to be loaded.
