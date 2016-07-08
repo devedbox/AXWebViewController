@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01232FB51D2FDABD000B5D63 /* AXWebNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01232FB41D2FDABD000B5D63 /* AXWebNavigationController.m */; };
 		01513BF01C28F70700CB8238 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01513BEF1C28F70700CB8238 /* main.m */; };
 		01513BF31C28F70700CB8238 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 01513BF21C28F70700CB8238 /* AppDelegate.m */; };
 		01513BF91C28F70700CB8238 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01513BF71C28F70700CB8238 /* Main.storyboard */; };
@@ -18,10 +19,12 @@
 		01CDC1571C2A3DF400D9AF53 /* AXWebViewControllerActivityChrome.m in Sources */ = {isa = PBXBuildFile; fileRef = 01CDC1561C2A3DF400D9AF53 /* AXWebViewControllerActivityChrome.m */; };
 		01CDC15A1C2A3FAE00D9AF53 /* AXWebViewControllerActivitySafari.m in Sources */ = {isa = PBXBuildFile; fileRef = 01CDC1591C2A3FAE00D9AF53 /* AXWebViewControllerActivitySafari.m */; };
 		01CDC15D1C2A41DF00D9AF53 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01CDC15C1C2A41DF00D9AF53 /* TableViewController.m */; };
-		294A1F6E014024AD85B331BA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EFAB2C4BCAA56E3C171E20F /* libPods.a */; };
+		97F6BE6D557C0BB485DDCF88 /* libPods-AXWebViewController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2642E682614F41BF460E7673 /* libPods-AXWebViewController.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01232FB31D2FDABD000B5D63 /* AXWebNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AXWebNavigationController.h; path = AXWebViewController/AXWebNavigationController.h; sourceTree = "<group>"; };
+		01232FB41D2FDABD000B5D63 /* AXWebNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AXWebNavigationController.m; path = AXWebViewController/AXWebNavigationController.m; sourceTree = "<group>"; };
 		01513BEB1C28F70700CB8238 /* AXWebViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AXWebViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01513BEF1C28F70700CB8238 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		01513BF11C28F70700CB8238 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -41,9 +44,9 @@
 		01CDC1591C2A3FAE00D9AF53 /* AXWebViewControllerActivitySafari.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AXWebViewControllerActivitySafari.m; path = AXWebViewController/AXWebViewControllerActivitySafari.m; sourceTree = "<group>"; };
 		01CDC15B1C2A41DF00D9AF53 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
 		01CDC15C1C2A41DF00D9AF53 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
-		24DD00F486D99009A91C8200 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		5EFAB2C4BCAA56E3C171E20F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		D55AFDA3E2CEA647ACC1824F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		0326F0589F0B7F449EE39607 /* Pods-AXWebViewController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AXWebViewController.release.xcconfig"; path = "Pods/Target Support Files/Pods-AXWebViewController/Pods-AXWebViewController.release.xcconfig"; sourceTree = "<group>"; };
+		2642E682614F41BF460E7673 /* libPods-AXWebViewController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AXWebViewController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B7311EC599653BFAAF42107 /* Pods-AXWebViewController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AXWebViewController.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AXWebViewController/Pods-AXWebViewController.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				294A1F6E014024AD85B331BA /* libPods.a in Frameworks */,
+				97F6BE6D557C0BB485DDCF88 /* libPods-AXWebViewController.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,8 +66,8 @@
 			children = (
 				01513BED1C28F70700CB8238 /* AXWebViewController */,
 				01513BEC1C28F70700CB8238 /* Products */,
-				597E8AF73068371AA4377095 /* Pods */,
-				1816DDC2FEC84A80CE02914B /* Frameworks */,
+				0BC220E02B437FE0466F4248 /* Pods */,
+				6757935A39C536BCAB9BA3A3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -106,6 +109,8 @@
 			children = (
 				01513C051C28F90000CB8238 /* AXWebViewController.h */,
 				01513C061C28F90000CB8238 /* AXWebViewController.m */,
+				01232FB31D2FDABD000B5D63 /* AXWebNavigationController.h */,
+				01232FB41D2FDABD000B5D63 /* AXWebNavigationController.m */,
 				01CDC1521C2A3D0F00D9AF53 /* AXWebViewControllerActivity.h */,
 				01CDC1531C2A3D0F00D9AF53 /* AXWebViewControllerActivity.m */,
 				01CDC1581C2A3FAE00D9AF53 /* AXWebViewControllerActivitySafari.h */,
@@ -117,21 +122,21 @@
 			name = AXWebViewController;
 			sourceTree = "<group>";
 		};
-		1816DDC2FEC84A80CE02914B /* Frameworks */ = {
+		0BC220E02B437FE0466F4248 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				5EFAB2C4BCAA56E3C171E20F /* libPods.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		597E8AF73068371AA4377095 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				D55AFDA3E2CEA647ACC1824F /* Pods.debug.xcconfig */,
-				24DD00F486D99009A91C8200 /* Pods.release.xcconfig */,
+				3B7311EC599653BFAAF42107 /* Pods-AXWebViewController.debug.xcconfig */,
+				0326F0589F0B7F449EE39607 /* Pods-AXWebViewController.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		6757935A39C536BCAB9BA3A3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2642E682614F41BF460E7673 /* libPods-AXWebViewController.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,12 +146,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 01513C021C28F70700CB8238 /* Build configuration list for PBXNativeTarget "AXWebViewController" */;
 			buildPhases = (
-				74CD6CB26AB1075B8F1A4B90 /* Check Pods Manifest.lock */,
+				43867203D586B50CBAAFDB18 /* 📦 Check Pods Manifest.lock */,
 				01513BE71C28F70700CB8238 /* Sources */,
 				01513BE81C28F70700CB8238 /* Frameworks */,
 				01513BE91C28F70700CB8238 /* Resources */,
-				2773270779C445600D1C3325 /* Embed Pods Frameworks */,
-				3C11952FC2B20D1A6F144896 /* Copy Pods Resources */,
+				F3182DEE5A600ABFAF07F7DC /* 📦 Embed Pods Frameworks */,
+				90CC7504393E7254ABAF393F /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -204,49 +209,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2773270779C445600D1C3325 /* Embed Pods Frameworks */ = {
+		43867203D586B50CBAAFDB18 /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3C11952FC2B20D1A6F144896 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		74CD6CB26AB1075B8F1A4B90 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		90CC7504393E7254ABAF393F /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AXWebViewController/Pods-AXWebViewController-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F3182DEE5A600ABFAF07F7DC /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AXWebViewController/Pods-AXWebViewController-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -258,6 +263,7 @@
 			files = (
 				01CDC1571C2A3DF400D9AF53 /* AXWebViewControllerActivityChrome.m in Sources */,
 				01513BF31C28F70700CB8238 /* AppDelegate.m in Sources */,
+				01232FB51D2FDABD000B5D63 /* AXWebNavigationController.m in Sources */,
 				01CDC1541C2A3D0F00D9AF53 /* AXWebViewControllerActivity.m in Sources */,
 				01513C071C28F90000CB8238 /* AXWebViewController.m in Sources */,
 				01513BF01C28F70700CB8238 /* main.m in Sources */,
@@ -370,7 +376,7 @@
 		};
 		01513C031C28F70700CB8238 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D55AFDA3E2CEA647ACC1824F /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 3B7311EC599653BFAAF42107 /* Pods-AXWebViewController.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = AXWebViewController/Info.plist;
@@ -384,7 +390,7 @@
 		};
 		01513C041C28F70700CB8238 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 24DD00F486D99009A91C8200 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 0326F0589F0B7F449EE39607 /* Pods-AXWebViewController.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = AXWebViewController/Info.plist;

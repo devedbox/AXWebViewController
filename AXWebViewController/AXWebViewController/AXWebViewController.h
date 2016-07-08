@@ -12,6 +12,13 @@
 
 @class AXWebViewController;
 
+typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
+    /// Navigation bar items.
+    AXWebViewControllerNavigationBarItem,
+    /// Tool bar items.
+    AXWebViewControllerNavigationToolItem
+};
+
 @protocol AXWebViewControllerDelegate <NSObject>
 @optional
 /// Called when web view will go back.
@@ -59,6 +66,8 @@
 @property(assign, nonatomic) NSURLRequestCachePolicy cachePolicy;
 /// Shows tool bar.
 @property(assign, nonatomic) BOOL showsToolBar;
+/// Navigation type.
+@property(assign, nonatomic) AXWebViewControllerNavigationType navigationType;
 /// Get a instance of `AXWebViewController` by a url string.
 ///
 /// @param urlString a string of url to be loaded.
