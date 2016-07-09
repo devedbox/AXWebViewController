@@ -53,7 +53,7 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 - (void)webViewController:(AXWebViewController *)webViewController didFailLoadWithError:(NSError *)error;
 @end
 
-@interface AXWebViewController : UIViewController
+@interface AXWebViewController : UIViewController <UIWebViewDelegate>
 /// Delegate.
 @property(assign, nonatomic) id<AXWebViewControllerDelegate>delegate;
 /// Web view.

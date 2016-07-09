@@ -11,7 +11,7 @@
 #import "AXWebViewControllerActivityChrome.h"
 #import <objc/runtime.h>
 
-@interface AXWebViewController ()<UIWebViewDelegate, NJKWebViewProgressDelegate>
+@interface AXWebViewController ()<NJKWebViewProgressDelegate>
 {
     BOOL _loading;
     UIBarButtonItem * __weak _doneItem;
