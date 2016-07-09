@@ -449,6 +449,7 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     _backgroundLabel.text = @"加载中...";
+    self.navigationItem.title = @"加载中...";
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     if (_navigationType == AXWebViewControllerNavigationBarItem) {
         [self updateNavigationItems];
@@ -478,6 +479,7 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     _backgroundLabel.text = [NSString stringWithFormat:@"网页加载失败：%@", error.localizedDescription];
+    self.navigationItem.title = @"加载失败";
     if (_navigationType == AXWebViewControllerNavigationBarItem) {
         [self updateNavigationItems];
     }
