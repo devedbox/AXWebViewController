@@ -192,7 +192,7 @@
 
 - (UIBarButtonItem *)navigationBackBarButtonItem {
     if (_navigationBackBarButtonItem) return _navigationBackBarButtonItem;
-    UIImage* backItemImage = [[UINavigationBar appearance] backIndicatorImage]?:[[UIImage imageNamed:@"AXWebViewController.bundle/backItemImage"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIImage* backItemImage = [[[UINavigationBar appearance] backIndicatorImage] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]?:[[UIImage imageNamed:@"AXWebViewController.bundle/backItemImage"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     UIGraphicsBeginImageContextWithOptions(backItemImage.size, NO, backItemImage.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextTranslateCTM(context, 0, backItemImage.size.height);
@@ -206,10 +206,18 @@
     UIGraphicsEndImageContext();
     UIImage* backItemHlImage = newImage?:[[UIImage imageNamed:@"AXWebViewController.bundle/backItemImage-hl"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     UIButton* backButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [backButton setTitle:@"返回" forState:UIControlStateNormal];
-    [backButton setTitleColor:self.navigationController.navigationBar.tintColor forState:UIControlStateNormal];
-    [backButton setTitleColor:[self.navigationController.navigationBar.tintColor colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
-    [backButton.titleLabel setFont:[UIFont systemFontOfSize:17]];
+    NSDictionary *attr = [[UIBarButtonItem appearance] titleTextAttributesForState:UIControlStateNormal];
+    if (attr) {
+        [backButton setAttributedTitle:[[NSAttributedString alloc] initWithString:@"返回" attributes:attr] forState:UIControlStateNormal];
+        UIOffset offset = [[UIBarButtonItem appearance] backButtonTitlePositionAdjustmentForBarMetrics:UIBarMetricsDefault];
+        backButton.titleEdgeInsets = UIEdgeInsetsMake(offset.vertical, offset.horizontal, 0, 0);
+        backButton.imageEdgeInsets = UIEdgeInsetsMake(offset.vertical, offset.horizontal, 0, 0);
+    } else {
+        [backButton setTitle:@"返回" forState:UIControlStateNormal];
+        [backButton setTitleColor:self.navigationController.navigationBar.tintColor forState:UIControlStateNormal];
+        [backButton setTitleColor:[self.navigationController.navigationBar.tintColor colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+        [backButton.titleLabel setFont:[UIFont systemFontOfSize:17]];
+    }
     [backButton setImage:backItemImage forState:UIControlStateNormal];
     [backButton setImage:backItemHlImage forState:UIControlStateHighlighted];
     [backButton sizeToFit];
