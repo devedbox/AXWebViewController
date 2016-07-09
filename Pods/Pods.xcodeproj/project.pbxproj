@@ -7,29 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		02BC53765AC158E334C79613FFD6463E /* NJKWebViewProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B00CDF425DD837DD72CF9F6B1A1D3CC4 /* NJKWebViewProgressView.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		1A8200B536A880B714C46605FD83EA29 /* Aspects.m in Sources */ = {isa = PBXBuildFile; fileRef = 2423FFDDACDA5CDCD1FED4D6BC62613A /* Aspects.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		32EFF502FBA4473781B2B65FD697B345 /* NJKWebViewProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = 79C4C7A237063958E6720D94AD8A4121 /* NJKWebViewProgress.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		56EF1BCF142EACE6F21E803872214B0C /* Aspects.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FC2A06DC7BAEFC2FE76BF8C5AD0F992 /* Aspects.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6C35DCA7251913324947DFAFEBBB7A2C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3997E5D2953ECDF377B85B234FDF550D /* Foundation.framework */; };
+		01436AD205A686ED0DA822B5CEBB5AA9 /* Pods-AXWebViewController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC007D8BDD9865B4DE40B85F328633 /* Pods-AXWebViewController-dummy.m */; };
+		02BC53765AC158E334C79613FFD6463E /* NJKWebViewProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA475A4BFCE21EE043105F091D9FC01 /* NJKWebViewProgressView.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		32EFF502FBA4473781B2B65FD697B345 /* NJKWebViewProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = F066617B636E677A540544025DA70DE3 /* NJKWebViewProgress.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		847895E46392EABC84629EC96BF78335 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3997E5D2953ECDF377B85B234FDF550D /* Foundation.framework */; };
-		8970EB3BBBC26F514AA0C1EABD7BF50C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3997E5D2953ECDF377B85B234FDF550D /* Foundation.framework */; };
-		A2A3685A707B7F40BBDE1A6E0C7FE7DD /* NJKWebViewProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = FA96889428A2F74F21F5E5492B69E9DB /* NJKWebViewProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA58D3EEFCBED00AA256325D80519762 /* NJKWebViewProgress-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E1179E6A56FC9929707F33FC9C5675 /* NJKWebViewProgress-dummy.m */; };
-		EF51426192C52400D158F2866ADE3BD8 /* Pods-AXWebViewController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC007D8BDD9865B4DE40B85F328633 /* Pods-AXWebViewController-dummy.m */; };
-		F1452B6DA45F2A6E29DE276C03964CCD /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D94AA35A1087AC0FD628A051045B88C /* NJKWebViewProgress.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		F58F2966E9FE391EBC18A3115C36F804 /* Aspects-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F9E9CC5A5D6C602B03975C0D1E2288E9 /* Aspects-dummy.m */; };
+		A2A3685A707B7F40BBDE1A6E0C7FE7DD /* NJKWebViewProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = A1A56C235E5B6B3A36BCDDB6C24B5443 /* NJKWebViewProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA58D3EEFCBED00AA256325D80519762 /* NJKWebViewProgress-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB56B0C50FECB95F619E81B51AC3A12 /* NJKWebViewProgress-dummy.m */; };
+		B73BE96B6F8BAFABAC8EAC4DABD9F388 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3997E5D2953ECDF377B85B234FDF550D /* Foundation.framework */; };
+		F1452B6DA45F2A6E29DE276C03964CCD /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A98A170AFF987A8FE6861E8FCD327B8 /* NJKWebViewProgress.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		34CDB006164F3651D1F9A8A4535B6CC4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DBC9A0AF6D4571D059D2AF2422F2BD6E;
-			remoteInfo = Aspects;
-		};
-		688193A1E78E6F3A81E49C2285101CCA /* PBXContainerItemProxy */ = {
+		508A27C2B92B4F6AB9AF2F51E3FFF79B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
@@ -39,49 +28,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0DA8044E76121E5316D9937056C5086C /* NJKWebViewProgress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = NJKWebViewProgress.xcconfig; sourceTree = "<group>"; };
+		1A98A170AFF987A8FE6861E8FCD327B8 /* NJKWebViewProgress.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NJKWebViewProgress.m; path = NJKWebViewProgress/NJKWebViewProgress.m; sourceTree = "<group>"; };
 		1BAC007D8BDD9865B4DE40B85F328633 /* Pods-AXWebViewController-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-AXWebViewController-dummy.m"; sourceTree = "<group>"; };
-		1D94AA35A1087AC0FD628A051045B88C /* NJKWebViewProgress.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NJKWebViewProgress.m; path = NJKWebViewProgress/NJKWebViewProgress.m; sourceTree = "<group>"; };
-		1FC2A06DC7BAEFC2FE76BF8C5AD0F992 /* Aspects.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Aspects.h; sourceTree = "<group>"; };
-		2423FFDDACDA5CDCD1FED4D6BC62613A /* Aspects.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Aspects.m; sourceTree = "<group>"; };
-		2522218331F2F97684E96FADF7E32402 /* libPods-AXWebViewController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AXWebViewController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		324284EDF359CDCB71F828C88BB1CB32 /* Aspects.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Aspects.xcconfig; sourceTree = "<group>"; };
 		3997E5D2953ECDF377B85B234FDF550D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		423260D239C1CF4BDE49BC88BDB4F3F0 /* Aspects-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Aspects-prefix.pch"; sourceTree = "<group>"; };
-		46E1179E6A56FC9929707F33FC9C5675 /* NJKWebViewProgress-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NJKWebViewProgress-dummy.m"; sourceTree = "<group>"; };
+		516B4D5F8A40706605E59A23A8CCEA6A /* libNJKWebViewProgress.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNJKWebViewProgress.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		58770428F78621A4B6D2BA79241B9152 /* Pods-AXWebViewController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AXWebViewController.debug.xcconfig"; sourceTree = "<group>"; };
 		7785DF08327F1605C57A1BECEC371506 /* Pods-AXWebViewController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AXWebViewController.release.xcconfig"; sourceTree = "<group>"; };
-		79C4C7A237063958E6720D94AD8A4121 /* NJKWebViewProgress.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NJKWebViewProgress.h; path = NJKWebViewProgress/NJKWebViewProgress.h; sourceTree = "<group>"; };
+		8F95FC61185FB50E1A01E504A9566F20 /* NJKWebViewProgress-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NJKWebViewProgress-prefix.pch"; sourceTree = "<group>"; };
+		9086AE7853AD2618FB289A20F59D176C /* NJKWebViewProgress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = NJKWebViewProgress.xcconfig; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		B00CDF425DD837DD72CF9F6B1A1D3CC4 /* NJKWebViewProgressView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NJKWebViewProgressView.m; path = NJKWebViewProgress/NJKWebViewProgressView.m; sourceTree = "<group>"; };
+		9AA475A4BFCE21EE043105F091D9FC01 /* NJKWebViewProgressView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NJKWebViewProgressView.m; path = NJKWebViewProgress/NJKWebViewProgressView.m; sourceTree = "<group>"; };
+		A1A56C235E5B6B3A36BCDDB6C24B5443 /* NJKWebViewProgressView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NJKWebViewProgressView.h; path = NJKWebViewProgress/NJKWebViewProgressView.h; sourceTree = "<group>"; };
 		BD2AAE8B757CC6700CF6CEC4A0BCB92A /* Pods-AXWebViewController-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AXWebViewController-acknowledgements.plist"; sourceTree = "<group>"; };
 		C6ED407C314D8B118922677266C2ED61 /* Pods-AXWebViewController-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AXWebViewController-acknowledgements.markdown"; sourceTree = "<group>"; };
-		CBA31337AA51FA0064EA4B38C754FAE4 /* NJKWebViewProgress-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NJKWebViewProgress-prefix.pch"; sourceTree = "<group>"; };
 		CF1D8D47C93C8CC019C5C2258F1CE7A4 /* Pods-AXWebViewController-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AXWebViewController-resources.sh"; sourceTree = "<group>"; };
-		D5B9E72117F61C91B4DF8D1B4CF43435 /* libAspects.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAspects.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCB56B0C50FECB95F619E81B51AC3A12 /* NJKWebViewProgress-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NJKWebViewProgress-dummy.m"; sourceTree = "<group>"; };
 		DDDF65D4EF9AC0FA9AC3013A829680DD /* Pods-AXWebViewController-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AXWebViewController-frameworks.sh"; sourceTree = "<group>"; };
-		F55903188A13C208E93E00CEE8D4B775 /* libNJKWebViewProgress.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNJKWebViewProgress.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		F9E9CC5A5D6C602B03975C0D1E2288E9 /* Aspects-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Aspects-dummy.m"; sourceTree = "<group>"; };
-		FA96889428A2F74F21F5E5492B69E9DB /* NJKWebViewProgressView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NJKWebViewProgressView.h; path = NJKWebViewProgress/NJKWebViewProgressView.h; sourceTree = "<group>"; };
+		E42EA18E840CF3E700B4DB0D722B4AA4 /* libPods-AXWebViewController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AXWebViewController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F066617B636E677A540544025DA70DE3 /* NJKWebViewProgress.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NJKWebViewProgress.h; path = NJKWebViewProgress/NJKWebViewProgress.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		310ABB239CF60D033312438242D4AD2F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6C35DCA7251913324947DFAFEBBB7A2C /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		49B3A71BE9909B181BED7AA2B1B5F571 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8970EB3BBBC26F514AA0C1EABD7BF50C /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		9059AC276AEAEE67CA6CD37776499A2F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -90,14 +57,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C1685FB982C9A3D0743C09F7829841A1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B73BE96B6F8BAFABAC8EAC4DABD9F388 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		02AFA935EBFEAE91B36D208A6BAE1DE7 /* Core */ = {
+		03A39DFCDCF518D9D53DA4B179995EC0 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				79C4C7A237063958E6720D94AD8A4121 /* NJKWebViewProgress.h */,
-				1D94AA35A1087AC0FD628A051045B88C /* NJKWebViewProgress.m */,
+				F066617B636E677A540544025DA70DE3 /* NJKWebViewProgress.h */,
+				1A98A170AFF987A8FE6861E8FCD327B8 /* NJKWebViewProgress.m */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -110,32 +85,23 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		2789DC82A38799861B16EB1BAF76C321 /* Pods */ = {
+		25D99E4D0860BCDB6DE97DDAD97A7CFB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				5D1F64C344230DFA093259FC752405E9 /* Aspects */,
-				68CA758A15E790AA1FF93DA7C762ABDE /* NJKWebViewProgress */,
+				CE75C8448063D122EF541372AE1A69AA /* NJKWebViewProgress */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		39FAFAAF9DC351B24CE1B6534DF2A194 /* ProgressView */ = {
+		4DF0D209FD9FF95B48EBB3CAE8F6C8BC /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				FA96889428A2F74F21F5E5492B69E9DB /* NJKWebViewProgressView.h */,
-				B00CDF425DD837DD72CF9F6B1A1D3CC4 /* NJKWebViewProgressView.m */,
+				9086AE7853AD2618FB289A20F59D176C /* NJKWebViewProgress.xcconfig */,
+				DCB56B0C50FECB95F619E81B51AC3A12 /* NJKWebViewProgress-dummy.m */,
+				8F95FC61185FB50E1A01E504A9566F20 /* NJKWebViewProgress-prefix.pch */,
 			);
-			name = ProgressView;
-			sourceTree = "<group>";
-		};
-		4A2396F8CC364E63B4612D5A2EDAA7B8 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D5B9E72117F61C91B4DF8D1B4CF43435 /* libAspects.a */,
-				F55903188A13C208E93E00CEE8D4B775 /* libNJKWebViewProgress.a */,
-				2522218331F2F97684E96FADF7E32402 /* libPods-AXWebViewController.a */,
-			);
-			name = Products;
+			name = "Support Files";
+			path = "../Target Support Files/NJKWebViewProgress";
 			sourceTree = "<group>";
 		};
 		531278A76F72D0366D24231274461A5D /* Targets Support Files */ = {
@@ -146,44 +112,13 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		5AFD54F80ACC27A1551D924953D9DE73 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				324284EDF359CDCB71F828C88BB1CB32 /* Aspects.xcconfig */,
-				F9E9CC5A5D6C602B03975C0D1E2288E9 /* Aspects-dummy.m */,
-				423260D239C1CF4BDE49BC88BDB4F3F0 /* Aspects-prefix.pch */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/Aspects";
-			sourceTree = "<group>";
-		};
-		5D1F64C344230DFA093259FC752405E9 /* Aspects */ = {
-			isa = PBXGroup;
-			children = (
-				1FC2A06DC7BAEFC2FE76BF8C5AD0F992 /* Aspects.h */,
-				2423FFDDACDA5CDCD1FED4D6BC62613A /* Aspects.m */,
-				5AFD54F80ACC27A1551D924953D9DE73 /* Support Files */,
-			);
-			path = Aspects;
-			sourceTree = "<group>";
-		};
-		68CA758A15E790AA1FF93DA7C762ABDE /* NJKWebViewProgress */ = {
-			isa = PBXGroup;
-			children = (
-				02AFA935EBFEAE91B36D208A6BAE1DE7 /* Core */,
-				39FAFAAF9DC351B24CE1B6534DF2A194 /* ProgressView */,
-				A1A8977250F5997427EF0B1864D26936 /* Support Files */,
-			);
-			path = NJKWebViewProgress;
-			sourceTree = "<group>";
-		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
-				2789DC82A38799861B16EB1BAF76C321 /* Pods */,
-				4A2396F8CC364E63B4612D5A2EDAA7B8 /* Products */,
+				25D99E4D0860BCDB6DE97DDAD97A7CFB /* Pods */,
+				A4246FC2C8A5FA6F7566FD06BE0C74C8 /* Products */,
 				531278A76F72D0366D24231274461A5D /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
@@ -203,15 +138,22 @@
 			path = "Target Support Files/Pods-AXWebViewController";
 			sourceTree = "<group>";
 		};
-		A1A8977250F5997427EF0B1864D26936 /* Support Files */ = {
+		A4246FC2C8A5FA6F7566FD06BE0C74C8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0DA8044E76121E5316D9937056C5086C /* NJKWebViewProgress.xcconfig */,
-				46E1179E6A56FC9929707F33FC9C5675 /* NJKWebViewProgress-dummy.m */,
-				CBA31337AA51FA0064EA4B38C754FAE4 /* NJKWebViewProgress-prefix.pch */,
+				516B4D5F8A40706605E59A23A8CCEA6A /* libNJKWebViewProgress.a */,
+				E42EA18E840CF3E700B4DB0D722B4AA4 /* libPods-AXWebViewController.a */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/NJKWebViewProgress";
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A8FD2FDEAF72F4AF72E41D676E5CE4D6 /* ProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				A1A56C235E5B6B3A36BCDDB6C24B5443 /* NJKWebViewProgressView.h */,
+				9AA475A4BFCE21EE043105F091D9FC01 /* NJKWebViewProgressView.m */,
+			);
+			name = ProgressView;
 			sourceTree = "<group>";
 		};
 		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
@@ -222,17 +164,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CE75C8448063D122EF541372AE1A69AA /* NJKWebViewProgress */ = {
+			isa = PBXGroup;
+			children = (
+				03A39DFCDCF518D9D53DA4B179995EC0 /* Core */,
+				A8FD2FDEAF72F4AF72E41D676E5CE4D6 /* ProgressView */,
+				4DF0D209FD9FF95B48EBB3CAE8F6C8BC /* Support Files */,
+			);
+			path = NJKWebViewProgress;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		E8396AAECA7B0061597C8C1AB72E27FE /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				56EF1BCF142EACE6F21E803872214B0C /* Aspects.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		EA5686F09F8A6A619FEDFE0C36083294 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -245,6 +189,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		A3D7ADB79011E03FF645853B4F02F62F /* Pods-AXWebViewController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AFA9BFB8CFDCBA907F4E72DF03F5189E /* Build configuration list for PBXNativeTarget "Pods-AXWebViewController" */;
+			buildPhases = (
+				7857A987EC6E2A828081BCCFC229461A /* Sources */,
+				C1685FB982C9A3D0743C09F7829841A1 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9D3A340BD27CC25355041ED1EB16B257 /* PBXTargetDependency */,
+			);
+			name = "Pods-AXWebViewController";
+			productName = "Pods-AXWebViewController";
+			productReference = E42EA18E840CF3E700B4DB0D722B4AA4 /* libPods-AXWebViewController.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		B4A3E08D49931371F7247521A50EAF79 /* NJKWebViewProgress */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D5BA31DD0B8A4F55B5014D132B6BFFF5 /* Build configuration list for PBXNativeTarget "NJKWebViewProgress" */;
@@ -259,42 +220,7 @@
 			);
 			name = NJKWebViewProgress;
 			productName = NJKWebViewProgress;
-			productReference = F55903188A13C208E93E00CEE8D4B775 /* libNJKWebViewProgress.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		DBC9A0AF6D4571D059D2AF2422F2BD6E /* Aspects */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D7E640E0F46EE3F4F8AA74467DDBB0DD /* Build configuration list for PBXNativeTarget "Aspects" */;
-			buildPhases = (
-				1A6D08028337D0A7D7070CC356148963 /* Sources */,
-				310ABB239CF60D033312438242D4AD2F /* Frameworks */,
-				E8396AAECA7B0061597C8C1AB72E27FE /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Aspects;
-			productName = Aspects;
-			productReference = D5B9E72117F61C91B4DF8D1B4CF43435 /* libAspects.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		FCA3BEFFD4E3AE9EE154BBA4BA9C2361 /* Pods-AXWebViewController */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 71BAACEAD2C2899457913B6079253439 /* Build configuration list for PBXNativeTarget "Pods-AXWebViewController" */;
-			buildPhases = (
-				CB4912DCDF2BFD940E8ED25CBA61B51A /* Sources */,
-				49B3A71BE9909B181BED7AA2B1B5F571 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				20165BAA214FB965E73D15A51B5F8539 /* PBXTargetDependency */,
-				8A50C5BEC90F4293F1CCAC92018578D2 /* PBXTargetDependency */,
-			);
-			name = "Pods-AXWebViewController";
-			productName = "Pods-AXWebViewController";
-			productReference = 2522218331F2F97684E96FADF7E32402 /* libPods-AXWebViewController.a */;
+			productReference = 516B4D5F8A40706605E59A23A8CCEA6A /* libNJKWebViewProgress.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -314,27 +240,17 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = 4A2396F8CC364E63B4612D5A2EDAA7B8 /* Products */;
+			productRefGroup = A4246FC2C8A5FA6F7566FD06BE0C74C8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DBC9A0AF6D4571D059D2AF2422F2BD6E /* Aspects */,
 				B4A3E08D49931371F7247521A50EAF79 /* NJKWebViewProgress */,
-				FCA3BEFFD4E3AE9EE154BBA4BA9C2361 /* Pods-AXWebViewController */,
+				A3D7ADB79011E03FF645853B4F02F62F /* Pods-AXWebViewController */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		1A6D08028337D0A7D7070CC356148963 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F58F2966E9FE391EBC18A3115C36F804 /* Aspects-dummy.m in Sources */,
-				1A8200B536A880B714C46605FD83EA29 /* Aspects.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		3619A66CEAF955C359CF25CBCC468ADE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -345,33 +261,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CB4912DCDF2BFD940E8ED25CBA61B51A /* Sources */ = {
+		7857A987EC6E2A828081BCCFC229461A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF51426192C52400D158F2866ADE3BD8 /* Pods-AXWebViewController-dummy.m in Sources */,
+				01436AD205A686ED0DA822B5CEBB5AA9 /* Pods-AXWebViewController-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		20165BAA214FB965E73D15A51B5F8539 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Aspects;
-			target = DBC9A0AF6D4571D059D2AF2422F2BD6E /* Aspects */;
-			targetProxy = 34CDB006164F3651D1F9A8A4535B6CC4 /* PBXContainerItemProxy */;
-		};
-		8A50C5BEC90F4293F1CCAC92018578D2 /* PBXTargetDependency */ = {
+		9D3A340BD27CC25355041ED1EB16B257 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = NJKWebViewProgress;
 			target = B4A3E08D49931371F7247521A50EAF79 /* NJKWebViewProgress */;
-			targetProxy = 688193A1E78E6F3A81E49C2285101CCA /* PBXContainerItemProxy */;
+			targetProxy = 508A27C2B92B4F6AB9AF2F51E3FFF79B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0016F357E8517714DADC2CA05B4DF086 /* Release */ = {
+		649E76F6117F6BAD7F62368E14E75DE0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7785DF08327F1605C57A1BECEC371506 /* Pods-AXWebViewController.release.xcconfig */;
 			buildSettings = {
@@ -391,48 +301,6 @@
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
-		};
-		198DAFB9C6BECD90ED413EFD1011E444 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 324284EDF359CDCB71F828C88BB1CB32 /* Aspects.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Aspects/Aspects-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		741CEF8E2AD9133951CB080A9CAE7915 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 58770428F78621A4B6D2BA79241B9152 /* Pods-AXWebViewController.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MACH_O_TYPE = staticlib;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
 		};
 		A2744BE561A0CD0F4083C58709B9529A /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -477,7 +345,7 @@
 		};
 		A7572CC9DEA707FB0B4DBC6AB4C83633 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0DA8044E76121E5316D9937056C5086C /* NJKWebViewProgress.xcconfig */;
+			baseConfigurationReference = 9086AE7853AD2618FB289A20F59D176C /* NJKWebViewProgress.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -498,7 +366,7 @@
 		};
 		B6816AB8D39F17B302CB2E11563862F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0DA8044E76121E5316D9937056C5086C /* NJKWebViewProgress.xcconfig */;
+			baseConfigurationReference = 9086AE7853AD2618FB289A20F59D176C /* NJKWebViewProgress.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -516,27 +384,6 @@
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
-		};
-		DF56E8EB42AF0D52BB6C8B5FA5777E04 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 324284EDF359CDCB71F828C88BB1CB32 /* Aspects.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Aspects/Aspects-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
 		};
 		F24A8E2465A7C10A54BE3E33D1A368A8 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -575,6 +422,27 @@
 			};
 			name = Release;
 		};
+		FC58E397D968AFF2ECAB4DCCF16375E8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 58770428F78621A4B6D2BA79241B9152 /* Pods-AXWebViewController.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -587,11 +455,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		71BAACEAD2C2899457913B6079253439 /* Build configuration list for PBXNativeTarget "Pods-AXWebViewController" */ = {
+		AFA9BFB8CFDCBA907F4E72DF03F5189E /* Build configuration list for PBXNativeTarget "Pods-AXWebViewController" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				741CEF8E2AD9133951CB080A9CAE7915 /* Debug */,
-				0016F357E8517714DADC2CA05B4DF086 /* Release */,
+				FC58E397D968AFF2ECAB4DCCF16375E8 /* Debug */,
+				649E76F6117F6BAD7F62368E14E75DE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -601,15 +469,6 @@
 			buildConfigurations = (
 				B6816AB8D39F17B302CB2E11563862F7 /* Debug */,
 				A7572CC9DEA707FB0B4DBC6AB4C83633 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D7E640E0F46EE3F4F8AA74467DDBB0DD /* Build configuration list for PBXNativeTarget "Aspects" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				198DAFB9C6BECD90ED413EFD1011E444 /* Debug */,
-				DF56E8EB42AF0D52BB6C8B5FA5777E04 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

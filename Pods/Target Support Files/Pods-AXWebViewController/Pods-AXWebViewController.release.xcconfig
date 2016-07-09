@@ -1,6 +1,6 @@
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Aspects" "${PODS_ROOT}/Headers/Public/NJKWebViewProgress"
-LIBRARY_SEARCH_PATHS = $(inherited) "$CONFIGURATION_BUILD_DIR/Aspects" "$CONFIGURATION_BUILD_DIR/NJKWebViewProgress"
-OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/Aspects" -isystem "${PODS_ROOT}/Headers/Public/NJKWebViewProgress"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"Aspects" -l"NJKWebViewProgress"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/NJKWebViewProgress"
+LIBRARY_SEARCH_PATHS = $(inherited) "$CONFIGURATION_BUILD_DIR/NJKWebViewProgress"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/NJKWebViewProgress"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"NJKWebViewProgress"
 PODS_ROOT = ${SRCROOT}/Pods
