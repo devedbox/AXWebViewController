@@ -15,6 +15,9 @@
 {
     BOOL _loading;
     UIBarButtonItem * __weak _doneItem;
+    
+    NSString *_HTMLString;
+    NSURL *_baseURL;
 }
 /// Back bar button item of tool bar.
 @property(strong, nonatomic) UIBarButtonItem *backBarButtonItem;
@@ -52,6 +55,16 @@
 @property(assign, nonatomic)BOOL isSwipingBack;
 @end
 
+#ifndef kAX404NotFoundHTMLPath
+#define kAX404NotFoundHTMLPath [[NSBundle mainBundle] pathForResource:@"AXWebViewController.bundle/html.bundle/404" ofType:@"html"]
+#endif
+#ifndef kAXNetworkErrorHTMLPath
+#define kAXNetworkErrorHTMLPath [[NSBundle mainBundle] pathForResource:@"AXWebViewController.bundle/html.bundle/neterror" ofType:@"html"]
+#endif
+
+static NSString *const kAX404NotFoundURLKey = @"ax_404_not_found";
+static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
+
 @implementation AXWebViewController
 @synthesize URL = _URL, webView = _webView;
 #pragma mark - Life cycle
@@ -69,6 +82,17 @@
     return self;
 }
 
+- (instancetype)initWithHTMLString:(NSString *)HTMLString baseURL:(NSURL *)baseURL {
+    if (self = [super init]) {
+        _HTMLString = HTMLString;
+        _baseURL = baseURL;
+        _timeoutInternal = 10.0;
+        _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
+        _showsToolBar = YES;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -78,7 +102,15 @@
     
     [self setupSubviews];
     
-    [self loadURL:_URL];
+    if (_URL) {
+        [self loadURL:_URL];
+    } else if (_baseURL && _HTMLString) {
+        [self loadHTMLString:_HTMLString baseURL:_baseURL];
+    } else {
+        // Handle none resource case.
+        [self loadURL:[NSURL fileURLWithPath:kAX404NotFoundHTMLPath]];
+    }
+    
     [self progressProxy];
     
     if (_navigationType == AXWebViewControllerNavigationToolItem) {
@@ -96,6 +128,10 @@
     [super viewWillAppear:animated];
     
     [self.navigationController.navigationBar addSubview:self.progressView];
+    
+    if (_navigationType == AXWebViewControllerNavigationBarItem) {
+        [self updateNavigationItems];
+    }
     
     if (self.navigationController && [self.navigationController isBeingPresented]) {
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -116,6 +152,11 @@
     [super viewWillDisappear:animated];
     
     [_progressView removeFromSuperview];
+    
+    if (_navigationType == AXWebViewControllerNavigationBarItem) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    }
+    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && _showsToolBar && _navigationType == AXWebViewControllerNavigationToolItem) {
         [self.navigationController setToolbarHidden:YES animated:animated];
     }
@@ -321,11 +362,15 @@
 
 #pragma mark - Public
 - (void)loadURL:(NSURL *)pageURL {
-    _URL = pageURL;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:pageURL];
     request.timeoutInterval = _timeoutInternal;
     request.cachePolicy = _cachePolicy;
     [_webView loadRequest:request];
+}
+- (void)loadHTMLString:(NSString *)HTMLString baseURL:(NSURL *)baseURL {
+    _baseURL = baseURL;
+    _HTMLString = HTMLString;
+    [_webView loadHTMLString:HTMLString baseURL:baseURL];
 }
 - (void)willGoBack{
     if (_delegate && [_delegate respondsToSelector:@selector(webViewControllerWillGoBack:)]) {
@@ -363,12 +408,17 @@
     }
     _loading = NO;
     [_progressView setProgress:0.9 animated:YES];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (_progressView.progress != 1.0) {
+            [_progressView setProgress:1.0 animated:YES];
+        }
+    });
 }
 - (void)didFailLoadWithError:(NSError *)error{
     if (_delegate && [_delegate respondsToSelector:@selector(webViewController:didFailLoadWithError:)]) {
         [_delegate webViewController:self didFailLoadWithError:error];
     }
-    [_progressView setProgress:0.8 animated:YES];
+    [_progressView setProgress:0.9 animated:YES];
 }
 
 #pragma mark - Actions
@@ -426,6 +476,10 @@
 }
 #pragma mark - UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    // URL actions
+    if ([request.URL.absoluteString isEqualToString:kAX404NotFoundURLKey] || [request.URL.absoluteString isEqualToString:kAXNetworkErrorURLKey]) {
+        [self loadURL:_URL];
+    }
     switch (navigationType) {
         case UIWebViewNavigationTypeLinkClicked: {
             [self pushCurrentSnapshotViewWithRequest:request];
@@ -481,11 +535,18 @@
         title = [[title substringToIndex:9] stringByAppendingString:@"…"];
     }
     self.navigationItem.title = title;
-    _backgroundLabel.text = [NSString stringWithFormat:@"网页由\"%@\"提供", webView.request.URL.host?:@"Unknown"];
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *bundle = ([infoDictionary objectForKey:@"CFBundleDisplayName"]?:[infoDictionary objectForKey:@"CFBundleName"])?:[infoDictionary objectForKey:@"CFBundleIdentifier"];
+    _backgroundLabel.text = [NSString stringWithFormat:@"网页由\"%@\"提供", webView.request.URL.host?:bundle];
     [self didFinishLoad];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    if (error.code == NSURLErrorCannotFindHost) {// 404
+        [self loadURL:[NSURL fileURLWithPath:kAX404NotFoundHTMLPath]];
+    } else {
+        [self loadURL:[NSURL fileURLWithPath:kAXNetworkErrorHTMLPath]];
+    }
     _backgroundLabel.text = [NSString stringWithFormat:@"网页加载失败：%@", error.localizedDescription];
     self.navigationItem.title = @"加载失败";
     if (_navigationType == AXWebViewControllerNavigationBarItem) {

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <NJKWebViewProgress/NJKWebViewProgress.h>
 #import <NJKWebViewProgress/NJKWebViewProgressView.h>
-
+NS_ASSUME_NONNULL_BEGIN
 @class AXWebViewController;
 
 typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
@@ -80,10 +80,22 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 ///
 /// @return a instance of `AXWebViewController`.
 - (instancetype)initWithURL:(NSURL*)URL;
+/// Get a instance of `AXWebViewController` by a HTML string and a base URL.
+///
+/// @param HTMLString a HTML string object.
+/// @param baseURL a baseURL to be loaded.
+///
+/// @return a instance of `AXWebViewController`.
+- (instancetype)initWithHTMLString:(NSString*)HTMLString baseURL:(NSURL*)baseURL;
 /// Load a new url.
 ///
 /// @param URL a new url.
 - (void)loadURL:(NSURL*)URL;
+/// Load a new html string.
+///
+/// @param HTMLString a encoded html string.
+/// @param baseURL base url of bundle.
+- (void)loadHTMLString:(NSString *)HTMLString baseURL:(NSURL *)baseURL;
 /// Called when web view will go back.
 - (void)willGoBack;
 /// Called when web view will go forward.
@@ -101,3 +113,4 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 /// @param error a failed loading error.
 - (void)didFailLoadWithError:(NSError *)error;
 @end
+NS_ASSUME_NONNULL_END

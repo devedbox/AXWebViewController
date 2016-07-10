@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+<link rel="stylesheet" href="css/nosingle.css"/>
+<title>404</title>
+<script src="js/jquery-2.1.1.min.js"></script>
+<script>
+(function (doc, win) {
+  var docEl = doc.documentElement,
+	resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+	recalc = function () {
+	  var clientWidth = docEl.clientWidth;
+	  if (!clientWidth) return;
+	  docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
+	};
+
+  if (!doc.addEventListener) return;
+  win.addEventListener(resizeEvt, recalc, false);
+  doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+</head>
+</head>
+
+<body>
+<div class="img404">
+ <img src="img/404.png">
+</div>
+<p class="detail404">Not Found</p>
+<p class="btn404" onClick="location='ax_404_not_found'">点击重试</p>
+</body>
+</html>

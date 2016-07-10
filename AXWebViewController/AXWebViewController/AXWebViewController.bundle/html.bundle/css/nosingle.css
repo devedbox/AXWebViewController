@@ -1,0 +1,63 @@
+@charset "utf-8";
+/* CSS Document */
+*{
+	margin:0px; 
+	padding:0px;
+	font-family:"PingFang";
+	}	
+body li{
+	list-style-type:none;
+	}
+body a{
+	text-decoration:none;
+	}
+img{
+	border:0px;
+	}
+a:focus{
+	outline:none;
+	} 
+a{
+	blr:expression(this.onFocus=this.blur());
+	}/**链接a在获得焦点的同时失去焦点。如果用的是图片链接之类的，不会显示周边的**/
+/*****main*****/
+.img404{
+	width:8rem;
+	overflow:hidden;
+	margin:5rem auto 1rem;
+	}
+.img404 img{
+	width:100%;
+	}	
+.detail404,.detail_neor{
+	text-align:center;
+	font-size:12px;
+	color:#cecece;
+	}	
+.btn404,.detail_neor_btn{
+	text-align:center;
+	color:#646464;
+	font-size:12px;
+	border:1px solid #cecece;
+	width:8rem;
+	margin:0.6rem auto;
+	padding:0.3rem 0 0.3rem;
+	border-radius:3px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	}
+.neterror{
+	width:4rem;
+	overflow:hidden;
+	margin:6rem auto 1rem;
+	}	
+.neterror img{
+	width:100%;
+	}	
+	
+	
+	
+	
+	
+	
+		
