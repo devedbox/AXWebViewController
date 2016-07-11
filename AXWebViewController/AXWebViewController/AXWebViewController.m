@@ -117,6 +117,10 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         [self updateToolbarItems];
     }
     
+    if (_navigationType == AXWebViewControllerNavigationBarItem) {
+        [self updateNavigationItems];
+    }
+    
     // Config navigation item
     self.navigationItem.leftItemsSupplementBackButton = YES;
     
@@ -129,9 +133,11 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     
     [self.navigationController.navigationBar addSubview:self.progressView];
     
+    /*
     if (_navigationType == AXWebViewControllerNavigationBarItem) {
         [self updateNavigationItems];
     }
+     */
     
     if (self.navigationController && [self.navigationController isBeingPresented]) {
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
