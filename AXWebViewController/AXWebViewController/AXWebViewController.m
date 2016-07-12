@@ -154,6 +154,12 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self updateNavigationItems];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
@@ -172,6 +178,9 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     [super viewDidDisappear:animated];
     
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    [self.navigationItem setLeftBarButtonItems:nil animated:NO];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -512,6 +521,12 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
             break;
         }
     }
+    if (_navigationType == AXWebViewControllerNavigationBarItem) {
+        [self updateNavigationItems];
+    }
+    if (_navigationType == AXWebViewControllerNavigationToolItem) {
+        [self updateToolbarItems];
+    }
     return YES;
 }
 
@@ -761,6 +776,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 
 - (void)updateNavigationItems {
+    [self.navigationItem setLeftBarButtonItems:nil animated:NO];
     if (self.webView.canGoBack) {// Web view can go back means a lot requests exist.
         UIBarButtonItem *spaceButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
         spaceButtonItem.width = -6.5;

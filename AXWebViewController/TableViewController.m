@@ -35,7 +35,7 @@
     switch (indexPath.row) {
         case 0:
         {
-            AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://www.baidu.coms"];
+            AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://www.baidu.com"];
             webVC.showsToolBar = NO;
             webVC.navigationController.navigationBar.translucent = NO;
             self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.100f green:0.100f blue:0.100f alpha:0.800f];

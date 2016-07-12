@@ -17,21 +17,24 @@ static char *const kAXShouldPopItemAfterPopViewController = "shouldPopItemAfterP
 
 + (void)load {
     // Inject "-popViewControllerAnimated:"
-    Method originalMethod = class_getInstanceMethod(self, @selector(popViewControllerAnimated:));
-    Method swizzledMethod = class_getInstanceMethod(self, @selector(ax_popViewControllerAnimated:));
-    method_exchangeImplementations(originalMethod, swizzledMethod);
-    // Inject "-popToViewController:animated:"
-    originalMethod = class_getInstanceMethod(self, @selector(popToViewController:animated:));
-    swizzledMethod = class_getInstanceMethod(self, @selector(ax_popToViewController:animated:));
-    method_exchangeImplementations(originalMethod, swizzledMethod);
-    // Inject "-popToRootViewControllerAnimated:"
-    originalMethod = class_getInstanceMethod(self, @selector(popToRootViewControllerAnimated:));
-    swizzledMethod = class_getInstanceMethod(self, @selector(ax_popToRootViewControllerAnimated:));
-    method_exchangeImplementations(originalMethod, swizzledMethod);
-    // Inject "-navigationBar:shouldPopItem:"
-    originalMethod = class_getInstanceMethod(self, @selector(navigationBar:shouldPopItem:));
-    swizzledMethod = class_getInstanceMethod(self, @selector(ax_navigationBar:shouldPopItem:));
-    method_exchangeImplementations(originalMethod, swizzledMethod);
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Method originalMethod = class_getInstanceMethod(self, @selector(popViewControllerAnimated:));
+        Method swizzledMethod = class_getInstanceMethod(self, @selector(ax_popViewControllerAnimated:));
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+        // Inject "-popToViewController:animated:"
+        originalMethod = class_getInstanceMethod(self, @selector(popToViewController:animated:));
+        swizzledMethod = class_getInstanceMethod(self, @selector(ax_popToViewController:animated:));
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+        // Inject "-popToRootViewControllerAnimated:"
+        originalMethod = class_getInstanceMethod(self, @selector(popToRootViewControllerAnimated:));
+        swizzledMethod = class_getInstanceMethod(self, @selector(ax_popToRootViewControllerAnimated:));
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+        // Inject "-navigationBar:shouldPopItem:"
+        originalMethod = class_getInstanceMethod(self, @selector(navigationBar:shouldPopItem:));
+        swizzledMethod = class_getInstanceMethod(self, @selector(ax_navigationBar:shouldPopItem:));
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    });
 }
 
 - (UIViewController*)ax_popViewControllerAnimated:(BOOL)animated{
@@ -50,29 +53,45 @@ static char *const kAXShouldPopItemAfterPopViewController = "shouldPopItemAfterP
 }
 
 - (BOOL)ax_navigationBar:(UINavigationBar *)navigationBar shouldPopItem:(UINavigationItem *)item{
-    //! 如果应该pop，说明是在 popViewController 之后，应该直接 popItems
+    // Should pop. It appears called the pop view controller methods. We should pop items directly.
     BOOL shouldPopItemAfterPopViewController = [objc_getAssociatedObject(self, kAXShouldPopItemAfterPopViewController) boolValue];
+    
     if (shouldPopItemAfterPopViewController) {
         objc_setAssociatedObject(self, kAXShouldPopItemAfterPopViewController, @(NO), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         return YES;
     }
-    
-    //! 如果不应该 pop，说明是点击了导航栏的返回，这时候则要做出判断区分是不是在 webview 中
+    // Should not pop. It appears clicked the back bar button item. We should decide the action according to the content of web view.
     if ([self.topViewController isKindOfClass:[AXWebViewController class]]) {
-        AXWebViewController* webVC = (AXWebViewController*)self.viewControllers.lastObject;
+        AXWebViewController* webVC = (AXWebViewController*)self.topViewController;
+        // If web view can go back.
         if (webVC.webView.canGoBack) {
+            // Stop loading if web view is loading.
+            if (webVC.webView.isLoading) {
+                [webVC.webView stopLoading];
+            }
+            // Go back to the last page if exist.
             [webVC.webView goBack];
-            
-            //!make sure the back indicator view alpha back to 1
+            // Should not pop items.
             objc_setAssociatedObject(self, kAXShouldPopItemAfterPopViewController, @(NO), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            // Make sure the back indicator view alpha set to 1.0.
             [[self.navigationBar subviews] lastObject].alpha = 1;
             return NO;
         }else{
-            [self popViewControllerAnimated:YES];
+            // Pop view controlers directly.
+            if (self.viewControllers.count <= 2) {
+                [self popToRootViewControllerAnimated:YES];
+            } else {
+                [self popViewControllerAnimated:YES];
+            }
             return NO;
         }
     }else{
-        [self popViewControllerAnimated:YES];
+        // Pop view controllers directly.
+        if (self.viewControllers.count <= 2) {
+            [self popToRootViewControllerAnimated:YES];
+        } else {
+            [self popViewControllerAnimated:YES];
+        }
         return NO;
     }
 }
