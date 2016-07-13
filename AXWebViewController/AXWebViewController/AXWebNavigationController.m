@@ -38,36 +38,28 @@ static char *const kAXShouldPopItemAfterPopViewController = "shouldPopItemAfterP
 }
 
 - (UIViewController*)ax_popViewControllerAnimated:(BOOL)animated{
-    /*
     objc_setAssociatedObject(self, kAXShouldPopItemAfterPopViewController, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-     */
     return [self ax_popViewControllerAnimated:animated];
 }
 
 - (NSArray<UIViewController *> *)ax_popToViewController:(UIViewController *)viewController animated:(BOOL)animated{
-    /*
     objc_setAssociatedObject(self, kAXShouldPopItemAfterPopViewController, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-     */
     return [self ax_popToViewController:viewController animated:animated];
 }
 
 - (NSArray<UIViewController *> *)ax_popToRootViewControllerAnimated:(BOOL)animated{
-    /*
     objc_setAssociatedObject(self, kAXShouldPopItemAfterPopViewController, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-     */
     return [self ax_popToRootViewControllerAnimated:animated];
 }
 
 - (BOOL)ax_navigationBar:(UINavigationBar *)navigationBar shouldPopItem:(UINavigationItem *)item{
     // Should pop. It appears called the pop view controller methods. We should pop items directly.
-    /*
     BOOL shouldPopItemAfterPopViewController = [objc_getAssociatedObject(self, kAXShouldPopItemAfterPopViewController) boolValue];
     
     if (shouldPopItemAfterPopViewController) {
         objc_setAssociatedObject(self, kAXShouldPopItemAfterPopViewController, @(NO), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         return [self ax_navigationBar:navigationBar shouldPopItem:item];
     }
-     */
     // Should not pop. It appears clicked the back bar button item. We should decide the action according to the content of web view.
     if ([self.topViewController isKindOfClass:[AXWebViewController class]]) {
         AXWebViewController* webVC = (AXWebViewController*)self.topViewController;
