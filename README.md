@@ -1,4 +1,4 @@
-# AXWebViewController
+# AXWebViewController[![Build Status](https://travis-ci.org/devedbox/AXWebViewController.svg?branch=master)](https://travis-ci.org/devedbox/AXWebViewController)[![Version](https://img.shields.io/cocoapods/v/AXWebViewController.svg?style=flat)](http://cocoapods.org/pods/AXWebViewController)[![License](https://img.shields.io/cocoapods/l/AXWebViewController.svg?style=flat)](http://cocoapods.org/pods/AXWebViewController)[![Platform](https://img.shields.io/cocoapods/p/AXWebViewController.svg?style=flat)](http://cocoapods.org/pods/AXWebViewController)
 ##Summary
 `AXWebViewController`是一款易用的基于`UIWebView`封装的网页浏览控制器. 在系统功能的基础上添加了工具条导航，可以刷新、返回、前进、等操作，同时，`AXWebViewController`还实现了`微信样式`的导航返回支持，集成简单，使用方便。如图所示：
 
