@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 #
 
 s.name         = "AXWebViewController"
-s.version      = "0.1.10"
+s.version      = "0.2.0"
 s.summary      = "A light weight web view controller in iOS."
 
 # This description is used to generate tags and improve search results.
@@ -83,7 +83,7 @@ s.platform     = :ios, "7.0"
 #  Supports git, hg, bzr, svn and HTTP.
 #
 
-s.source       = { :git => "https://github.com/devedbox/AXWebViewController.git", :tag => "0.1.10" }
+s.source       = { :git => "https://github.com/devedbox/AXWebViewController.git", :tag => "0.2.0" }
 
 
 # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #

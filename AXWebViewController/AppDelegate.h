@@ -15,3 +15,6 @@
 
 @end
 
+@interface UIApplication (Test)
+
+@end

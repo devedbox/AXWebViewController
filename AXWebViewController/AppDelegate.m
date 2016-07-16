@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <objc/runtime.h>
 
 @interface AppDelegate ()
 
@@ -17,9 +18,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],NSForegroundColorAttributeName,[UIFont systemFontOfSize:18],NSFontAttributeName, nil]]; //Nav文字属性
-    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.996 green:0.149 blue:0.255 alpha:1.00]];
-    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:0.996 green:0.149 blue:0.255 alpha:1.00],NSForegroundColorAttributeName, [UIFont systemFontOfSize:14],NSFontAttributeName , nil] forState:0];
+    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:0.322 green:0.322 blue:0.322 alpha:1.00],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:16],NSFontAttributeName, nil]]; //Nav文字属性
+    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.322 green:0.322 blue:0.322 alpha:1.00]];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:0.322 green:0.322 blue:0.322 alpha:1.00],NSForegroundColorAttributeName, [UIFont systemFontOfSize:14],NSFontAttributeName , nil] forState:0];
+    [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"back_indicator"]];
+    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"back_indicator"]];
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -2) forBarMetrics:UIBarMetricsDefault];
     
     return YES;
@@ -47,4 +50,35 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+@end
+
+
+@implementation UIApplication (Test)
++ (void)load {
+    Method originalMethod = class_getInstanceMethod(self, @selector(canOpenURL:));
+    Method swizzledMethod = class_getInstanceMethod(self, @selector(ax_canOpenURL:));
+    method_exchangeImplementations(originalMethod, swizzledMethod);
+    originalMethod = class_getInstanceMethod(self, @selector(openURL:));
+    swizzledMethod = class_getInstanceMethod(self, @selector(ax_openURL:));
+    method_exchangeImplementations(originalMethod, swizzledMethod);
+}
+
+- (BOOL)ax_canOpenURL:(NSURL *)url {
+    Class class = NSClassFromString(@"MLULookupItemContent");
+    unsigned int count = 0;
+    Ivar *members = class_copyIvarList(class, &count);
+    for (NSInteger i=0; i < count; i++) {
+        Ivar var = members[i];
+        NSString *key = [NSString stringWithUTF8String:ivar_getName(var)];
+        NSLog(@"key: %@", key);
+        if ([key isEqualToString:@"_commitURL"]) {
+//            id value = object_getIvar(weakImageBrowser, var);
+        }
+    }
+    return [self ax_canOpenURL:url];
+}
+
+- (BOOL)ax_openURL:(NSURL *)url {
+    return [self ax_openURL:url];
+}
 @end

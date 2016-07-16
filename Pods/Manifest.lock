@@ -1,4 +1,5 @@
 PODS:
+  - Aspects (1.4.1)
   - NJKWebViewProgress (0.2.3):
     - NJKWebViewProgress/Core (= 0.2.3)
     - NJKWebViewProgress/ProgressView (= 0.2.3)
@@ -6,11 +7,13 @@ PODS:
   - NJKWebViewProgress/ProgressView (0.2.3)
 
 DEPENDENCIES:
+  - Aspects
   - NJKWebViewProgress
 
 SPEC CHECKSUMS:
+  Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
 
-PODFILE CHECKSUM: 7bb7f48d3dd26eb1b3838eda18c58cbc4da46425
+PODFILE CHECKSUM: 44da700bea9ce49cbcc0252aeb8b27eb9eb012ab
 
 COCOAPODS: 1.0.0.beta.8

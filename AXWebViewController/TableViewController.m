@@ -38,19 +38,14 @@
         {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://www.baidu.com"];
             webVC.showsToolBar = NO;
-            webVC.navigationController.navigationBar.translucent = NO;
-            self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.100f green:0.100f blue:0.100f alpha:0.800f];
-            self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.996f green:0.867f blue:0.522f alpha:1.00f];
+            webVC.webView.allowsLinkPreview = YES;
             [self.navigationController pushViewController:webVC animated:YES];
-            webVC.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"hehe" style:0 target:self action:@selector(handle:)];
         }
             break;
         case 1:
         {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://www.baidu.com"];
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
-            nav.navigationBar.tintColor = [UIColor colorWithRed:0.100f green:0.100f blue:0.100f alpha:0.800f];
-            nav.navigationBar.barTintColor = [UIColor colorWithRed:0.996f green:0.867f blue:0.522f alpha:1.00f];
             [self presentViewController:nav animated:YES completion:NULL];
             webVC.showsToolBar = YES;
             webVC.navigationType = 1;
