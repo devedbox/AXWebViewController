@@ -1,14 +1,15 @@
 # AXWebViewController[![Build Status](https://travis-ci.org/devedbox/AXWebViewController.svg?branch=master)](https://travis-ci.org/devedbox/AXWebViewController)[![Version](https://img.shields.io/cocoapods/v/AXWebViewController.svg?style=flat)](http://cocoapods.org/pods/AXWebViewController)[![License](https://img.shields.io/cocoapods/l/AXWebViewController.svg?style=flat)](http://cocoapods.org/pods/AXWebViewController)[![Platform](https://img.shields.io/cocoapods/p/AXWebViewController.svg?style=flat)](http://cocoapods.org/pods/AXWebViewController)
 ##Summary
-`AXWebViewController`是一款易用的基于`UIWebView`封装的网页浏览控制器. 在系统功能的基础上添加了工具条导航，可以刷新、返回、前进、等操作，同时，`AXWebViewController`还实现了`微信样式`的导航返回支持，集成简单，使用方便。如图所示：
+`AXWebViewController`是一款易用的基于`UIWebView`（20160716更新：iOS8.0以上使用`WKWebView`实现）封装的网页浏览控制器. 在系统功能的基础上添加了工具条导航，可以刷新、返回、前进、等操作，同时，`AXWebViewController`还实现了`微信样式`的导航返回支持，集成简单，使用方便。如图所示：
 
 [![sample](http://ww1.sinaimg.cn/large/d2297bd2gw1f5t8os4ep7g20af0ij4df.gif)](http://ww1.sinaimg.cn/large/d2297bd2gw1f5t8os4ep7g20af0ij4df.gif)[![sample2](http://ww3.sinaimg.cn/large/d2297bd2gw1f5t8t5iz28g20af0ijh3r.gif)](http://ww3.sinaimg.cn/large/d2297bd2gw1f5t8t5iz28g20af0ijh3r.gif)
 ## Features
 >* 手势滑动返回上个网页
 >* 微信样式导航返回
->* 网页加载失败提示
+>* 网页加载失败提示（iOS8.0以下）
 >* 网页加载进度提示
 >* 网页来源提示
+>* 支持__Peek__和__Pop__浏览网页，并且commit之后在本网页进行加载，不用跳转到Safari进行流浪，这里使用到了很多运行时的方法，因此，在使用的过程中可能会抛异常。
 
 ## Requirements
 
@@ -17,7 +18,7 @@
 >* Foundation.framework
 >* UIKit.framework
 
-使用的时候最好使用最新版Xcode，老版本的也支持，但是可能会出错。
+使用的时候最好使用最新版Xcode。
 
 ## Adding AXWebViewController to your projet
 ### CocoaPods
