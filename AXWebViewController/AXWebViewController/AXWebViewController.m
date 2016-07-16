@@ -117,6 +117,9 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.automaticallyAdjustsScrollViewInsets = YES;
+    self.extendedLayoutIncludesOpaqueBars = YES;
+    
     [self setupSubviews];
     
     if (_URL) {
@@ -132,7 +135,9 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     [self progressProxy];
 #else
     [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
-    [_webView.scrollView addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew context:NULL];
+    /*
+     [_webView.scrollView addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew context:NULL];
+     */
 #endif
     
     
@@ -147,11 +152,13 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     // Config navigation item
     self.navigationItem.leftItemsSupplementBackButton = YES;
     
-    self.view.backgroundColor = [UIColor colorWithRed:0.180 green:0.192 blue:0.196 alpha:1.00];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_8_0
+    self.view.backgroundColor = [UIColor colorWithRed:0.180 green:0.192 blue:0.196 alpha:1.00];
     self.progressView.progressBarView.backgroundColor = self.navigationController.navigationBar.tintColor;
 #else
+    self.view.backgroundColor = [UIColor whiteColor];
     self.progressView.progressTintColor = self.navigationController.navigationBar.tintColor;
+    _backgroundLabel.textColor = [UIColor colorWithRed:0.180 green:0.192 blue:0.196 alpha:1.00];
 #endif
 }
 
@@ -161,9 +168,9 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     [self.navigationController.navigationBar addSubview:self.progressView];
     
     /*
-    if (_navigationType == AXWebViewControllerNavigationBarItem) {
-        [self updateNavigationItems];
-    }
+     if (_navigationType == AXWebViewControllerNavigationBarItem) {
+     [self updateNavigationItems];
+     }
      */
     
     if (self.navigationController && [self.navigationController isBeingPresented]) {
@@ -224,7 +231,9 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _webView.UIDelegate = nil;
     _webView.navigationDelegate = nil;
     [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
-    [_webView.scrollView removeObserver:self forKeyPath:@"backgroundColor"];
+    /*
+     [_webView.scrollView removeObserver:self forKeyPath:@"backgroundColor"];
+     */
 #else
     _webView.delegate = nil;
 #endif
@@ -241,9 +250,11 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         }
     } else if ([keyPath isEqualToString:@"backgroundColor"]) {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
-        if (![_webView.scrollView.backgroundColor isEqual:[UIColor clearColor]]) {
-            _webView.scrollView.backgroundColor = [UIColor clearColor];
-        }
+        /*
+         if (![_webView.scrollView.backgroundColor isEqual:[UIColor clearColor]]) {
+         _webView.scrollView.backgroundColor = [UIColor clearColor];
+         }
+         */
 #endif
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -251,7 +262,38 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 
 #pragma mark - Getters
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_8_0
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
+- (WKWebView *)webView {
+    if (_webView) return _webView;
+    WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+    config.preferences.minimumFontSize = 9.0;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
+    config.applicationNameForUserAgent = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
+    config.allowsInlineMediaPlayback = YES;
+#endif
+    _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
+    _webView.allowsBackForwardNavigationGestures = YES;
+    _webView.backgroundColor = [UIColor clearColor];
+    _webView.scrollView.backgroundColor = [UIColor clearColor];
+    // Set auto layout enabled.
+    _webView.translatesAutoresizingMaskIntoConstraints = NO;
+    _webView.UIDelegate = self;
+    _webView.navigationDelegate = self;
+    return _webView;
+}
+
+- (UIProgressView *)progressView {
+    if (_progressView) return _progressView;
+    CGFloat progressBarHeight = 2.0f;
+    CGRect navigationBarBounds = self.navigationController.navigationBar.bounds;
+    CGRect barFrame = CGRectMake(0, navigationBarBounds.size.height - progressBarHeight, navigationBarBounds.size.width, progressBarHeight);
+    _progressView = [[UIProgressView alloc] initWithFrame:barFrame];
+    _progressView.trackTintColor = [UIColor clearColor];
+    _progressView.ax_hiddenWhenProgressApproachFullSize = YES;
+    _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    return _progressView;
+}
+#else
 - (UIWebView*)webView {
     if (_webView) return _webView;
     _webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
@@ -372,7 +414,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (UILabel *)backgroundLabel {
     if (_backgroundLabel) return _backgroundLabel;
     _backgroundLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _backgroundLabel.textColor = [UIColor colorWithRed:0.435 green:0.455 blue:0.463 alpha:1.00];
+    _backgroundLabel.textColor = [UIColor colorWithRed:0.322 green:0.322 blue:0.322 alpha:1.00];
     _backgroundLabel.font = [UIFont systemFontOfSize:12];
     _backgroundLabel.numberOfLines = 0;
     _backgroundLabel.textAlignment = NSTextAlignmentCenter;
@@ -434,39 +476,6 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     }
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
-- (WKWebView *)webView {
-    if (_webView) return _webView;
-    WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-    config.preferences.minimumFontSize = 9.0;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
-    config.applicationNameForUserAgent = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
-    config.allowsInlineMediaPlayback = YES;
-#endif
-    _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
-    _webView.allowsBackForwardNavigationGestures = YES;
-    _webView.backgroundColor = [UIColor clearColor];
-    _webView.scrollView.backgroundColor = [UIColor colorWithRed:0.180 green:0.192 blue:0.196 alpha:1.00];
-    // Set auto layout enabled.
-    _webView.translatesAutoresizingMaskIntoConstraints = NO;
-    _webView.UIDelegate = self;
-    _webView.navigationDelegate = self;
-    return _webView;
-}
-
-- (UIProgressView *)progressView {
-    if (_progressView) return _progressView;
-    CGFloat progressBarHeight = 2.0f;
-    CGRect navigationBarBounds = self.navigationController.navigationBar.bounds;
-    CGRect barFrame = CGRectMake(0, navigationBarBounds.size.height - progressBarHeight, navigationBarBounds.size.width, progressBarHeight);
-    _progressView = [[UIProgressView alloc] initWithFrame:barFrame];
-    _progressView.trackTintColor = [UIColor clearColor];
-    _progressView.ax_hiddenWhenProgressApproachFullSize = YES;
-    _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    return _progressView;
-}
-#endif
-
 #pragma mark - Public
 - (void)loadURL:(NSURL *)pageURL {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:pageURL];
@@ -525,7 +534,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     }
     _loading = YES;
     /*
-    _updating = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updatingProgress:) userInfo:nil repeats:YES];
+     _updating = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updatingProgress:) userInfo:nil repeats:YES];
      */
 }
 - (void)didFinishLoad{
@@ -721,7 +730,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:NULL];
         completionHandler();
-        }];
+    }];
     // Add actions.
     [alert addAction:cancelAction];
     [alert addAction:okAction];
@@ -1043,11 +1052,11 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
     [self.view addSubview:self.webView];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_webView][bottomLayoutGuide]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView, bottomLayoutGuide)]];
-    [self.view insertSubview:self.backgroundLabel atIndex:0];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-8-[_backgroundLabel]-8-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_backgroundLabel)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topLayoutGuide]-10-[_backgroundLabel]-(>=0)-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_backgroundLabel, topLayoutGuide)]];
-    _webView.scrollView.contentInset = UIEdgeInsetsMake(CGRectGetMaxY(self.navigationController.navigationBar.frame), 0, 0, 0);
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_webView][bottomLayoutGuide]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView, topLayoutGuide, bottomLayoutGuide)]];
+    UIView *contentView = _webView.scrollView.subviews.firstObject;
+    [contentView addSubview:self.backgroundLabel];
+    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-8-[_backgroundLabel]-8-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_backgroundLabel)]];
+    [contentView addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:-20]];
 #else
     [self.view insertSubview:self.backgroundLabel atIndex:0];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-8-[_backgroundLabel]-8-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_backgroundLabel)]];
@@ -1055,7 +1064,6 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     [self.view addSubview:self.webView];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topLayoutGuide][_webView][bottomLayoutGuide]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView, topLayoutGuide, bottomLayoutGuide)]];
-    _webView.scrollView.contentInset = UIEdgeInsetsMake(CGRectGetMaxY(self.navigationController.navigationBar.frame), 0, 0, 0);
 #endif
 }
 
@@ -1145,39 +1153,39 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
             [wself loadURL:_url];
         } error:NULL];
         /*
-        UIWindow
-        -UITransitionView
-        --UIVisualEffectView
-        ---_UIVisualEffectContentView
-        ----UIView
-        -----_UIPreviewActionSheetView
+         UIWindow
+         -UITransitionView
+         --UIVisualEffectView
+         ---_UIVisualEffectContentView
+         ----UIView
+         -----_UIPreviewActionSheetView
          */
         /*
-        for (UIView * transitionView in [UIApplication sharedApplication].keyWindow.subviews) {
-        if ([transitionView isMemberOfClass:NSClassFromString(@"UITransitionView")]) {
-        transitionView.tintColor = wself.navigationController.navigationBar.tintColor;
-        for (UIView *__view in transitionView.subviews) {
-        if ([__view isMemberOfClass:NSClassFromString(@"UIVisualEffectView")]) {
-        for (UIView *___view in __view.subviews) {
-        if ([___view isMemberOfClass:NSClassFromString(@"_UIVisualEffectContentView")]) {
-        for (UIView *____view in ___view.subviews) {
-        if ([____view isMemberOfClass:NSClassFromString(@"UIView")]) {
-        __weak typeof(____view) w____view = ____view;
-        [____view aspect_hookSelector:@selector(addSubview:) withOptions:AspectPositionAfter usingBlock:^() {
-            for (UIView *actionSheet in w____view.subviews) {
-                if ([actionSheet isMemberOfClass:NSClassFromString(@"_UIPreviewActionSheetView")]) {
-                    break;
-                }
-            }
-        } error:NULL];
-        }
-        }break;
-        }
-        }break;
-        }
-        }break;
-        }
-        }
+         for (UIView * transitionView in [UIApplication sharedApplication].keyWindow.subviews) {
+         if ([transitionView isMemberOfClass:NSClassFromString(@"UITransitionView")]) {
+         transitionView.tintColor = wself.navigationController.navigationBar.tintColor;
+         for (UIView *__view in transitionView.subviews) {
+         if ([__view isMemberOfClass:NSClassFromString(@"UIVisualEffectView")]) {
+         for (UIView *___view in __view.subviews) {
+         if ([___view isMemberOfClass:NSClassFromString(@"_UIVisualEffectContentView")]) {
+         for (UIView *____view in ___view.subviews) {
+         if ([____view isMemberOfClass:NSClassFromString(@"UIView")]) {
+         __weak typeof(____view) w____view = ____view;
+         [____view aspect_hookSelector:@selector(addSubview:) withOptions:AspectPositionAfter usingBlock:^() {
+         for (UIView *actionSheet in w____view.subviews) {
+         if ([actionSheet isMemberOfClass:NSClassFromString(@"_UIPreviewActionSheetView")]) {
+         break;
+         }
+         }
+         } error:NULL];
+         }
+         }break;
+         }
+         }break;
+         }
+         }break;
+         }
+         }
          */
     } error:NULL];
     break;
