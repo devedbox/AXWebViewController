@@ -2,7 +2,9 @@
 ##Summary
 `AXWebViewController`是一款易用的基于`UIWebView`（20160716更新：iOS8.0以上使用`WKWebView`实现）封装的网页浏览控制器. 在系统功能的基础上添加了工具条导航，可以刷新、返回、前进、等操作，同时，`AXWebViewController`还实现了`微信样式`的导航返回支持，集成简单，使用方便。如图所示：
 
-[![sample2](http://ww3.sinaimg.cn/large/d2297bd2gw1f5wpniezqpg209o0h44qr.gif)](http://ww3.sinaimg.cn/large/d2297bd2gw1f5wpniezqpg209o0h44qr.gif)[![sample](http://ww4.sinaimg.cn/large/d2297bd2gw1f5wpmh7vfgg209o0h4qv5.gif)](http://ww4.sinaimg.cn/large/d2297bd2gw1f5wpmh7vfgg209o0h4qv5.gif)
+[![sample2](http://ww3.sinaimg.cn/large/d2297bd2gw1f5wpniezqpg209o0h44qr.gif)](http://ww3.sinaimg.cn/large/d2297bd2gw1f5wpniezqpg209o0h44qr.gif)	[![sample](http://ww4.sinaimg.cn/large/d2297bd2gw1f5wpmh7vfgg209o0h4qv5.gif)](http://ww4.sinaimg.cn/large/d2297bd2gw1f5wpmh7vfgg209o0h4qv5.gif)
+
+[视频链接](http://video.weibo.com/show?fid=1034:5a4102ad40573447a44ae74d56a80451)
 ## Features
 >* 手势滑动返回上个网页
 >* 微信样式导航返回
