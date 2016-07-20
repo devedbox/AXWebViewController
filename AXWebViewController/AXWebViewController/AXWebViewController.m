@@ -635,7 +635,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         _navigation = [_webView goBack];
     }
 #else
-    if ([_webView goBack]) {
+    if ([_webView canGoBack]) {
         [_webView goBack];
     }
 #endif
@@ -1138,75 +1138,75 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     // Find the `WKContentView` in the webview.
     __weak typeof(self) wself = self;
     for (UIView *_view in _webView.scrollView.subviews) {
-    if ([_view isKindOfClass:NSClassFromString(@"WKContentView")]) {
-    id _previewItemController = object_getIvar(_view, class_getInstanceVariable([_view class], "_previewItemController"));
-    Class _class = [_previewItemController class];
-    SEL _performCustomCommitSelector = NSSelectorFromString(@"previewInteractionController:interactionProgress:forRevealAtLocation:inSourceView:containerView:");
-    [_previewItemController aspect_hookSelector:_performCustomCommitSelector withOptions:AspectPositionAfter usingBlock:^() {
-        UIViewController *pred = [_previewItemController valueForKeyPath:@"presentedViewController"];
-        [pred aspect_hookSelector:NSSelectorFromString(@"_addRemoteView") withOptions:AspectPositionAfter usingBlock:^() {
-            UIViewController *_remoteViewController = object_getIvar(pred, class_getInstanceVariable([pred class], "_remoteViewController"));
-            
-            [_remoteViewController aspect_hookSelector:@selector(viewDidLoad) withOptions:AspectPositionAfter usingBlock:^() {
-                _remoteViewController.view.tintColor = wself.navigationController.navigationBar.tintColor;
+        if ([_view isKindOfClass:NSClassFromString(@"WKContentView")]) {
+            id _previewItemController = object_getIvar(_view, class_getInstanceVariable([_view class], "_previewItemController"));
+            Class _class = [_previewItemController class];
+            SEL _performCustomCommitSelector = NSSelectorFromString(@"previewInteractionController:interactionProgress:forRevealAtLocation:inSourceView:containerView:");
+            [_previewItemController aspect_hookSelector:_performCustomCommitSelector withOptions:AspectPositionAfter usingBlock:^() {
+                UIViewController *pred = [_previewItemController valueForKeyPath:@"presentedViewController"];
+                [pred aspect_hookSelector:NSSelectorFromString(@"_addRemoteView") withOptions:AspectPositionAfter usingBlock:^() {
+                    UIViewController *_remoteViewController = object_getIvar(pred, class_getInstanceVariable([pred class], "_remoteViewController"));
+                    
+                    [_remoteViewController aspect_hookSelector:@selector(viewDidLoad) withOptions:AspectPositionAfter usingBlock:^() {
+                        _remoteViewController.view.tintColor = wself.navigationController.navigationBar.tintColor;
+                    } error:NULL];
+                } error:NULL];
+                
+                NSArray *ddActions = [pred valueForKeyPath:@"ddActions"];
+                id openURLAction = [ddActions firstObject];
+                
+                [openURLAction aspect_hookSelector:NSSelectorFromString(@"perform") withOptions:AspectPositionInstead usingBlock:^ () {
+                    NSURL *_url = object_getIvar(openURLAction, class_getInstanceVariable([openURLAction class], "_url"));
+                    [wself loadURL:_url];
+                } error:NULL];
+                
+                id _lookupItem = object_getIvar(_previewItemController, class_getInstanceVariable([_class class], "_lookupItem"));
+                [_lookupItem aspect_hookSelector:NSSelectorFromString(@"commit") withOptions:AspectPositionInstead usingBlock:^() {
+                    NSURL *_url = object_getIvar(_lookupItem, class_getInstanceVariable([_lookupItem class], "_url"));
+                    [wself loadURL:_url];
+                } error:NULL];
+                [_lookupItem aspect_hookSelector:NSSelectorFromString(@"commitWithTransitionForPreviewViewController:inViewController:completion:") withOptions:AspectPositionInstead usingBlock:^() {
+                    NSURL *_url = object_getIvar(_lookupItem, class_getInstanceVariable([_lookupItem class], "_url"));
+                    [wself loadURL:_url];
+                } error:NULL];
+                /*
+                 UIWindow
+                 -UITransitionView
+                 --UIVisualEffectView
+                 ---_UIVisualEffectContentView
+                 ----UIView
+                 -----_UIPreviewActionSheetView
+                 */
+                /*
+                 for (UIView * transitionView in [UIApplication sharedApplication].keyWindow.subviews) {
+                 if ([transitionView isMemberOfClass:NSClassFromString(@"UITransitionView")]) {
+                 transitionView.tintColor = wself.navigationController.navigationBar.tintColor;
+                 for (UIView *__view in transitionView.subviews) {
+                 if ([__view isMemberOfClass:NSClassFromString(@"UIVisualEffectView")]) {
+                 for (UIView *___view in __view.subviews) {
+                 if ([___view isMemberOfClass:NSClassFromString(@"_UIVisualEffectContentView")]) {
+                 for (UIView *____view in ___view.subviews) {
+                 if ([____view isMemberOfClass:NSClassFromString(@"UIView")]) {
+                 __weak typeof(____view) w____view = ____view;
+                 [____view aspect_hookSelector:@selector(addSubview:) withOptions:AspectPositionAfter usingBlock:^() {
+                 for (UIView *actionSheet in w____view.subviews) {
+                 if ([actionSheet isMemberOfClass:NSClassFromString(@"_UIPreviewActionSheetView")]) {
+                 break;
+                 }
+                 }
+                 } error:NULL];
+                 }
+                 }break;
+                 }
+                 }break;
+                 }
+                 }break;
+                 }
+                 }
+                 */
             } error:NULL];
-        } error:NULL];
-        
-        NSArray *ddActions = [pred valueForKeyPath:@"ddActions"];
-        id openURLAction = [ddActions firstObject];
-        
-        [openURLAction aspect_hookSelector:NSSelectorFromString(@"perform") withOptions:AspectPositionInstead usingBlock:^ () {
-            NSURL *_url = object_getIvar(openURLAction, class_getInstanceVariable([openURLAction class], "_url"));
-            [wself loadURL:_url];
-        } error:NULL];
-        
-        id _lookupItem = object_getIvar(_previewItemController, class_getInstanceVariable([_class class], "_lookupItem"));
-        [_lookupItem aspect_hookSelector:NSSelectorFromString(@"commit") withOptions:AspectPositionInstead usingBlock:^() {
-            NSURL *_url = object_getIvar(_lookupItem, class_getInstanceVariable([_lookupItem class], "_url"));
-            [wself loadURL:_url];
-        } error:NULL];
-        [_lookupItem aspect_hookSelector:NSSelectorFromString(@"commitWithTransitionForPreviewViewController:inViewController:completion:") withOptions:AspectPositionInstead usingBlock:^() {
-            NSURL *_url = object_getIvar(_lookupItem, class_getInstanceVariable([_lookupItem class], "_url"));
-            [wself loadURL:_url];
-        } error:NULL];
-        /*
-         UIWindow
-         -UITransitionView
-         --UIVisualEffectView
-         ---_UIVisualEffectContentView
-         ----UIView
-         -----_UIPreviewActionSheetView
-         */
-        /*
-         for (UIView * transitionView in [UIApplication sharedApplication].keyWindow.subviews) {
-         if ([transitionView isMemberOfClass:NSClassFromString(@"UITransitionView")]) {
-         transitionView.tintColor = wself.navigationController.navigationBar.tintColor;
-         for (UIView *__view in transitionView.subviews) {
-         if ([__view isMemberOfClass:NSClassFromString(@"UIVisualEffectView")]) {
-         for (UIView *___view in __view.subviews) {
-         if ([___view isMemberOfClass:NSClassFromString(@"_UIVisualEffectContentView")]) {
-         for (UIView *____view in ___view.subviews) {
-         if ([____view isMemberOfClass:NSClassFromString(@"UIView")]) {
-         __weak typeof(____view) w____view = ____view;
-         [____view aspect_hookSelector:@selector(addSubview:) withOptions:AspectPositionAfter usingBlock:^() {
-         for (UIView *actionSheet in w____view.subviews) {
-         if ([actionSheet isMemberOfClass:NSClassFromString(@"_UIPreviewActionSheetView")]) {
-         break;
-         }
-         }
-         } error:NULL];
-         }
-         }break;
-         }
-         }break;
-         }
-         }break;
-         }
-         }
-         */
-    } error:NULL];
-    break;
-    }
+            break;
+        }
     }
 }
 @end
