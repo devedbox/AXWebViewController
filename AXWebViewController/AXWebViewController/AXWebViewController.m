@@ -285,8 +285,12 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
     config.preferences.minimumFontSize = 9.0;
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
-    config.applicationNameForUserAgent = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
-    config.allowsInlineMediaPlayback = YES;
+    if ([config respondsToSelector:@selector(setApplicationNameForUserAgent:)]) {
+        [config setApplicationNameForUserAgent:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]];
+    }
+    if ([config respondsToSelector:@selector(setAllowsInlineMediaPlayback:)]) {
+        [config setAllowsInlineMediaPlayback:YES];
+    }
 #endif
     _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
     _webView.allowsBackForwardNavigationGestures = YES;
