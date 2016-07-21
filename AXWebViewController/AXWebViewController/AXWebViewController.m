@@ -182,7 +182,10 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self.navigationController.navigationBar addSubview:self.progressView];
+    if (self.navigationController) {
+        [self updateFrameOfProgressView];
+        [self.navigationController.navigationBar addSubview:self.progressView];
+    }
     
     /*
      if (_navigationType == AXWebViewControllerNavigationBarItem) {
@@ -214,7 +217,9 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    [_progressView removeFromSuperview];
+    if (self.navigationController) {
+        [_progressView removeFromSuperview];
+    }
     
     if (_navigationType == AXWebViewControllerNavigationBarItem) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
@@ -259,6 +264,11 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 #pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:@"estimatedProgress"]) {
+        // Add progress view to navigation bar.
+        if (self.navigationController && self.progressView.superview != self.navigationController.navigationBar) {
+            [self updateFrameOfProgressView];
+            [self.navigationController.navigationBar addSubview:self.progressView];
+        }
         float progress = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
         if (progress >= _progressView.progress) {
             [_progressView setProgress:progress animated:YES];
@@ -920,10 +930,22 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 
 -(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
 {
+    // Add progress view to navigation bar.
+    if (self.navigationController && self.progressView.superview != self.navigationController.navigationBar) {
+        [self updateFrameOfProgressView];
+        [self.navigationController.navigationBar addSubview:self.progressView];
+    }
     [_progressView setProgress:progress animated:YES];
 }
 
 #pragma mark - Helper
+- (void)updateFrameOfProgressView {
+    CGFloat progressBarHeight = 2.0f;
+    CGRect navigationBarBounds = self.navigationController.navigationBar.bounds;
+    CGRect barFrame = CGRectMake(0, navigationBarBounds.size.height - progressBarHeight, navigationBarBounds.size.width, progressBarHeight);
+    _progressView.frame = barFrame;
+}
+
 #if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_8_0
 -(void)pushCurrentSnapshotViewWithRequest:(NSURLRequest*)request{
     NSURLRequest* lastRequest = (NSURLRequest*)[[self.snapshots lastObject] objectForKey:@"request"];
@@ -1087,6 +1109,10 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topLayoutGuide][_webView][bottomLayoutGuide]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView, topLayoutGuide, bottomLayoutGuide)]];
 #endif
+    
+    self.progressView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 2);
+    [self.view addSubview:self.progressView];
+    [self.view bringSubviewToFront:self.progressView];
 }
 
 - (void)updateToolbarItems {
