@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>AXWebviewcontroller by devedbox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">AXWebviewcontroller</h1>
+      <h2 class="project-tagline">AXWebViewController是一款易用的基于WKWebView（iOS8.0以下使用UIWebView）封装的网页浏览控制器. 在系统功能的基础上添加了工具条导航，可以刷新、返回、前进、等操作，同时，AXWebViewController还实现了微信样式的导航返回支持，集成简单，使用方便</h2>
+      <a href="https://github.com/devedbox/AXWebViewController" class="btn">View on GitHub</a>
+      <a href="https://github.com/devedbox/AXWebViewController/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/devedbox/AXWebViewController/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="axwebviewcontroller" class="anchor" href="#axwebviewcontroller" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AXWebViewController<a href="https://travis-ci.org/devedbox/AXWebViewController"><img src="https://travis-ci.org/devedbox/AXWebViewController.svg?branch=master" alt="Build Status"></a><a href="http://cocoapods.org/pods/AXWebViewController"><img src="https://img.shields.io/cocoapods/v/AXWebViewController.svg?style=flat" alt="Version"></a><a href="http://cocoapods.org/pods/AXWebViewController"><img src="https://img.shields.io/cocoapods/l/AXWebViewController.svg?style=flat" alt="License"></a><a href="http://cocoapods.org/pods/AXWebViewController"><img src="https://img.shields.io/cocoapods/p/AXWebViewController.svg?style=flat" alt="Platform"></a>
+</h1>
+
+<h2>
+<a id="summary" class="anchor" href="#summary" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Summary</h2>
+
+<p><code>AXWebViewController</code>是一款易用的基于<code>UIWebView</code>（20160716更新：iOS8.0以上使用<code>WKWebView</code>实现）封装的网页浏览控制器. 在系统功能的基础上添加了工具条导航，可以刷新、返回、前进、等操作，同时，<code>AXWebViewController</code>还实现了<code>微信样式</code>的导航返回支持，集成简单，使用方便。如图所示：</p>
+
+<p><a href="http://ww3.sinaimg.cn/large/d2297bd2gw1f5wpniezqpg209o0h44qr.gif"><img src="http://ww3.sinaimg.cn/large/d2297bd2gw1f5wpniezqpg209o0h44qr.gif" alt="sample2"></a>    <a href="http://ww4.sinaimg.cn/large/d2297bd2gw1f5wpmh7vfgg209o0h4qv5.gif"><img src="http://ww4.sinaimg.cn/large/d2297bd2gw1f5wpmh7vfgg209o0h4qv5.gif" alt="sample"></a></p>
+
+<p><a href="http://video.weibo.com/show?fid=1034:5a4102ad40573447a44ae74d56a80451">视频链接</a></p>
+
+<h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h2>
+
+<blockquote>
+<ul>
+<li>手势滑动返回上个网页</li>
+<li>微信样式导航返回</li>
+<li>网页加载失败提示（iOS8.0以下）</li>
+<li>网页加载进度提示</li>
+<li>网页来源提示</li>
+<li>支持<strong>Peek</strong>和<strong>Pop</strong>浏览网页，并且commit之后在本网页进行加载，不用跳转到Safari进行浏览，这里使用到了很多运行时的方法，因此，在使用的过程中可能会抛异常。</li>
+</ul>
+</blockquote>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requirements</h2>
+
+<p><code>AXWebViewController</code> 对系统版本支持到iOS7.0，需要使用到：</p>
+
+<blockquote>
+<ul>
+<li>Foundation.framework</li>
+<li>UIKit.framework</li>
+</ul>
+</blockquote>
+
+<p>使用的时候最好使用最新版Xcode。</p>
+
+<h2>
+<a id="adding-axwebviewcontroller-to-your-projet" class="anchor" href="#adding-axwebviewcontroller-to-your-projet" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Adding AXWebViewController to your projet</h2>
+
+<h3>
+<a id="cocoapods" class="anchor" href="#cocoapods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CocoaPods</h3>
+
+<p><a href="http://cocoapods.org">CocoaPods</a> is the recommended way to add AXWebViewController to your project.</p>
+
+<ol>
+<li>Add a pod entry for AXPopoverView to your Podfile <code>pod 'AXWebViewController', '~&gt; 0.1.10'</code>
+</li>
+<li>Install the pod(s) by running <code>pod install</code>.</li>
+<li>Include AXPopoverView wherever you need it with <code>#import "AXWebViewController.h"</code>.</li>
+</ol>
+
+<h3>
+<a id="source-files" class="anchor" href="#source-files" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Source files</h3>
+
+<p>Alternatively you can directly add the <code>AXWebViewController.h</code>、<code>AXWebNavigationViewController.h</code> and <code>AXWebViewController.m</code>、<code>AXWebNavigationViewController.m</code> source files to your project.</p>
+
+<ol>
+<li>Download the <a href="https://github.com/devedbox/AXWebViewController/archive/master.zip">latest code version</a> or add the repository as a git submodule to your git-tracked project. </li>
+<li>Open your project in Xcode, then drag and drop <code>AXWebViewController.h</code> and <code>AXWebViewControllerm</code> onto your project (use the "Product Navigator view"). Make sure to select Copy items when asked if you extracted the code archive outside of your project. </li>
+<li>Include AXPopoverView wherever you need it with <code>#import "AXWebViewController.h"</code>.</li>
+</ol>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p>This code is distributed under the terms and conditions of the <a href="LICENSE">MIT license</a>. </p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p><code>AXWebViewController</code>使用和使用普通<code>UIViewController</code>一样简单，只需要在需要使用的地方使用<code>URL</code>初始化即可：</p>
+
+<pre lang="objcetive-c"><code>AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://www.baidu.com"];
+webVC.showsToolBar = NO;
+webVC.navigationController.navigationBar.translucent = NO;
+self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.100f green:0.100f blue:0.100f alpha:0.800f];
+self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.996f green:0.867f blue:0.522f alpha:1.00f];
+[self.navigationController pushViewController:webVC animated:YES];
+</code></pre>
+
+<h3>
+<a id="使用工具条导航" class="anchor" href="#%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%E6%9D%A1%E5%AF%BC%E8%88%AA" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>使用工具条导航</h3>
+
+<p>使用工具条只需在<code>AXWebViewController</code>初始化之后加入一句代码：</p>
+
+<pre lang="objcetive-c"><code>webVC.navigationType = AXWebViewControllerNavigationToolItem;
+webVC.showsToolBar = YES;
+</code></pre>
+
+<p>注意，在设置<code>navigationType</code>为<code>AXWebViewControllerNavigationToolItem</code>之后，须确认<code>showsToolBar</code>为<code>YES</code>才能生效.</p>
+
+<h3>
+<a id="使用微信样式导航" class="anchor" href="#%E4%BD%BF%E7%94%A8%E5%BE%AE%E4%BF%A1%E6%A0%B7%E5%BC%8F%E5%AF%BC%E8%88%AA" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>使用微信样式导航</h3>
+
+<p>在<code>AXWebViewController</code>初始化之后加入一句代码：</p>
+
+<pre lang="objcetive-c"><code>webVC.navigationType = AXWebViewControllerNavigationBarItem;
+</code></pre>
+
+<p>即可生效.</p>
+
+<h3>
+<a id="peekpop" class="anchor" href="#peekpop" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Peek&amp;Pop</h3>
+
+<p>Peek和Pop使用的是原生的系统功能，在使用的时候只需要将<code>webView.allowsLinkPreview</code>设置为<code>YES</code>即可使用，这里需要注意下，在实现Peek和Pop的时候，使用了Runtime的相关知识，而且使用AOP的一个框架<strong><a href="https://github.com/steipete/Aspects">Aspects</a></strong>进行了编程，在使用的过程中可能会出错，当然，出错的几率也是很小的（苹果不可能隔三差五的去修改自家的Private API吧=  =），实现原理就不多讲了，基本上就是运行时的一些知识，代码如下：</p>
+
+<pre lang="objcetive-c"><code>
+- (void)hookWebContentCommitPreviewHandler {
+    // Find the `WKContentView` in the webview.
+    __weak typeof(self) wself = self;
+    for (UIView *_view in _webView.scrollView.subviews) {
+    if ([_view isKindOfClass:NSClassFromString(@"WKContentView")]) {
+    id _previewItemController = object_getIvar(_view, class_getInstanceVariable([_view class], "_previewItemController"));
+    Class _class = [_previewItemController class];
+    SEL _performCustomCommitSelector = NSSelectorFromString(@"previewInteractionController:interactionProgress:forRevealAtLocation:inSourceView:containerView:");
+    [_previewItemController aspect_hookSelector:_performCustomCommitSelector withOptions:AspectPositionAfter usingBlock:^() {
+        UIViewController *pred = [_previewItemController valueForKeyPath:@"presentedViewController"];
+        [pred aspect_hookSelector:NSSelectorFromString(@"_addRemoteView") withOptions:AspectPositionAfter usingBlock:^() {
+            UIViewController *_remoteViewController = object_getIvar(pred, class_getInstanceVariable([pred class], "_remoteViewController"));
+
+            [_remoteViewController aspect_hookSelector:@selector(viewDidLoad) withOptions:AspectPositionAfter usingBlock:^() {
+                _remoteViewController.view.tintColor = wself.navigationController.navigationBar.tintColor;
+            } error:NULL];
+        } error:NULL];
+
+        NSArray *ddActions = [pred valueForKeyPath:@"ddActions"];
+        id openURLAction = [ddActions firstObject];
+
+        [openURLAction aspect_hookSelector:NSSelectorFromString(@"perform") withOptions:AspectPositionInstead usingBlock:^ () {
+            NSURL *_url = object_getIvar(openURLAction, class_getInstanceVariable([openURLAction class], "_url"));
+            [wself loadURL:_url];
+        } error:NULL];
+
+        id _lookupItem = object_getIvar(_previewItemController, class_getInstanceVariable([_class class], "_lookupItem"));
+        [_lookupItem aspect_hookSelector:NSSelectorFromString(@"commit") withOptions:AspectPositionInstead usingBlock:^() {
+            NSURL *_url = object_getIvar(_lookupItem, class_getInstanceVariable([_lookupItem class], "_url"));
+            [wself loadURL:_url];
+        } error:NULL];
+        [_lookupItem aspect_hookSelector:NSSelectorFromString(@"commitWithTransitionForPreviewViewController:inViewController:completion:") withOptions:AspectPositionInstead usingBlock:^() {
+            NSURL *_url = object_getIvar(_lookupItem, class_getInstanceVariable([_lookupItem class], "_url"));
+            [wself loadURL:_url];
+        } error:NULL];
+        /*
+         UIWindow
+         -UITransitionView
+         --UIVisualEffectView
+         ---_UIVisualEffectContentView
+         ----UIView
+         -----_UIPreviewActionSheetView
+         */
+        /*
+         for (UIView * transitionView in [UIApplication sharedApplication].keyWindow.subviews) {
+         if ([transitionView isMemberOfClass:NSClassFromString(@"UITransitionView")]) {
+         transitionView.tintColor = wself.navigationController.navigationBar.tintColor;
+         for (UIView *__view in transitionView.subviews) {
+         if ([__view isMemberOfClass:NSClassFromString(@"UIVisualEffectView")]) {
+         for (UIView *___view in __view.subviews) {
+         if ([___view isMemberOfClass:NSClassFromString(@"_UIVisualEffectContentView")]) {
+         for (UIView *____view in ___view.subviews) {
+         if ([____view isMemberOfClass:NSClassFromString(@"UIView")]) {
+         __weak typeof(____view) w____view = ____view;
+         [____view aspect_hookSelector:@selector(addSubview:) withOptions:AspectPositionAfter usingBlock:^() {
+         for (UIView *actionSheet in w____view.subviews) {
+         if ([actionSheet isMemberOfClass:NSClassFromString(@"_UIPreviewActionSheetView")]) {
+         break;
+         }
+         }
+         } error:NULL];
+         }
+         }break;
+         }
+         }break;
+         }
+         }break;
+         }
+         }
+         */
+    } error:NULL];
+    break;
+    }
+    }
+}
+
+</code></pre>
+
+<h2>
+<a id="致谢" class="anchor" href="#%E8%87%B4%E8%B0%A2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>致谢</h2>
+
+<p><a href="https://github.com/Roxasora/RxWebViewController">RxWebViewController</a>为我提供了思路，有些地方做了参考</p>
+
+<p>使用了<a href="https://github.com/ninjinkun/NJKWebViewProgress">NJKWebViewProgress</a>作为进度条，感谢！</p>
+
+<h2>
+<a id="更新日志" class="anchor" href="#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>更新日志</h2>
+
+<h3>
+<a id="0110" class="anchor" href="#0110" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>0.1.10</h3>
+
+<p>使用基于<code>UIWebView</code>的实现，进度条使用<code>NJKWebViewProgress</code>实现.</p>
+
+<h3>
+<a id="020" class="anchor" href="#020" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>0.2.0</h3>
+
+<p>iOS8.0以上使用<code>WKWebView</code>实现，进度条使用<code>UIProgressView</code>实现. 实现了本页面Peek&amp;Pop而不用跳转到Safari进行浏览.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/devedbox/AXWebViewController">AXWebviewcontroller</a> is maintained by <a href="https://github.com/devedbox">devedbox</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
