@@ -15,6 +15,8 @@
 		01513BFE1C28F70700CB8238 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01513BFC1C28F70700CB8238 /* LaunchScreen.storyboard */; };
 		01513C071C28F90000CB8238 /* AXWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01513C061C28F90000CB8238 /* AXWebViewController.m */; };
 		0197B9351D3F703300AF10F9 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0197B9341D3F703300AF10F9 /* WebKit.framework */; };
+		01AA4F191D4F28C2008F2A2C /* TabbarViewController1.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AA4F181D4F28C2008F2A2C /* TabbarViewController1.m */; };
+		01AA4F1C1D4F28DD008F2A2C /* TabbarViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AA4F1B1D4F28DD008F2A2C /* TabbarViewController2.m */; };
 		01CDC1511C2A3C9100D9AF53 /* AXWebViewController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 01CDC1501C2A3C9100D9AF53 /* AXWebViewController.bundle */; };
 		01CDC1541C2A3D0F00D9AF53 /* AXWebViewControllerActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 01CDC1531C2A3D0F00D9AF53 /* AXWebViewControllerActivity.m */; };
 		01CDC1571C2A3DF400D9AF53 /* AXWebViewControllerActivityChrome.m in Sources */ = {isa = PBXBuildFile; fileRef = 01CDC1561C2A3DF400D9AF53 /* AXWebViewControllerActivityChrome.m */; };
@@ -37,6 +39,10 @@
 		01513C051C28F90000CB8238 /* AXWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AXWebViewController.h; path = AXWebViewController/AXWebViewController.h; sourceTree = "<group>"; };
 		01513C061C28F90000CB8238 /* AXWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AXWebViewController.m; path = AXWebViewController/AXWebViewController.m; sourceTree = "<group>"; };
 		0197B9341D3F703300AF10F9 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		01AA4F171D4F28C2008F2A2C /* TabbarViewController1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabbarViewController1.h; sourceTree = "<group>"; };
+		01AA4F181D4F28C2008F2A2C /* TabbarViewController1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabbarViewController1.m; sourceTree = "<group>"; };
+		01AA4F1A1D4F28DD008F2A2C /* TabbarViewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabbarViewController2.h; sourceTree = "<group>"; };
+		01AA4F1B1D4F28DD008F2A2C /* TabbarViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabbarViewController2.m; sourceTree = "<group>"; };
 		01CDC1501C2A3C9100D9AF53 /* AXWebViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AXWebViewController.bundle; path = AXWebViewController/AXWebViewController.bundle; sourceTree = "<group>"; };
 		01CDC1521C2A3D0F00D9AF53 /* AXWebViewControllerActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AXWebViewControllerActivity.h; path = AXWebViewController/AXWebViewControllerActivity.h; sourceTree = "<group>"; };
 		01CDC1531C2A3D0F00D9AF53 /* AXWebViewControllerActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AXWebViewControllerActivity.m; path = AXWebViewController/AXWebViewControllerActivity.m; sourceTree = "<group>"; };
@@ -89,6 +95,10 @@
 				01513BF21C28F70700CB8238 /* AppDelegate.m */,
 				01CDC15B1C2A41DF00D9AF53 /* TableViewController.h */,
 				01CDC15C1C2A41DF00D9AF53 /* TableViewController.m */,
+				01AA4F171D4F28C2008F2A2C /* TabbarViewController1.h */,
+				01AA4F181D4F28C2008F2A2C /* TabbarViewController1.m */,
+				01AA4F1A1D4F28DD008F2A2C /* TabbarViewController2.h */,
+				01AA4F1B1D4F28DD008F2A2C /* TabbarViewController2.m */,
 				01513C081C28F90300CB8238 /* AXWebViewController */,
 				01513BF71C28F70700CB8238 /* Main.storyboard */,
 				01513BFA1C28F70700CB8238 /* Assets.xcassets */,
@@ -265,12 +275,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01AA4F191D4F28C2008F2A2C /* TabbarViewController1.m in Sources */,
 				01CDC1571C2A3DF400D9AF53 /* AXWebViewControllerActivityChrome.m in Sources */,
 				01513BF31C28F70700CB8238 /* AppDelegate.m in Sources */,
 				01232FB51D2FDABD000B5D63 /* AXWebNavigationController.m in Sources */,
 				01CDC1541C2A3D0F00D9AF53 /* AXWebViewControllerActivity.m in Sources */,
 				01513C071C28F90000CB8238 /* AXWebViewController.m in Sources */,
 				01513BF01C28F70700CB8238 /* main.m in Sources */,
+				01AA4F1C1D4F28DD008F2A2C /* TabbarViewController2.m in Sources */,
 				01CDC15D1C2A41DF00D9AF53 /* TableViewController.m in Sources */,
 				01CDC15A1C2A3FAE00D9AF53 /* AXWebViewControllerActivitySafari.m in Sources */,
 			);

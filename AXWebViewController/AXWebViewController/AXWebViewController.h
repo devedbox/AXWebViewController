@@ -29,6 +29,18 @@
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
 #import <WebKit/WebKit.h>
 #endif
+#ifndef AX_REQUIRES_SUPER
+#if __has_attribute(objc_requires_super)
+#define AX_REQUIRES_SUPER __attribute__((objc_requires_super))
+#else
+#define AX_REQUIRES_SUPER
+#endif
+#endif
+/*
+ http://www.dudas.co.uk/ns_requires_super/:
+ --
+ __attribute((objc_requires_super)) was first introduced as work in progress into CLANG in September 2012 and was documented in October 2013. On both OS X and iOS there is now a NS_REQUIRES_SUPER macro that conditionally wraps the objc_requires_super attribute depending on compiler support. Once a method declaration is appended with this macro, the compiler will produce a warning if super is not called by a subclass overriding the method.
+*/
 
 NS_ASSUME_NONNULL_BEGIN
 @class AXWebViewController;
@@ -125,21 +137,28 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 /// @param HTMLString a encoded html string.
 /// @param baseURL base url of bundle.
 - (void)loadHTMLString:(NSString *)HTMLString baseURL:(NSURL *)baseURL;
-/// Called when web view will go back.
-- (void)willGoBack;
-/// Called when web view will go forward.
-- (void)willGoForward;
-/// Called when web view will reload.
-- (void)willReload;
-/// Called when web view will stop load.
-- (void)willStop;
-/// Called when web view did start loading.
-- (void)didStartLoad;
-/// Called when web view did finish loading.
-- (void)didFinishLoad;
-/// Called when web viw did fail loading.
+/// Called when web view will go back. Do not call this directly. Same to the bottom methods.
+/// @discussion 使用的时候需要子类化，并且调用super的方法!切记！！！
+///
+- (void)willGoBack AX_REQUIRES_SUPER;
+/// Called when web view will go forward. Do not call this directly.
+///
+- (void)willGoForward AX_REQUIRES_SUPER;
+/// Called when web view will reload. Do not call this directly.
+///
+- (void)willReload AX_REQUIRES_SUPER;
+/// Called when web view will stop load. Do not call this directly.
+///
+- (void)willStop AX_REQUIRES_SUPER;
+/// Called when web view did start loading. Do not call this directly.
+///
+- (void)didStartLoad AX_REQUIRES_SUPER;
+/// Called when web view did finish loading. Do not call this directly.
+///
+- (void)didFinishLoad AX_REQUIRES_SUPER;
+/// Called when web viw did fail loading. Do not call this directly.
 ///
 /// @param error a failed loading error.
-- (void)didFailLoadWithError:(NSError *)error;
+- (void)didFailLoadWithError:(NSError *)error AX_REQUIRES_SUPER;
 @end
 NS_ASSUME_NONNULL_END
