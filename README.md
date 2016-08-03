@@ -157,3 +157,5 @@ Peek和Pop使用的是原生的系统功能，在使用的时候只需要将`web
 使用基于`UIWebView`的实现，进度条使用`NJKWebViewProgress`实现.
 ### 0.2.0
 iOS8.0以上使用`WKWebView`实现，进度条使用`UIProgressView`实现. 实现了本页面Peek&Pop而不用跳转到Safari进行浏览.
+### 0.3.0
+使用[AXNavigationBackItemInjection](https://github.com/devedbox/AXNavigationBackItemInjection)实现微信导航样式，也可以自定义返回的操作，只需要几行代码就可以搞定！
