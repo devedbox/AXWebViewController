@@ -249,6 +249,30 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     return toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
+- (BOOL)navigationBar:(UINavigationBar *)navigationBar shouldPopItem:(UINavigationItem *)item {
+    // Should not pop. It appears clicked the back bar button item. We should decide the action according to the content of web view.
+    if ([self.navigationController.topViewController isKindOfClass:[AXWebViewController class]]) {
+        AXWebViewController* webVC = (AXWebViewController*)self.navigationController.topViewController;
+        // If web view can go back.
+        if (webVC.webView.canGoBack) {
+            // Stop loading if web view is loading.
+            if (webVC.webView.isLoading) {
+                [webVC.webView stopLoading];
+            }
+            // Go back to the last page if exist.
+            [webVC.webView goBack];
+            // Should not pop items.
+            return NO;
+        }else{
+            // Pop view controlers directly.
+            return YES;
+        }
+    }else{
+        // Pop view controllers directly.
+        return YES;
+    }
+}
+
 - (void)dealloc {
     [_webView stopLoading];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];

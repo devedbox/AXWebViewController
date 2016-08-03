@@ -36,7 +36,7 @@
     switch (indexPath.row) {
         case 0:
         {
-            AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://sports.sina.cn/premierleague/chelsea/2016-08-01/detail-ifxunyya2939640.d.html"];
+            AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://www.baidu.com"];
             webVC.showsToolBar = NO;
             webVC.webView.allowsLinkPreview = YES;
             [self.navigationController pushViewController:webVC animated:YES];
