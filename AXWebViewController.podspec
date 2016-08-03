@@ -94,7 +94,7 @@ s.source       = { :git => "https://github.com/devedbox/AXWebViewController.git"
 #  Not including the public_header_files will make all headers public.
 #
 
-s.source_files  = "AXWebViewController/AXWebViewController/*"
+s.source_files  = "AXWebViewController/AXWebViewController/*.{h,m}", "AXWebViewController/AXWebViewController/AXWebViewControllerActivity/*.{h,m}"
 #s.exclude_files = "Classes/Exclude"
 
 # s.public_header_files = "Classes/**/*.h"
