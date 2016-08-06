@@ -38,7 +38,9 @@
         {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://www.baidu.com"];
             webVC.showsToolBar = NO;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
             webVC.webView.allowsLinkPreview = YES;
+#endif
             [self.navigationController pushViewController:webVC animated:YES];
         }
             break;
