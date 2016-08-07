@@ -23,6 +23,13 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
+#ifndef __IPHONE_8_0
+#define __IPHONE_8_0      80000
+#endif
+#ifndef __IPHONE_9_0
+#define __IPHONE_9_0      90000
+#endif
+
 #import <UIKit/UIKit.h>
 #import <NJKWebViewProgress/NJKWebViewProgress.h>
 #import <NJKWebViewProgress/NJKWebViewProgressView.h>
