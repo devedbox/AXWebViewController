@@ -1,0 +1,21 @@
+/* 
+  AXWebViewController.strings
+  AXWebViewController
+
+  Created by devedbox on 16/8/14.
+  Copyright © 2016年 AiXing. All rights reserved.
+*/
+"back" = "返回";
+"close" = "关闭";
+"loading" = "加载中...";
+"load failed" = "加载失败";
+"load failed:" = "网页加载失败：";
+"web page" = "网页由";
+"provided" = "提供";
+"browsing the web" = "网页浏览";
+
+"messages" = "来自网页的消息";
+"cancel" = "取消";
+"confirm" = "确定";
+"input" = "输入文字消息";
+"terminate" = "网页进程终止";

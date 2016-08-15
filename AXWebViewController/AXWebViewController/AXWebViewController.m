@@ -29,6 +29,11 @@
 #import <Aspects/Aspects.h>
 #import <objc/runtime.h>
 
+#ifndef AXWebViewControllerLocalizedString
+#define AXWebViewControllerLocalizedString(key, comment) \
+NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundleWithPath:[[[NSBundle bundleForClass:[AXWebViewController class]] resourcePath] stringByAppendingPathComponent:@"AXWebViewController.bundle"]], comment)
+#endif
+
 @interface AXWebViewController ()<NJKWebViewProgressDelegate>
 {
     BOOL _loading;
@@ -420,12 +425,12 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     UIButton* backButton = [UIButton buttonWithType:UIButtonTypeSystem];
     NSDictionary *attr = [[UIBarButtonItem appearance] titleTextAttributesForState:UIControlStateNormal];
     if (attr) {
-        [backButton setAttributedTitle:[[NSAttributedString alloc] initWithString:@"返回" attributes:attr] forState:UIControlStateNormal];
+        [backButton setAttributedTitle:[[NSAttributedString alloc] initWithString:AXWebViewControllerLocalizedString(@"back", @"back") attributes:attr] forState:UIControlStateNormal];
         UIOffset offset = [[UIBarButtonItem appearance] backButtonTitlePositionAdjustmentForBarMetrics:UIBarMetricsDefault];
         backButton.titleEdgeInsets = UIEdgeInsetsMake(offset.vertical, offset.horizontal, 0, 0);
         backButton.imageEdgeInsets = UIEdgeInsetsMake(offset.vertical, offset.horizontal, 0, 0);
     } else {
-        [backButton setTitle:@"返回" forState:UIControlStateNormal];
+        [backButton setTitle:AXWebViewControllerLocalizedString(@"back", @"back") forState:UIControlStateNormal];
         [backButton setTitleColor:self.navigationController.navigationBar.tintColor forState:UIControlStateNormal];
         [backButton setTitleColor:[self.navigationController.navigationBar.tintColor colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
         [backButton.titleLabel setFont:[UIFont systemFontOfSize:17]];
@@ -442,9 +447,9 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (UIBarButtonItem *)navigationCloseBarButtonItem {
     if (_navigationCloseBarButtonItem) return _navigationCloseBarButtonItem;
     if (self.navigationItem.rightBarButtonItem == _doneItem && self.navigationItem.rightBarButtonItem != nil) {
-        _navigationCloseBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:0 target:self action:@selector(doneButtonClicked:)];
+        _navigationCloseBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:AXWebViewControllerLocalizedString(@"close", @"close") style:0 target:self action:@selector(doneButtonClicked:)];
     } else {
-        _navigationCloseBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:0 target:self action:@selector(navigationIemHandleClose:)];
+        _navigationCloseBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:AXWebViewControllerLocalizedString(@"close", @"close") style:0 target:self action:@selector(navigationIemHandleClose:)];
     }
     return _navigationCloseBarButtonItem;
 }
@@ -575,8 +580,8 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     }
 }
 - (void)didStartLoad{
-    _backgroundLabel.text = @"加载中...";
-    self.navigationItem.title = @"加载中...";
+    _backgroundLabel.text = AXWebViewControllerLocalizedString(@"loading", @"Loading");
+    self.navigationItem.title = AXWebViewControllerLocalizedString(@"loading", @"Loading");
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     if (_navigationType == AXWebViewControllerNavigationBarItem) {
         [self updateNavigationItems];
@@ -621,7 +626,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         title = [[title substringToIndex:9] stringByAppendingString:@"…"];
     }
 #endif
-    self.navigationItem.title = title?:@"网页浏览";
+    self.navigationItem.title = title?:AXWebViewControllerLocalizedString(@"browsing the web", @"browsing the web");
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *bundle = ([infoDictionary objectForKey:@"CFBundleDisplayName"]?:[infoDictionary objectForKey:@"CFBundleName"])?:[infoDictionary objectForKey:@"CFBundleIdentifier"];
     NSString *host;
@@ -630,7 +635,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 #else
     host = _webView.request.URL.host;
 #endif
-    _backgroundLabel.text = [NSString stringWithFormat:@"网页由\"%@\"提供", host?:bundle];
+    _backgroundLabel.text = [NSString stringWithFormat:@"%@\"%@\"%@.", AXWebViewControllerLocalizedString(@"web page",@""), host?:bundle, AXWebViewControllerLocalizedString(@"provided",@"")];
     if (_delegate && [_delegate respondsToSelector:@selector(webViewControllerDidFinishLoad:)]) {
         [_delegate webViewControllerDidFinishLoad:self];
     }
@@ -653,8 +658,8 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         [self loadURL:[NSURL fileURLWithPath:kAXNetworkErrorHTMLPath]];
     }
 #endif
-    _backgroundLabel.text = [NSString stringWithFormat:@"网页加载失败：%@", error.localizedDescription];
-    self.navigationItem.title = @"加载失败";
+    _backgroundLabel.text = [NSString stringWithFormat:@"%@%@",AXWebViewControllerLocalizedString(@"load failed:", nil) , error.localizedDescription];
+    self.navigationItem.title = AXWebViewControllerLocalizedString(@"load failed", nil);
     if (_navigationType == AXWebViewControllerNavigationBarItem) {
         [self updateNavigationItems];
     }
@@ -781,11 +786,11 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     // Get host name of url.
     NSString *host = webView.URL.host;
     // Init the alert view controller.
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:host?:@"来自网页的消息" message:message preferredStyle: UIAlertControllerStyleAlert];
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:host?:AXWebViewControllerLocalizedString(@"messages", nil) message:message preferredStyle: UIAlertControllerStyleAlert];
     // Init the cancel action.
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:NULL];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"cancel", @"cancel") style:UIAlertActionStyleCancel handler:NULL];
     // Init the ok action.
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"confirm", @"confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:NULL];
         completionHandler();
     }];
@@ -797,14 +802,14 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     // Get the host name.
     NSString *host = webView.URL.host;
     // Initialize alert view controller.
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:host?:@"来自网页的消息" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:host?:AXWebViewControllerLocalizedString(@"messages", nil) message:message preferredStyle:UIAlertControllerStyleAlert];
     // Initialize cancel action.
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"cancel", @"cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:NULL];
         completionHandler(NO);
     }];
     // Initialize ok action.
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"confirm", @"confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:NULL];
         completionHandler(YES);
     }];
@@ -816,21 +821,21 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     // Get the host of url.
     NSString *host = webView.URL.host;
     // Initialize alert view controller.
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:prompt?:@"来自网页的消息" message:host preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:prompt?:AXWebViewControllerLocalizedString(@"messages", nil) message:host preferredStyle:UIAlertControllerStyleAlert];
     // Add text field.
     [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.placeholder = defaultText?:@"输入文字信息";
+        textField.placeholder = defaultText?:AXWebViewControllerLocalizedString(@"input", nil);
         textField.font = [UIFont systemFontOfSize:12];
     }];
     // Initialize cancel action.
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"cancel", @"cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:NULL];
         // Get inputed string.
         NSString *string = [alert.textFields firstObject].text;
         completionHandler(string?:defaultText);
     }];
     // Initialize ok action.
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"confirm", @"confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:NULL];
         // Get inputed string.
         NSString *string = [alert.textFields firstObject].text;
@@ -886,11 +891,11 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     // Get the host name.
     NSString *host = webView.URL.host;
     // Initialize alert view controller.
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:host?:@"来自网页的消息" message:@"网页进程终止" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:host?:AXWebViewControllerLocalizedString(@"messages", nil) message:AXWebViewControllerLocalizedString(@"terminate", nil) preferredStyle:UIAlertControllerStyleAlert];
     // Initialize cancel action.
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:NULL];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"cancel", @"cancel") style:UIAlertActionStyleCancel handler:NULL];
     // Initialize ok action.
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"confirm", @"confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:NULL];
     }];
     // Add actions.

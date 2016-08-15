@@ -1,0 +1,27 @@
+
+/* Class = "UILabel"; text = "Present"; ObjectID = "58i-qo-HOo"; */
+"58i-qo-HOo.text" = "Present";
+
+/* Class = "UITabBarItem"; title = "Item 1"; ObjectID = "E5r-4X-WNV"; */
+"E5r-4X-WNV.title" = "Item 1";
+
+/* Class = "UILabel"; text = "Push"; ObjectID = "Kda-Lk-aAt"; */
+"Kda-Lk-aAt.text" = "Push";
+
+/* Class = "UILabel"; text = "push the web view controller in."; ObjectID = "LSh-pc-osX"; */
+"LSh-pc-osX.text" = "push the web view controller in.";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "O96-bZ-DiV"; */
+"O96-bZ-DiV.title" = "Item";
+
+/* Class = "UINavigationItem"; title = "AXWebViewController"; ObjectID = "bUd-Nc-6R5"; */
+"bUd-Nc-6R5.title" = "AXWebViewController";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "fZg-v3-Wbd"; */
+"fZg-v3-Wbd.title" = "Item";
+
+/* Class = "UILabel"; text = "present the web view controller in."; ObjectID = "vDR-sB-qKY"; */
+"vDR-sB-qKY.text" = "present the web view controller in.";
+
+/* Class = "UITabBarItem"; title = "Item 2"; ObjectID = "zOo-MN-831"; */
+"zOo-MN-831.title" = "Item 2";
