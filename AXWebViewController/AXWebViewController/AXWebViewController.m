@@ -220,6 +220,11 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     [super viewDidAppear:animated];
     
     [self updateNavigationItems];
+    
+    //----- SETUP DEVICE ORIENTATION CHANGE NOTIFICATION -----
+    UIDevice *device = [UIDevice currentDevice]; //Get the device object
+    [device beginGeneratingDeviceOrientationNotifications]; //Tell it to start monitoring the accelerometer for orientation
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification  object:device];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -236,6 +241,9 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && _showsToolBar && _navigationType == AXWebViewControllerNavigationToolItem) {
         [self.navigationController setToolbarHidden:YES animated:animated];
     }
+    
+    UIDevice *device = [UIDevice currentDevice]; //Get the device object
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:device];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -252,6 +260,18 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         return YES;
     
     return toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [self updateNavigationItems];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    if ([super respondsToSelector:@selector(viewWillTransitionToSize:withTransitionCoordinator:)]) {
+        [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    }
+    [self updateNavigationItems];
 }
 
 - (BOOL)navigationBar:(UINavigationBar *)navigationBar shouldPopItem:(UINavigationItem *)item {
@@ -1271,6 +1291,10 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
             break;
         }
     }
+}
+
+- (void)orientationChanged:(NSNotification *)note  {
+    [self updateNavigationItems];
 }
 @end
 
