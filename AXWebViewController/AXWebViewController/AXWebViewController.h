@@ -167,5 +167,9 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 ///
 /// @param error a failed loading error.
 - (void)didFailLoadWithError:(NSError *)error AX_REQUIRES_SUPER;
+/// Clear cache data of web view.
+///
+/// @param completion completion block.
++ (void)clearWebCacheCompletion:(dispatch_block_t)completion;
 @end
 NS_ASSUME_NONNULL_END

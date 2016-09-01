@@ -693,6 +693,31 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     [_progressView setProgress:0.9 animated:YES];
 }
 
++ (void)clearWebCacheCompletion:(dispatch_block_t)completion {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
+    NSSet *websiteDataTypes = [WKWebsiteDataStore allWebsiteDataTypes];
+    NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
+    [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:completion];
+#else
+    NSString *libraryDir = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)[0];
+    NSString *bundleId  =  [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIdentifier"];
+    NSString *webkitFolderInLib = [NSString stringWithFormat:@"%@/WebKit",libraryDir];
+    NSString *webKitFolderInCaches = [NSString stringWithFormat:@"%@/Caches/%@/WebKit",libraryDir,bundleId];
+    NSString *webKitFolderInCachesfs = [NSString stringWithFormat:@"%@/Caches/%@/fsCachedData",libraryDir,bundleId];
+    
+    NSError *error;
+    /* iOS8.0 WebView Cache path */
+    [[NSFileManager defaultManager] removeItemAtPath:webKitFolderInCaches error:&error];
+    [[NSFileManager defaultManager] removeItemAtPath:webkitFolderInLib error:nil];
+    
+    /* iOS7.0 WebView Cache path */
+    [[NSFileManager defaultManager] removeItemAtPath:webKitFolderInCachesfs error:&error];
+    if (completion) {
+        completion();
+    }
+#endif
+}
+
 #pragma mark - Actions
 - (void)goBackClicked:(UIBarButtonItem *)sender {
     [self willGoBack];
