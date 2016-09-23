@@ -84,6 +84,8 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 @interface UIProgressView (WebKit)
 /// Hidden when progress approach 1.0 Default is NO.
 @property(assign, nonatomic) BOOL ax_hiddenWhenProgressApproachFullSize;
+/// The web view controller.
+@property(strong, nonatomic) AXWebViewController *ax_webViewController;
 @end
 
 @interface AXWebViewController ()
@@ -93,6 +95,11 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 @property(strong, nonatomic) UIProgressView *progressView;
 @end
 #endif
+
+@interface _AXWebViewProgressView : NJKWebViewProgressView
+/// The view controller controller.
+@property(weak, nonatomic) AXWebViewController *webViewController;
+@end
 
 #ifndef kAX404NotFoundHTMLPath
 #define kAX404NotFoundHTMLPath [[NSBundle mainBundle] pathForResource:@"AXWebViewController.bundle/html.bundle/404" ofType:@"html"]
@@ -374,6 +381,9 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _progressView.trackTintColor = [UIColor clearColor];
     _progressView.ax_hiddenWhenProgressApproachFullSize = YES;
     _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    // Set the web view controller to progress view.
+    __weak typeof(self) wself = self;
+    _progressView.ax_webViewController = wself;
     return _progressView;
 }
 #else
@@ -490,6 +500,8 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     CGRect barFrame = CGRectMake(0, navigationBarBounds.size.height - progressBarHeight, navigationBarBounds.size.width, progressBarHeight);
     _progressView = [[NJKWebViewProgressView alloc] initWithFrame:barFrame];
     _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    // Set the web view controller to progress view.
+    _progressView.webViewController = self;
     return _progressView;
 }
 #endif
@@ -1369,6 +1381,12 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
                 self.hidden = YES;
                 self.progress = 0.0;
                 self.alpha = 1.0;
+                // Update the navigation itmes if the delegate is not being triggered.
+                if (self.ax_webViewController.navigationType == AXWebViewControllerNavigationBarItem) {
+                    [self.ax_webViewController updateNavigationItems];
+                } else {
+                    [self.ax_webViewController updateToolbarItems];
+                }
             }
         }];
     }
@@ -1381,5 +1399,27 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (void)setAx_hiddenWhenProgressApproachFullSize:(BOOL)ax_hiddenWhenProgressApproachFullSize {
     objc_setAssociatedObject(self, @selector(ax_hiddenWhenProgressApproachFullSize), @(ax_hiddenWhenProgressApproachFullSize), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
+
+- (AXWebViewController *)ax_webViewController {
+    return objc_getAssociatedObject(self, _cmd);
+}
+
+- (void)setAx_webViewController:(AXWebViewController *)ax_webViewController {
+    objc_setAssociatedObject(self, @selector(ax_webViewController), ax_webViewController, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
 @end
 #endif
+
+@implementation _AXWebViewProgressView
+- (void)setProgress:(float)progress animated:(BOOL)animated {
+    [super setProgress:progress animated:animated];
+    
+    if (progress >= 1.0) {
+        if (_webViewController.navigationType == AXWebViewControllerNavigationBarItem) {
+            [_webViewController updateNavigationItems];
+        } else {
+            [_webViewController updateToolbarItems];
+        }
+    }
+}
+@end
