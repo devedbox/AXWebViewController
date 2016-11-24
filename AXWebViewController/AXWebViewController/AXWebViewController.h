@@ -94,8 +94,18 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 @end
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
 @interface AXWebViewController : UIViewController <WKUIDelegate, WKNavigationDelegate>
+{
+    @protected
+    WKWebView *_webView;
+    NSURL *_URL;
+}
 #else
 @interface AXWebViewController : UIViewController <UIWebViewDelegate>
+{
+@protected
+    UIWebView *_webView;
+    NSURL *_URL;
+}
 #endif
 /// Delegate.
 @property(assign, nonatomic) id<AXWebViewControllerDelegate>delegate;

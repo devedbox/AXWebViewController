@@ -112,7 +112,6 @@ static NSString *const kAX404NotFoundURLKey = @"ax_404_not_found";
 static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 
 @implementation AXWebViewController
-@synthesize URL = _URL, webView = _webView;
 #pragma mark - Life cycle
 - (instancetype)initWithAddress:(NSString *)urlString {
     return [self initWithURL:[NSURL URLWithString:urlString]];
@@ -908,6 +907,23 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     if (!navigationAction.targetFrame.isMainFrame) {
         [webView evaluateJavaScript:@"var a = document.getElementsByTagName('a');for(var i=0;i<a.length;i++){a[i].setAttribute('target','');}" completionHandler:nil];
     }
+    // Resolve URL. Fixs the issue: https://github.com/devedbox/AXWebViewController/issues/7
+    NSURLComponents *components = [[NSURLComponents alloc] initWithString:webView.URL.absoluteString];
+    // For appstore.
+    if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/cn/app/'"] evaluateWithObject:webView.URL.absoluteString]) {
+        if ([[UIApplication sharedApplication] canOpenURL:webView.URL]) {
+            [[UIApplication sharedApplication] openURL:webView.URL];
+        }
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
+    } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http'"] evaluateWithObject:components.scheme]) {// For any other schema.
+        if ([[UIApplication sharedApplication] canOpenURL:webView.URL]) {
+            [[UIApplication sharedApplication] openURL:webView.URL];
+        }
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
+    }
+    
     // URL actions
     if ([navigationAction.request.URL.absoluteString isEqualToString:kAX404NotFoundURLKey] || [navigationAction.request.URL.absoluteString isEqualToString:kAXNetworkErrorURLKey]) {
         [self loadURL:_URL];
@@ -966,6 +982,21 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     // URL actions
     if ([request.URL.absoluteString isEqualToString:kAX404NotFoundURLKey] || [request.URL.absoluteString isEqualToString:kAXNetworkErrorURLKey]) {
         [self loadURL:_URL];
+    }
+    // Resolve URL. Fixs the issue: https://github.com/devedbox/AXWebViewController/issues/7
+    NSURLComponents *components = [[NSURLComponents alloc] initWithString:request.URL.absoluteString];
+    // For appstore.
+    if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/cn/app/'"] evaluateWithObject:request.URL.absoluteString]) {
+        if ([[UIApplication sharedApplication] canOpenURL:request.URL]) {
+            [[UIApplication sharedApplication] openURL:request.URL];
+        }
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return NO;
+    } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http'"] evaluateWithObject:components.scheme]) {// For any other schema.
+        if ([[UIApplication sharedApplication] canOpenURL:request.URL]) {
+            [[UIApplication sharedApplication] openURL:request.URL];
+        }
+        return NO;
     }
     switch (navigationType) {
         case UIWebViewNavigationTypeLinkClicked: {

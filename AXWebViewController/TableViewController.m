@@ -9,7 +9,7 @@
 #import "TableViewController.h"
 #import "AXWebViewController.h"
 
-@interface TableViewController ()
+@interface TableViewController () <UITextFieldDelegate>
 
 @end
 
@@ -66,5 +66,26 @@
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.100f green:0.100f blue:0.100f alpha:0.800f];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.996f green:0.867f blue:0.522f alpha:1.00f];
     [self.navigationController pushViewController:webVC animated:YES];
+}
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    // Get the text of text field.
+    NSString *text = [textField.text copy];
+    // Create an url object with the text string.
+    NSURL *URL = [NSURL URLWithString:text];
+    
+    if (URL) {
+        [self.view endEditing:YES];
+        
+        AXWebViewController *webVC = [[AXWebViewController alloc] initWithURL:URL];
+        webVC.showsToolBar = NO;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
+        webVC.webView.allowsLinkPreview = YES;
+#endif
+        [self.navigationController pushViewController:webVC animated:YES];
+    }
+    
+    return YES;
 }
 @end
