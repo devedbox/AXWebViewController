@@ -144,8 +144,8 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.automaticallyAdjustsScrollViewInsets = YES;
+    // Change auto just scroll view insets to NO to fix issue: https://github.com/devedbox/AXWebViewController/issues/10
+    self.automaticallyAdjustsScrollViewInsets = NO;
     self.extendedLayoutIncludesOpaqueBars = YES;
     /* Using contraints to view instead of bottom layout guide.
      self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
@@ -317,6 +317,19 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 #else
     _webView.delegate = nil;
 #endif
+}
+
+#pragma mark - Override.
+- (void)setAutomaticallyAdjustsScrollViewInsets:(BOOL)automaticallyAdjustsScrollViewInsets {
+    // Auto adjust scroll view content insets will always be false.
+    [super setAutomaticallyAdjustsScrollViewInsets:NO];
+    /*
+    // Remove web view from super view and then set up from beginning.
+    [self.view removeConstraints:self.view.constraints];
+    [_webView removeFromSuperview];
+    // Do set up web views.
+    [self setupSubviews];
+     */
 }
 
 #pragma mark - KVO
@@ -1215,7 +1228,15 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
     [self.view addSubview:self.webView];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView, topLayoutGuide, bottomLayoutGuide)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topLayoutGuide][_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView, topLayoutGuide, bottomLayoutGuide)]];
+    // Set the content inset of scroll view to the max y position of navigation bar to adjust scroll view content inset.
+    // To fix issue: https://github.com/devedbox/AXWebViewController/issues/10
+    /*
+    UIEdgeInsets contentInset = _webView.scrollView.contentInset;
+    contentInset.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
+    _webView.scrollView.contentInset = contentInset;
+     */
+    
     UIView *contentView = _webView.scrollView.subviews.firstObject;
     [contentView addSubview:self.backgroundLabel];
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_backgroundLabel(<=width)]" options:0 metrics:@{@"width":@([UIScreen mainScreen].bounds.size.width)} views:NSDictionaryOfVariableBindings(_backgroundLabel)]];
