@@ -929,7 +929,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         }
         decisionHandler(WKNavigationActionPolicyCancel);
         return;
-    } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http'"] evaluateWithObject:components.scheme]) {// For any other schema.
+    } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http' OR SELF MATCHES[cd] 'file'"] evaluateWithObject:components.scheme]) {// For any other schema.
         if ([[UIApplication sharedApplication] canOpenURL:webView.URL]) {
             [[UIApplication sharedApplication] openURL:webView.URL];
         }
