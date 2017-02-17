@@ -1291,7 +1291,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 
 - (void)updateNavigationItems {
     [self.navigationItem setLeftBarButtonItems:nil animated:NO];
-    if (self.webView.canGoBack) {// Web view can go back means a lot requests exist.
+    if (self.webView.canGoBack/* || self.webView.backForwardList.backItem*/) {// Web view can go back means a lot requests exist.
         UIBarButtonItem *spaceButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
         spaceButtonItem.width = -6.5;
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
@@ -1383,6 +1383,9 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 
 - (void)orientationChanged:(NSNotification *)note  {
+    // Update tool bar items of navigation tpye is tool item.
+    if (_navigationType == AXWebViewControllerNavigationToolItem) { [self updateToolbarItems]; return; }
+    // Otherwise update navigation items.
     [self updateNavigationItems];
 }
 @end
