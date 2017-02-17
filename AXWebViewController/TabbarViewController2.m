@@ -18,7 +18,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self loadURL:[NSURL URLWithString:@"https://www.baidu.com"]];
+//    [self loadURL:[NSURL URLWithString:@"https://www.baidu.com"]];
+    NSString *str = @"<p><a href=\"https://www.baidu.com\" target=\"_self\" title=\"https://www.baidu.com\">https://www.baidu.com</a><br/></p>";
+    
+    [self loadHTMLString:str baseURL:[NSURL URLWithString:@"https://www.baidu.com"]];
 }
 
 - (void)didReceiveMemoryWarning {
