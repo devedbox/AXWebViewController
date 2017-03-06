@@ -2,4 +2,3 @@ osx_image: xcode8.2
 language: objective-c
 xcode_workspace: AXWebViewController.xcworkspace
 xcode_scheme: AXWebViewController
-xcode_sdk: iphonesimulator
