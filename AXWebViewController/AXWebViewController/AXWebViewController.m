@@ -925,13 +925,21 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     // For appstore.
     if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/cn/app/'"] evaluateWithObject:webView.URL.absoluteString]) {
         if ([[UIApplication sharedApplication] canOpenURL:webView.URL]) {
-            [[UIApplication sharedApplication] openURL:webView.URL];
+            if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
+                [UIApplication.sharedApplication openURL:webView.URL options:@{} completionHandler:NULL];
+            } else {
+                [[UIApplication sharedApplication] openURL:webView.URL];
+            }
         }
         decisionHandler(WKNavigationActionPolicyCancel);
         return;
     } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http' OR SELF MATCHES[cd] 'file'"] evaluateWithObject:components.scheme]) {// For any other schema.
         if ([[UIApplication sharedApplication] canOpenURL:webView.URL]) {
-            [[UIApplication sharedApplication] openURL:webView.URL];
+            if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
+                [UIApplication.sharedApplication openURL:webView.URL options:@{} completionHandler:NULL];
+            } else {
+                [[UIApplication sharedApplication] openURL:webView.URL];
+            }
         }
         decisionHandler(WKNavigationActionPolicyCancel);
         return;
@@ -1001,13 +1009,20 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     // For appstore.
     if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/cn/app/'"] evaluateWithObject:request.URL.absoluteString]) {
         if ([[UIApplication sharedApplication] canOpenURL:request.URL]) {
-            [[UIApplication sharedApplication] openURL:request.URL];
+            if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
+                [UIApplication.sharedApplication openURL:request.URL options:@{} completionHandler:NULL];
+            } else {
+                [[UIApplication sharedApplication] openURL:request.URL];
+            }
         }
-        decisionHandler(WKNavigationActionPolicyCancel);
         return NO;
     } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http'"] evaluateWithObject:components.scheme]) {// For any other schema.
         if ([[UIApplication sharedApplication] canOpenURL:request.URL]) {
-            [[UIApplication sharedApplication] openURL:request.URL];
+            if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
+                [UIApplication.sharedApplication openURL:request.URL options:@{} completionHandler:NULL];
+            } else {
+                [[UIApplication sharedApplication] openURL:request.URL];
+            }
         }
         return NO;
     }
