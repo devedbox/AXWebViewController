@@ -923,7 +923,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     // Resolve URL. Fixs the issue: https://github.com/devedbox/AXWebViewController/issues/7
     NSURLComponents *components = [[NSURLComponents alloc] initWithString:webView.URL.absoluteString];
     // For appstore.
-    if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/cn/app/'"] evaluateWithObject:webView.URL.absoluteString]) {
+    if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/cn/app/' OR SELF BEGINSWITH[cd] 'mailto:'"] evaluateWithObject:webView.URL.absoluteString]) {
         if ([[UIApplication sharedApplication] canOpenURL:webView.URL]) {
             if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
                 [UIApplication.sharedApplication openURL:webView.URL options:@{} completionHandler:NULL];
@@ -1007,7 +1007,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     // Resolve URL. Fixs the issue: https://github.com/devedbox/AXWebViewController/issues/7
     NSURLComponents *components = [[NSURLComponents alloc] initWithString:request.URL.absoluteString];
     // For appstore.
-    if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/cn/app/'"] evaluateWithObject:request.URL.absoluteString]) {
+    if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/cn/app/' OR SELF BEGINSWITH[cd] 'mailto:'"] evaluateWithObject:request.URL.absoluteString]) {
         if ([[UIApplication sharedApplication] canOpenURL:request.URL]) {
             if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
                 [UIApplication.sharedApplication openURL:request.URL options:@{} completionHandler:NULL];
