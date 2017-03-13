@@ -101,6 +101,7 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 @property(weak, nonatomic) AXWebViewController *webViewController;
 @end
 
+// Fixed issue: https://github.com/devedbox/AXWebViewController/issues/21
 #ifndef kAX404NotFoundHTMLPath
 #define kAX404NotFoundHTMLPath [[NSBundle bundleForClass:NSClassFromString(@"AXWebViewController")] pathForResource:@"AXWebViewController.bundle/html.bundle/404" ofType:@"html"]
 #endif
