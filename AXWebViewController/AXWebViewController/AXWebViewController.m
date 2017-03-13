@@ -102,10 +102,10 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 @end
 
 #ifndef kAX404NotFoundHTMLPath
-#define kAX404NotFoundHTMLPath [[NSBundle mainBundle] pathForResource:@"AXWebViewController.bundle/html.bundle/404" ofType:@"html"]
+#define kAX404NotFoundHTMLPath [[NSBundle bundleForClass:NSClassFromString(@"AXWebViewController")] pathForResource:@"AXWebViewController.bundle/html.bundle/404" ofType:@"html"]
 #endif
 #ifndef kAXNetworkErrorHTMLPath
-#define kAXNetworkErrorHTMLPath [[NSBundle mainBundle] pathForResource:@"AXWebViewController.bundle/html.bundle/neterror" ofType:@"html"]
+#define kAXNetworkErrorHTMLPath [[NSBundle bundleForClass:NSClassFromString(@"AXWebViewController")] pathForResource:@"AXWebViewController.bundle/html.bundle/neterror" ofType:@"html"]
 #endif
 
 static NSString *const kAX404NotFoundURLKey = @"ax_404_not_found";

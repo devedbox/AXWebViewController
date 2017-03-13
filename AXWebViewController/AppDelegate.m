@@ -24,6 +24,10 @@
     [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"back_indicator"]];
     [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"back_indicator"]];
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -2) forBarMetrics:UIBarMetricsDefault];
+    /*
+    NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"AXWebViewController")];
+    NSString *bundlePath = [bundle pathForResource:@"AXWebViewController.bundle/html.bundle/404" ofType:@"html"];
+     */
     
     return YES;
 }
