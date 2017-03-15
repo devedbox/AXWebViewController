@@ -22,6 +22,7 @@
 		01CDC1511C2A3C9100D9AF53 /* AXWebViewController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 01CDC1501C2A3C9100D9AF53 /* AXWebViewController.bundle */; };
 		01CDC15D1C2A41DF00D9AF53 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01CDC15C1C2A41DF00D9AF53 /* TableViewController.m */; };
 		97F6BE6D557C0BB485DDCF88 /* libPods-AXWebViewController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2642E682614F41BF460E7673 /* libPods-AXWebViewController.a */; };
+		DCCF48241E7987C9009CF38E /* Swift.pdf in Resources */ = {isa = PBXBuildFile; fileRef = DCCF48231E7987C9009CF38E /* Swift.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		0326F0589F0B7F449EE39607 /* Pods-AXWebViewController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AXWebViewController.release.xcconfig"; path = "Pods/Target Support Files/Pods-AXWebViewController/Pods-AXWebViewController.release.xcconfig"; sourceTree = "<group>"; };
 		2642E682614F41BF460E7673 /* libPods-AXWebViewController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AXWebViewController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B7311EC599653BFAAF42107 /* Pods-AXWebViewController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AXWebViewController.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AXWebViewController/Pods-AXWebViewController.debug.xcconfig"; sourceTree = "<group>"; };
+		DCCF48231E7987C9009CF38E /* Swift.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Swift.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 				01AA4F1B1D4F28DD008F2A2C /* TabbarViewController2.m */,
 				01513C081C28F90300CB8238 /* AXWebViewController */,
 				01513BF71C28F70700CB8238 /* Main.storyboard */,
+				DCCF48231E7987C9009CF38E /* Swift.pdf */,
 				01513BFA1C28F70700CB8238 /* Assets.xcassets */,
 				01513BFC1C28F70700CB8238 /* LaunchScreen.storyboard */,
 				01513BFF1C28F70700CB8238 /* Info.plist */,
@@ -224,6 +227,7 @@
 				01CDC1511C2A3C9100D9AF53 /* AXWebViewController.bundle in Resources */,
 				01513BFE1C28F70700CB8238 /* LaunchScreen.storyboard in Resources */,
 				01513BFB1C28F70700CB8238 /* Assets.xcassets in Resources */,
+				DCCF48241E7987C9009CF38E /* Swift.pdf in Resources */,
 				01513BF91C28F70700CB8238 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

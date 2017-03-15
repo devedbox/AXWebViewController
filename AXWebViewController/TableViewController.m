@@ -36,7 +36,7 @@
     switch (indexPath.row) {
         case 0:
         {
-            AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://www.baidu.com"];
+            AXWebViewController *webVC = [[AXWebViewController alloc] initWithURL:[NSURL fileURLWithPath:[NSBundle.mainBundle pathForResource:@"Swift" ofType:@"pdf"]]];
             webVC.showsToolBar = NO;
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
             webVC.webView.allowsLinkPreview = YES;
@@ -45,6 +45,16 @@
         }
             break;
         case 1:
+        {
+            AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://www.baidu.com"];
+            webVC.showsToolBar = NO;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
+            webVC.webView.allowsLinkPreview = YES;
+#endif
+            [self.navigationController pushViewController:webVC animated:YES];
+        }
+            break;
+        case 2:
         {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://www.baidu.com"];
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
