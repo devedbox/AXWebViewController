@@ -146,13 +146,14 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     // Change auto just scroll view insets to NO to fix issue: https://github.com/devedbox/AXWebViewController/issues/10
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.extendedLayoutIncludesOpaqueBars = YES;
     /* Using contraints to view instead of bottom layout guide.
      self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
      */
-    
+#endif
     [self setupSubviews];
     
     if (_URL) {
