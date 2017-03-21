@@ -30,10 +30,14 @@
 #define __IPHONE_9_0      90000
 #endif
 
+#ifndef AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+#define AX_WEB_VIEW_CONTROLLER_USING_WEBKIT __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#endif
+
 #import <UIKit/UIKit.h>
 #import <NJKWebViewProgress/NJKWebViewProgress.h>
 #import <NJKWebViewProgress/NJKWebViewProgressView.h>
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 #import <WebKit/WebKit.h>
 #endif
 #ifndef AX_REQUIRES_SUPER
@@ -92,7 +96,7 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 /// @param error a failed loading error.
 - (void)webViewController:(AXWebViewController *)webViewController didFailLoadWithError:(NSError *)error;
 @end
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 @interface AXWebViewController : UIViewController <WKUIDelegate, WKNavigationDelegate>
 {
     @protected
@@ -109,7 +113,7 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 #endif
 /// Delegate.
 @property(assign, nonatomic) id<AXWebViewControllerDelegate>delegate;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 /// WebKit web view.
 @property(readonly, nonatomic) WKWebView *webView;
 #else

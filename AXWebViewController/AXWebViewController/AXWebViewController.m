@@ -86,7 +86,7 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 #endif
 @end
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 @interface UIProgressView (WebKit)
 /// Hidden when progress approach 1.0 Default is NO.
 @property(assign, nonatomic) BOOL ax_hiddenWhenProgressApproachFullSize;
@@ -309,7 +309,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (void)dealloc {
     [_webView stopLoading];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     _webView.UIDelegate = nil;
     _webView.navigationDelegate = nil;
     [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
@@ -349,7 +349,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
             [_progressView setProgress:progress animated:NO];
         }
     } else if ([keyPath isEqualToString:@"backgroundColor"]) {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
         /*
          if (![_webView.scrollView.backgroundColor isEqual:[UIColor clearColor]]) {
          _webView.scrollView.backgroundColor = [UIColor clearColor];
@@ -362,7 +362,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 
 #pragma mark - Getters
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 - (WKWebView *)webView {
     if (_webView) return _webView;
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
@@ -588,7 +588,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 #pragma mark - Public
 - (void)loadURL:(NSURL *)pageURL {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:pageURL];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     _navigation = [_webView loadRequest:request];
 #else
     request.timeoutInterval = _timeoutInternal;
@@ -599,7 +599,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (void)loadHTMLString:(NSString *)HTMLString baseURL:(NSURL *)baseURL {
     _baseURL = baseURL;
     _HTMLString = HTMLString;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     _navigation = [_webView loadHTMLString:HTMLString baseURL:baseURL];
 #else
     [_webView loadHTMLString:HTMLString baseURL:baseURL];
@@ -647,7 +647,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
      */
 }
 - (void)didFinishLoad{
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     @try {
         [self hookWebContentCommitPreviewHandler];
     } @catch (NSException *exception) {
@@ -663,7 +663,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         [self updateToolbarItems];
     }
     NSString *title;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     title = [_webView title];
     if (title.length > 10) {
         title = [[title substringToIndex:9] stringByAppendingString:@"…"];
@@ -678,7 +678,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *bundle = ([infoDictionary objectForKey:@"CFBundleDisplayName"]?:[infoDictionary objectForKey:@"CFBundleName"])?:[infoDictionary objectForKey:@"CFBundleIdentifier"];
     NSString *host;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     host = _webView.URL.host;
 #else
     host = _webView.request.URL.host;
@@ -722,7 +722,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 
 + (void)clearWebCacheCompletion:(dispatch_block_t)completion {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     NSSet *websiteDataTypes = [WKWebsiteDataStore allWebsiteDataTypes];
     NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
     [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:completion];
@@ -749,7 +749,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 #pragma mark - Actions
 - (void)goBackClicked:(UIBarButtonItem *)sender {
     [self willGoBack];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     if ([_webView canGoBack]) {
         _navigation = [_webView goBack];
     }
@@ -761,7 +761,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 - (void)goForwardClicked:(UIBarButtonItem *)sender {
     [self willGoForward];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     if ([_webView canGoForward]) {
         _navigation = [_webView goForward];
     }
@@ -773,7 +773,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 - (void)reloadClicked:(UIBarButtonItem *)sender {
     [self willReload];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     _navigation = [_webView reload];
 #else
     [_webView reload];
@@ -781,7 +781,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 - (void)stopClicked:(UIBarButtonItem *)sender {
     [self willStop];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     [_webView stopLoading];
 #else
     [_webView stopLoading];
@@ -791,7 +791,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (void)actionButtonClicked:(id)sender {
     NSArray *activities = @[[AXWebViewControllerActivitySafari new], [AXWebViewControllerActivityChrome new]];
     NSURL *URL;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     URL = _webView.URL;
 #else
     URL = _webView.request.URL;
@@ -801,7 +801,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 
 - (void)navigationItemHandleBack:(UIBarButtonItem *)sender {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     if ([_webView canGoBack]) {
         _navigation = [_webView goBack];
         return;
@@ -840,7 +840,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 #endif
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 #pragma mark - WKUIDelegate
 - (nullable WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {
     WKFrameInfo *frameInfo = navigationAction.targetFrame;
@@ -1244,7 +1244,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     id bottomLayoutGuide = self.bottomLayoutGuide;
     
     // Add web view.
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     [self.view addSubview:self.webView];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topLayoutGuide][_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView, topLayoutGuide, bottomLayoutGuide)]];
@@ -1409,7 +1409,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 @end
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 @implementation UIProgressView (WebKit)
 + (void)load {
     static dispatch_once_t onceToken;
