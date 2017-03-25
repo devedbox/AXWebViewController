@@ -1480,7 +1480,8 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 
 - (void)setAx_webViewController:(AXWebViewController *)ax_webViewController {
-    objc_setAssociatedObject(self, @selector(ax_webViewController), ax_webViewController, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    // Using assign to fix issue: https://github.com/devedbox/AXWebViewController/issues/23
+    objc_setAssociatedObject(self, @selector(ax_webViewController), ax_webViewController, OBJC_ASSOCIATION_ASSIGN);
 }
 @end
 #endif
