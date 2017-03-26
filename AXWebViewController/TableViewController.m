@@ -63,6 +63,22 @@
             webVC.navigationType = 1;
         }
             break;
+        case 3: {
+            AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"https://github.com/devedbox/AXWebViewController"];
+            webVC.showsToolBar = NO;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
+            webVC.webView.allowsLinkPreview = YES;
+#endif
+            [self.navigationController pushViewController:webVC animated:YES];
+        } break;
+        case 4: {
+            AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"https://github.com/devedbox/AXWebViewController/releases/latest"];
+            webVC.showsToolBar = NO;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
+            webVC.webView.allowsLinkPreview = YES;
+#endif
+            [self.navigationController pushViewController:webVC animated:YES];
+        } break;
         default:
             break;
     }
