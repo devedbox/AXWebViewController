@@ -78,6 +78,15 @@
     [self.navigationController pushViewController:webVC animated:YES];
 }
 
+- (IBAction)gotoGithub:(id)sender {
+    AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"https://github.com/devedbox/AXWebViewController"];
+    webVC.showsToolBar = NO;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
+    webVC.webView.allowsLinkPreview = YES;
+#endif
+    [self.navigationController pushViewController:webVC animated:YES];
+}
+
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     // Get the text of text field.

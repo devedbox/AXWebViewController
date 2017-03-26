@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="xqI-m0-UFh">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="xqI-m0-UFh">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -93,6 +93,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="cN9-Vb-hwV">
+                            <rect key="frame" x="0.0" y="185" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CyT-pG-4Mi">
+                                    <rect key="frame" x="165" y="7" width="44" height="30"/>
+                                    <state key="normal" title="github"/>
+                                    <connections>
+                                        <action selector="gotoGithub:" destination="5rv-UB-EIk" eventType="touchUpInside" id="kB0-pz-Gjb"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="CyT-pG-4Mi" firstAttribute="centerY" secondItem="cN9-Vb-hwV" secondAttribute="centerY" id="hmV-91-VYd"/>
+                                <constraint firstItem="CyT-pG-4Mi" firstAttribute="centerX" secondItem="cN9-Vb-hwV" secondAttribute="centerX" id="x7K-7e-8PO"/>
+                            </constraints>
+                        </view>
                         <sections>
                             <tableViewSection id="fQZ-lc-Ako">
                                 <cells>
