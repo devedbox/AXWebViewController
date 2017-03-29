@@ -27,7 +27,7 @@
 
 @implementation AXWebViewControllerActivitySafari
 - (NSString *)activityTitle {
-    return NSLocalizedStringFromTable(@"Open in Safari", @"AXWebViewController", nil);
+    return AXWebViewControllerLocalizedString(@"OpenInSafari", @"Open in Safari");
 }
 
 - (BOOL)canPerformWithActivityItems:(NSArray *)activityItems {
