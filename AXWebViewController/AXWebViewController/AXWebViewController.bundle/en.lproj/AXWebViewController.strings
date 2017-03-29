@@ -19,3 +19,6 @@
 "confirm" = "Confirm";
 "input" = "Input text content";
 "terminate" = "Web content process did terminate";
+
+"OpenInChrome" = "Open in Chrome";
+"OpenInSafari" = "Open in Safari";

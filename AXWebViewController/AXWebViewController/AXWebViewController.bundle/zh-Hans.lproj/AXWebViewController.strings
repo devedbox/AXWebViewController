@@ -19,3 +19,6 @@
 "confirm" = "确定";
 "input" = "输入文字消息";
 "terminate" = "网页进程终止";
+
+"OpenInChrome" = "在Chrome中打开";
+"OpenInSafari" = "在Safari中打开";
