@@ -25,6 +25,11 @@
 
 #import <UIKit/UIKit.h>
 
+#ifndef AXWebViewControllerLocalizedString
+#define AXWebViewControllerLocalizedString(key, comment) \
+NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundleWithPath:[[[NSBundle bundleForClass:NSClassFromString(@"AXWebViewController")] resourcePath] stringByAppendingPathComponent:@"AXWebViewController.bundle"]], comment)
+#endif
+
 @interface AXWebViewControllerActivity : UIActivity
 /// URL to open.
 @property (nonatomic, strong) NSURL *URL;
