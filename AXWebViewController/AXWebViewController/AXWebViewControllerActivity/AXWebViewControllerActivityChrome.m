@@ -31,7 +31,7 @@
 }
 
 - (NSString *)activityTitle {
-    return NSLocalizedStringFromTable(@"Open in Chrome", @"AXWebViewController", nil);
+    return AXWebViewControllerLocalizedString(@"OpenInChrome", @"Open in Chrome");
 }
 
 - (BOOL)canPerformWithActivityItems:(NSArray *)activityItems {
