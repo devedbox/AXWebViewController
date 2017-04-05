@@ -41,6 +41,9 @@
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
             webVC.webView.allowsLinkPreview = YES;
 #endif
+            webVC.webViewEdgeTop = 60.0;
+            webVC.webViewEdgeBottom = 60.0;
+
             [self.navigationController pushViewController:webVC animated:YES];
         }
             break;
@@ -66,6 +69,9 @@
         case 3: {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"https://github.com/devedbox/AXWebViewController"];
             webVC.showsToolBar = NO;
+            webVC.hiddenTopUrlLabel = NO;
+            webVC.webViewEdgeTop = 60.0;
+            webVC.webViewEdgeBottom = 60.0;
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
             webVC.webView.allowsLinkPreview = YES;
 #endif
