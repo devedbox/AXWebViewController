@@ -548,6 +548,10 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     [_backgroundLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     return _backgroundLabel;
 }
+
+- (UILabel *)descriptionLabel {
+    return self.backgroundLabel;
+}
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
 -(UIView*)swipingBackgoundView{
     if (!_swipingBackgoundView) {

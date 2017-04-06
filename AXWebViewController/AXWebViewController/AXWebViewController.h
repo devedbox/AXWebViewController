@@ -195,4 +195,13 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 /// @param completion completion block.
 + (void)clearWebCacheCompletion:(dispatch_block_t)completion;
 @end
+
+/**
+ Accessibility to background label.
+ */
+@interface AXWebViewController (BackgroundLabel)
+/// Description label of web content's info.
+///
+@property(readonly, nonatomic) UILabel *descriptionLabel;
+@end
 NS_ASSUME_NONNULL_END
