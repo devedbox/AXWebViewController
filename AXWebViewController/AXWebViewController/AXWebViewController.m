@@ -47,6 +47,9 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
     
     NSString *_HTMLString;
     NSURL *_baseURL;
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    WKWebViewConfiguration *_configuration;
+#endif
 }
 /// Back bar button item of tool bar.
 @property(strong, nonatomic) UIBarButtonItem *backBarButtonItem;
@@ -130,6 +133,15 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     }
     return self;
 }
+
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+- (instancetype)initWithURL:(NSURL *)URL configuration:(WKWebViewConfiguration *)configuration {
+    if (self = [self initWithURL:URL]) {
+        _configuration = configuration;
+    }
+    return self;
+}
+#endif
 
 - (instancetype)initWithHTMLString:(NSString *)HTMLString baseURL:(NSURL *)baseURL {
     if (self = [super init]) {
@@ -366,16 +378,19 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 - (WKWebView *)webView {
     if (_webView) return _webView;
-    WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-    config.preferences.minimumFontSize = 9.0;
+    WKWebViewConfiguration *config = _configuration;
+    if (!config) {
+        config = [[WKWebViewConfiguration alloc] init];
+        config.preferences.minimumFontSize = 9.0;
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_9_0
-    if ([config respondsToSelector:@selector(setApplicationNameForUserAgent:)]) {
-        [config setApplicationNameForUserAgent:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]];
-    }
-    if ([config respondsToSelector:@selector(setAllowsInlineMediaPlayback:)]) {
-        [config setAllowsInlineMediaPlayback:YES];
-    }
+        if ([config respondsToSelector:@selector(setApplicationNameForUserAgent:)]) {
+            [config setApplicationNameForUserAgent:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]];
+        }
+        if ([config respondsToSelector:@selector(setAllowsInlineMediaPlayback:)]) {
+            [config setAllowsInlineMediaPlayback:YES];
+        }
 #endif
+    }
     _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
     _webView.allowsBackForwardNavigationGestures = YES;
     _webView.backgroundColor = [UIColor clearColor];
