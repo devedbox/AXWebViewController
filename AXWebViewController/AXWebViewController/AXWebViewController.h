@@ -128,6 +128,12 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 @property(readonly, nonatomic) NSURL *URL;
 /// Shows tool bar.
 @property(assign, nonatomic) BOOL showsToolBar;
+/// Shows tool bar.
+@property(assign, nonatomic) BOOL hiddenTopUrlLabel;
+/// webviewEdgeTop.
+@property(assign, nonatomic) CGFloat webViewEdgeTop;
+/// webviewEdgebottom.
+@property(assign, nonatomic) CGFloat webViewEdgeBottom;
 /// Navigation type.
 @property(assign, nonatomic) AXWebViewControllerNavigationType navigationType;
 /// Get a instance of `AXWebViewController` by a url string.

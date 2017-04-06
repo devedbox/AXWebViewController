@@ -399,6 +399,8 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _webView.translatesAutoresizingMaskIntoConstraints = NO;
     _webView.UIDelegate = self;
     _webView.navigationDelegate = self;
+    _webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(_webViewEdgeTop, 0, _webViewEdgeBottom, 0);
+    _webView.scrollView.contentInset = UIEdgeInsetsMake(_webViewEdgeTop, 0, _webViewEdgeBottom, 0);
     return _webView;
 }
 
@@ -546,6 +548,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _backgroundLabel.backgroundColor = [UIColor clearColor];
     _backgroundLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_backgroundLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    _backgroundLabel.hidden = _hiddenTopUrlLabel;
     return _backgroundLabel;
 }
 
@@ -604,7 +607,21 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         [self updateToolbarItems];
     }
 }
-
+#pragma mark - Setters
+- (void)setWebViewEdgeTop:(CGFloat)webViewEdgeTop{
+    self.webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(webViewEdgeTop, 0, _webViewEdgeBottom, 0);
+    self.webView.scrollView.contentInset = UIEdgeInsetsMake(webViewEdgeTop, 0, _webViewEdgeBottom, 0);
+    _webViewEdgeTop = webViewEdgeTop;
+}
+- (void)setWebViewEdgeBottom:(CGFloat)webViewEdgeBottom{
+    self.webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(_webViewEdgeTop, 0, webViewEdgeBottom, 0);
+    self.webView.scrollView.contentInset = UIEdgeInsetsMake(_webViewEdgeTop, 0, webViewEdgeBottom, 0);
+    _webViewEdgeBottom = webViewEdgeBottom;
+}
+- (void)setHiddenTopUrlLabel:(BOOL)hiddenTopUrlLabel{
+    self.backgroundLabel.hidden = hiddenTopUrlLabel;
+    _hiddenTopUrlLabel = hiddenTopUrlLabel;
+}
 #pragma mark - Public
 - (void)loadURL:(NSURL *)pageURL {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:pageURL];
