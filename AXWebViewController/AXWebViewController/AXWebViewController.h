@@ -169,6 +169,9 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 /// @param HTMLString a encoded html string.
 /// @param baseURL base url of bundle.
 - (void)loadHTMLString:(NSString *)HTMLString baseURL:(NSURL *)baseURL;
+@end
+
+@interface AXWebViewController (SubclassingHooks)
 /// Called when web view will go back. Do not call this directly. Same to the bottom methods.
 /// @discussion 使用的时候需要子类化，并且调用super的方法!切记！！！
 ///
