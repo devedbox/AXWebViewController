@@ -55,6 +55,8 @@
 		0326F0589F0B7F449EE39607 /* Pods-AXWebViewController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AXWebViewController.release.xcconfig"; path = "Pods/Target Support Files/Pods-AXWebViewController/Pods-AXWebViewController.release.xcconfig"; sourceTree = "<group>"; };
 		2642E682614F41BF460E7673 /* libPods-AXWebViewController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AXWebViewController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B7311EC599653BFAAF42107 /* Pods-AXWebViewController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AXWebViewController.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AXWebViewController/Pods-AXWebViewController.debug.xcconfig"; sourceTree = "<group>"; };
+		A13CC1551E977227003AC1B2 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
+		A13CC1561E977227003AC1B2 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		DCCF48231E7987C9009CF38E /* Swift.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Swift.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -196,7 +198,7 @@
 				TargetAttributes = {
 					01513BEA1C28F70700CB8238 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = TKA48YVS5T;
+						DevelopmentTeam = E5EPLTYPR9;
 					};
 				};
 			};
@@ -307,6 +309,7 @@
 			children = (
 				01513BF81C28F70700CB8238 /* Base */,
 				013513EA1D60B83D003BDCEA /* zh-Hans */,
+				A13CC1551E977227003AC1B2 /* zh-Hant */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 			children = (
 				01513BFD1C28F70700CB8238 /* Base */,
 				013513EB1D60B83D003BDCEA /* zh-Hans */,
+				A13CC1561E977227003AC1B2 /* zh-Hant */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -408,7 +412,7 @@
 			baseConfigurationReference = 3B7311EC599653BFAAF42107 /* Pods-AXWebViewController.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = TKA48YVS5T;
+				DEVELOPMENT_TEAM = E5EPLTYPR9;
 				INFOPLIST_FILE = AXWebViewController/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -423,7 +427,7 @@
 			baseConfigurationReference = 0326F0589F0B7F449EE39607 /* Pods-AXWebViewController.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = TKA48YVS5T;
+				DEVELOPMENT_TEAM = E5EPLTYPR9;
 				INFOPLIST_FILE = AXWebViewController/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

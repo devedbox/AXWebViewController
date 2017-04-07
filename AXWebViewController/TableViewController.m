@@ -66,6 +66,7 @@
         case 3: {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"https://github.com/devedbox/AXWebViewController"];
             webVC.showsToolBar = NO;
+            webVC.showsBackgroundLabel = NO;
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
             webVC.webView.allowsLinkPreview = YES;
 #endif
