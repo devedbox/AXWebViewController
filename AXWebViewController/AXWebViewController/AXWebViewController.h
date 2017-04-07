@@ -34,6 +34,10 @@
 #define AX_WEB_VIEW_CONTROLLER_USING_WEBKIT __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
 #endif
 
+#ifndef AX_WEB_VIEW_CONTROLLER_DEFINES_PROXY
+#define AX_WEB_VIEW_CONTROLLER_DEFINES_PROXY AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+#endif
+
 #import <UIKit/UIKit.h>
 #import <NJKWebViewProgress/NJKWebViewProgress.h>
 #import <NJKWebViewProgress/NJKWebViewProgressView.h>
