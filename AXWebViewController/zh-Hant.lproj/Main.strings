@@ -1,0 +1,45 @@
+
+/* Class = "UILabel"; text = "Present"; ObjectID = "58i-qo-HOo"; */
+"58i-qo-HOo.text" = "Present";
+
+/* Class = "UILabel"; text = "Github pages of AXWebViewController."; ObjectID = "96P-Cp-yAs"; */
+"96P-Cp-yAs.text" = "Github pages of AXWebViewController.";
+
+/* Class = "UITabBarItem"; title = "Item 1"; ObjectID = "E5r-4X-WNV"; */
+"E5r-4X-WNV.title" = "Item 1";
+
+/* Class = "UILabel"; text = "Lastest release pages of AXWebViewController."; ObjectID = "IH4-tk-BHC"; */
+"IH4-tk-BHC.text" = "Lastest release pages of AXWebViewController.";
+
+/* Class = "UILabel"; text = "File"; ObjectID = "Kda-Lk-aAt"; */
+"Kda-Lk-aAt.text" = "File";
+
+/* Class = "UILabel"; text = "push the web view controller in showing file at the bundle."; ObjectID = "LSh-pc-osX"; */
+"LSh-pc-osX.text" = "push the web view controller in showing file at the bundle.";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "O96-bZ-DiV"; */
+"O96-bZ-DiV.title" = "Item";
+
+/* Class = "UILabel"; text = "Lastest release"; ObjectID = "Zyx-H3-mt5"; */
+"Zyx-H3-mt5.text" = "Lastest release";
+
+/* Class = "UILabel"; text = "Github"; ObjectID = "bBD-du-OYx"; */
+"bBD-du-OYx.text" = "Github";
+
+/* Class = "UILabel"; text = "push the web view controller in."; ObjectID = "c1w-bj-kxv"; */
+"c1w-bj-kxv.text" = "push the web view controller in.";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "fZg-v3-Wbd"; */
+"fZg-v3-Wbd.title" = "Item";
+
+/* Class = "UILabel"; text = "Push"; ObjectID = "jPO-kr-MDH"; */
+"jPO-kr-MDH.text" = "Push";
+
+/* Class = "UITextField"; placeholder = "Input an address."; ObjectID = "mDR-r7-p1o"; */
+"mDR-r7-p1o.placeholder" = "Input an address.";
+
+/* Class = "UILabel"; text = "present the web view controller in."; ObjectID = "vDR-sB-qKY"; */
+"vDR-sB-qKY.text" = "present the web view controller in.";
+
+/* Class = "UITabBarItem"; title = "Item 2"; ObjectID = "zOo-MN-831"; */
+"zOo-MN-831.title" = "Item 2";

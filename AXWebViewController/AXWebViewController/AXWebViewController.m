@@ -130,6 +130,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
 #endif
         _showsToolBar = YES;
+        _showsBackgroundLabel = YES;
     }
     return self;
 }
@@ -152,6 +153,8 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
 #endif
         _showsToolBar = YES;
+        _showsBackgroundLabel = YES;
+
     }
     return self;
 }
@@ -546,6 +549,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _backgroundLabel.backgroundColor = [UIColor clearColor];
     _backgroundLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_backgroundLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    _backgroundLabel.hidden = !self.showsBackgroundLabel;
     return _backgroundLabel;
 }
 
@@ -582,6 +586,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     return _swipePanGesture;
 }
 #endif
+#pragma mark - Setter
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
 - (void)setTimeoutInternal:(NSTimeInterval)timeoutInternal {
     _timeoutInternal = timeoutInternal;
@@ -604,6 +609,11 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         [self updateToolbarItems];
     }
 }
+- (void)setShowsBackgroundLabel:(BOOL)showsBackgroundLabel{
+    _backgroundLabel.hidden = !showsBackgroundLabel;
+    _showsBackgroundLabel = showsBackgroundLabel;
+}
+
 
 #pragma mark - Public
 - (void)loadURL:(NSURL *)pageURL {
