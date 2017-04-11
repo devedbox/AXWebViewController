@@ -355,6 +355,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 #else
     _webView.delegate = nil;
 #endif
+    // NSLog(@"One of AXWebViewController's instances was destroyed.");
 }
 
 #pragma mark - Override.
