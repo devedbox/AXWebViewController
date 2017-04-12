@@ -1247,7 +1247,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
             [self.previousSnapshotView removeFromSuperview];
             [self.swipingBackgoundView removeFromSuperview];
             [self.currentSnapshotView removeFromSuperview];
-            [self.webView goBack];
+            [self goBackClicked];
             [self.snapshots removeLastObject];
             self.view.userInteractionEnabled = YES;
             
