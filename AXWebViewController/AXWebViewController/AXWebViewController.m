@@ -118,19 +118,53 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 
 @implementation AXWebViewController
 #pragma mark - Life cycle
+- (instancetype)init {
+    if (self = [super init]) {
+        [self initializer];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
+        [self initializer];
+    }
+    return self;
+}
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        [self initializer];
+    }
+    return self;
+}
+
+- (void)initializer {
+    // Set up default values.
+    _showsToolBar = YES;
+    _showsBackgroundLabel = YES;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+    _timeoutInternal = 10.0;
+    _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
+#endif
+    
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    // Change auto just scroll view insets to NO to fix issue: https://github.com/devedbox/AXWebViewController/issues/10
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.extendedLayoutIncludesOpaqueBars = YES;
+    /* Using contraints to view instead of bottom layout guide.
+     self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
+     */
+#endif
+}
+
 - (instancetype)initWithAddress:(NSString *)urlString {
     return [self initWithURL:[NSURL URLWithString:urlString]];
 }
 
 - (instancetype)initWithURL:(NSURL*)pageURL {
-    if(self = [super init]) {
+    if(self = [self init]) {
         _URL = pageURL;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-        _timeoutInternal = 10.0;
-        _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
-#endif
-        _showsToolBar = YES;
-        _showsBackgroundLabel = YES;
     }
     return self;
 }
@@ -145,30 +179,16 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 #endif
 
 - (instancetype)initWithHTMLString:(NSString *)HTMLString baseURL:(NSURL *)baseURL {
-    if (self = [super init]) {
+    if (self = [self init]) {
         _HTMLString = HTMLString;
         _baseURL = baseURL;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-        _timeoutInternal = 10.0;
-        _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
-#endif
-        _showsToolBar = YES;
-        _showsBackgroundLabel = YES;
-
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-    // Change auto just scroll view insets to NO to fix issue: https://github.com/devedbox/AXWebViewController/issues/10
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.extendedLayoutIncludesOpaqueBars = YES;
-    /* Using contraints to view instead of bottom layout guide.
-     self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
-     */
-#endif
+    
     [self setupSubviews];
     
     if (_URL) {
@@ -335,6 +355,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 #else
     _webView.delegate = nil;
 #endif
+    // NSLog(@"One of AXWebViewController's instances was destroyed.");
 }
 
 #pragma mark - Override.
@@ -881,7 +902,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     }
     return nil;
 }
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_9_0
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
 - (void)webViewDidClose:(WKWebView *)webView {
 }
 #endif

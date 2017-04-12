@@ -34,6 +34,10 @@
 #define AX_WEB_VIEW_CONTROLLER_USING_WEBKIT __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
 #endif
 
+#ifndef AX_WEB_VIEW_CONTROLLER_DEFINES_PROXY
+#define AX_WEB_VIEW_CONTROLLER_DEFINES_PROXY AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+#endif
+
 #import <UIKit/UIKit.h>
 #import <NJKWebViewProgress/NJKWebViewProgress.h>
 #import <NJKWebViewProgress/NJKWebViewProgressView.h>
@@ -169,6 +173,9 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 /// @param HTMLString a encoded html string.
 /// @param baseURL base url of bundle.
 - (void)loadHTMLString:(NSString *)HTMLString baseURL:(NSURL *)baseURL;
+@end
+
+@interface AXWebViewController (SubclassingHooks)
 /// Called when web view will go back. Do not call this directly. Same to the bottom methods.
 /// @discussion 使用的时候需要子类化，并且调用super的方法!切记！！！
 ///
@@ -192,6 +199,12 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 ///
 /// @param error a failed loading error.
 - (void)didFailLoadWithError:(NSError *)error AX_REQUIRES_SUPER;
+@end
+
+/**
+ WebCache clearing.
+ */
+@interface AXWebViewController (WebCache)
 /// Clear cache data of web view.
 ///
 /// @param completion completion block.
