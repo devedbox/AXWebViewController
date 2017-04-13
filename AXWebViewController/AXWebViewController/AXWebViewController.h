@@ -148,6 +148,12 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 ///
 /// @return a instance of `AXWebViewController`.
 - (instancetype)initWithURL:(NSURL*)URL;
+/// Get a instance of `AXWebViewController` by a url request.
+///
+/// @param request a URL request to be loaded.
+///
+/// @return a instance of `AXWebViewController`.
+- (instancetype)initWithRequest:(NSURLRequest *)request;
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 /// Get a instance of `AXWebViewController` by a url.
 ///
