@@ -50,6 +50,8 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     WKWebViewConfiguration *_configuration;
 #endif
+    
+    NSURLRequest *_request;
 }
 /// Back bar button item of tool bar.
 @property(strong, nonatomic) UIBarButtonItem *backBarButtonItem;
@@ -169,6 +171,13 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     return self;
 }
 
+- (instancetype)initWithRequest:(NSURLRequest *)request {
+    if (self = [self init]) {
+        _request = request;
+    }
+    return self;
+}
+
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 - (instancetype)initWithURL:(NSURL *)URL configuration:(WKWebViewConfiguration *)configuration {
     if (self = [self initWithURL:URL]) {
@@ -191,7 +200,9 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     
     [self setupSubviews];
     
-    if (_URL) {
+    if (_request) {
+        [self loadURLRequest:_request];
+    } else if (_URL) {
         [self loadURL:_URL];
     } else if (_baseURL && _HTMLString) {
         [self loadHTMLString:_HTMLString baseURL:_baseURL];
@@ -647,6 +658,18 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     [_webView loadRequest:request];
 #endif
 }
+
+- (void)loadURLRequest:(NSURLRequest *)request {
+    NSMutableURLRequest *__request = [request mutableCopy];
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    _navigation = [_webView loadRequest:__request];
+#else
+    _request.timeoutInterval = _timeoutInternal;
+    _request.cachePolicy = _cachePolicy;
+    [_webView loadRequest:_request];
+#endif
+}
+
 - (void)loadHTMLString:(NSString *)HTMLString baseURL:(NSURL *)baseURL {
     _baseURL = baseURL;
     _HTMLString = HTMLString;
