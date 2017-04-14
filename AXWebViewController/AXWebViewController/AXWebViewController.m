@@ -185,6 +185,14 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     }
     return self;
 }
+
+- (instancetype)initWithRequest:(NSURLRequest *)request configuration:(WKWebViewConfiguration *)configuration {
+    if (self = [self initWithRequest:request]) {
+        _request = request;
+        _configuration = configuration;
+    }
+    return self;
+}
 #endif
 
 - (instancetype)initWithHTMLString:(NSString *)HTMLString baseURL:(NSURL *)baseURL {
