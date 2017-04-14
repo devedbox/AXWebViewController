@@ -627,21 +627,33 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 #endif
 #pragma mark - Setter
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
 - (void)setTimeoutInternal:(NSTimeInterval)timeoutInternal {
     _timeoutInternal = timeoutInternal;
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    NSMutableURLRequest *request = [_request mutableCopy];
+    request.timeoutInterval = _timeoutInternal;
+    _navigation = [_webView loadRequest:request];
+    _request = [request copy];
+#else
     NSMutableURLRequest *request = [self.webView.request mutableCopy];
     request.timeoutInterval = _timeoutInternal;
     [_webView loadRequest:request];
+#endif
 }
 
 - (void)setCachePolicy:(NSURLRequestCachePolicy)cachePolicy {
     _cachePolicy = cachePolicy;
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    NSMutableURLRequest *request = [_request mutableCopy];
+    request.cachePolicy = _cachePolicy;
+    _navigation = [_webView loadRequest:request];
+    _request = [request copy];
+#else
     NSMutableURLRequest *request = [self.webView.request mutableCopy];
     request.cachePolicy = _cachePolicy;
     [_webView loadRequest:request];
-}
 #endif
+}
 
 - (void)setShowsToolBar:(BOOL)showsToolBar {
     _showsToolBar = showsToolBar;
@@ -658,11 +670,11 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 #pragma mark - Public
 - (void)loadURL:(NSURL *)pageURL {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:pageURL];
+    request.timeoutInterval = _timeoutInternal;
+    request.cachePolicy = _cachePolicy;
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     _navigation = [_webView loadRequest:request];
 #else
-    request.timeoutInterval = _timeoutInternal;
-    request.cachePolicy = _cachePolicy;
     [_webView loadRequest:request];
 #endif
 }
@@ -672,9 +684,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     _navigation = [_webView loadRequest:__request];
 #else
-    _request.timeoutInterval = _timeoutInternal;
-    _request.cachePolicy = _cachePolicy;
-    [_webView loadRequest:_request];
+    [_webView loadRequest:__request];
 #endif
 }
 
