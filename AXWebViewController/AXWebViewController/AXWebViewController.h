@@ -123,11 +123,11 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 #else
 /// Web view.
 @property(readonly, nonatomic) UIWebView *webView;
+#endif
 /// Time out internal.
 @property(assign, nonatomic) NSTimeInterval timeoutInternal;
 /// Cache policy.
 @property(assign, nonatomic) NSURLRequestCachePolicy cachePolicy;
-#endif
 /// Url.
 @property(readonly, nonatomic) NSURL *URL;
 /// Shows tool bar.
