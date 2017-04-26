@@ -38,9 +38,9 @@
         {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithURL:[NSURL fileURLWithPath:[NSBundle.mainBundle pathForResource:@"Swift" ofType:@"pdf"]]];
             webVC.showsToolBar = NO;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
-            webVC.webView.allowsLinkPreview = YES;
-#endif
+            if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_9_0) {
+                webVC.webView.allowsLinkPreview = YES;
+            }
             [self.navigationController pushViewController:webVC animated:YES];
         }
             break;
@@ -48,9 +48,9 @@
         {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://www.baidu.com"];
             webVC.showsToolBar = NO;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
-            webVC.webView.allowsLinkPreview = YES;
-#endif
+            if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_9_0) {
+                webVC.webView.allowsLinkPreview = YES;
+            }
             [self.navigationController pushViewController:webVC animated:YES];
         }
             break;
@@ -67,17 +67,17 @@
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"https://github.com/devedbox/AXWebViewController"];
             webVC.showsToolBar = NO;
             webVC.showsBackgroundLabel = NO;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
-            webVC.webView.allowsLinkPreview = YES;
-#endif
+            if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_9_0) {
+                webVC.webView.allowsLinkPreview = YES;
+            }
             [self.navigationController pushViewController:webVC animated:YES];
         } break;
         case 4: {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"https://github.com/devedbox/AXWebViewController/releases/latest"];
             webVC.showsToolBar = NO;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
-            webVC.webView.allowsLinkPreview = YES;
-#endif
+            if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_9_0) {
+                webVC.webView.allowsLinkPreview = YES;
+            }
             [self.navigationController pushViewController:webVC animated:YES];
         } break;
         default:
@@ -98,9 +98,9 @@
 - (IBAction)gotoGithub:(id)sender {
     AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"https://github.com/devedbox/AXWebViewController"];
     webVC.showsToolBar = NO;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
-    webVC.webView.allowsLinkPreview = YES;
-#endif
+    if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_9_0) {
+        webVC.webView.allowsLinkPreview = YES;
+    }
     [self.navigationController pushViewController:webVC animated:YES];
 }
 
@@ -116,9 +116,9 @@
         
         AXWebViewController *webVC = [[AXWebViewController alloc] initWithURL:URL];
         webVC.showsToolBar = NO;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
-        webVC.webView.allowsLinkPreview = YES;
-#endif
+        if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_9_0) {
+            webVC.webView.allowsLinkPreview = YES;
+        }
         [self.navigationController pushViewController:webVC animated:YES];
     }
     
