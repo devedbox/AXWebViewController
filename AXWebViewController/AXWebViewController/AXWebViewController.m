@@ -33,7 +33,7 @@
 #define AXWebViewControllerLocalizedString(key, comment) \
 NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundleWithPath:[[[NSBundle bundleForClass:[AXWebViewController class]] resourcePath] stringByAppendingPathComponent:@"AXWebViewController.bundle"]], comment)
 #endif
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 @interface _AXWebViewProgressView : NJKWebViewProgressView
 /// The view controller controller.
 @property(weak, nonatomic) AXWebViewController *webViewController;
@@ -71,7 +71,7 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 @property(strong, nonatomic) UILabel *backgroundLabel;
 /// Updating timer.
 @property(strong, nonatomic) NSTimer *updating;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 /// Progress proxy of progress.
 @property(strong, nonatomic) NJKWebViewProgress *progressProxy;
 /// Progress view to show progress of requests.
@@ -145,7 +145,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     // Set up default values.
     _showsToolBar = YES;
     _showsBackgroundLabel = YES;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     _timeoutInternal = 10.0;
     _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
 #endif
@@ -219,7 +219,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         [self loadURL:[NSURL fileURLWithPath:kAX404NotFoundHTMLPath]];
     }
     
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     [self progressProxy];
 #else
     [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
@@ -240,7 +240,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     // Config navigation item
     self.navigationItem.leftItemsSupplementBackButton = YES;
     
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     self.view.backgroundColor = [UIColor colorWithRed:0.180 green:0.192 blue:0.196 alpha:1.00];
     self.progressView.progressBarView.backgroundColor = self.navigationController.navigationBar.tintColor;
 #else
@@ -556,7 +556,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     }
     return _navigationCloseBarButtonItem;
 }
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 - (NJKWebViewProgress *)progressProxy {
     if (_progressProxy) return _progressProxy;
     _progressProxy = [[NJKWebViewProgress alloc] init];
@@ -596,7 +596,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (UILabel *)descriptionLabel {
     return self.backgroundLabel;
 }
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 -(UIView*)swipingBackgoundView{
     if (!_swipingBackgoundView) {
         _swipingBackgoundView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -727,7 +727,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     if (_navigationType == AXWebViewControllerNavigationToolItem) {
         [self updateToolbarItems];
     }
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     _progressView.progress = 0.0;
 #endif
     if (_delegate && [_delegate respondsToSelector:@selector(webViewControllerDidStartLoad:)]) {
@@ -780,7 +780,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         [_delegate webViewControllerDidFinishLoad:self];
     }
     _loading = NO;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     [_progressView setProgress:0.9 animated:YES];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (_progressView.progress != 1.0) {
@@ -791,7 +791,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 
 - (void)didFailLoadWithError:(NSError *)error{
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     if (error.code == NSURLErrorCannotFindHost) {// 404
         [self loadURL:[NSURL fileURLWithPath:kAX404NotFoundHTMLPath]];
     } else {
@@ -915,7 +915,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 -(void)swipePanGestureHandler:(UIPanGestureRecognizer*)panGesture{
     CGPoint translation = [panGesture translationInView:self.webView];
     CGPoint location = [panGesture locationInView:self.webView];
@@ -1190,7 +1190,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _progressView.frame = barFrame;
 }
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 -(void)pushCurrentSnapshotViewWithRequest:(NSURLRequest*)request{
     NSURLRequest* lastRequest = (NSURLRequest*)[[self.snapshots lastObject] objectForKey:@"request"];
     
@@ -1576,7 +1576,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 @end
 #endif
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 @implementation _AXWebViewProgressView
 - (void)setProgress:(float)progress animated:(BOOL)animated {
     [super setProgress:progress animated:animated];
