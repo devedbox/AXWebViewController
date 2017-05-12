@@ -754,19 +754,16 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     if (_navigationType == AXWebViewControllerNavigationToolItem) {
         [self updateToolbarItems];
     }
-    NSString *title;
+    NSString *title = self.title;
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-    title = [_webView title];
-    if (title.length > 10) {
-        title = [[title substringToIndex:9] stringByAppendingString:@"…"];
-    }
+    title = title.length>0 ? title: [_webView title];
 #else
-    title = [_webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    title = title.length>0 ? title: [_webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+#endif
     if (title.length > 10) {
         title = [[title substringToIndex:9] stringByAppendingString:@"…"];
     }
-#endif
-    self.navigationItem.title = title?:AXWebViewControllerLocalizedString(@"browsing the web", @"browsing the web");
+    self.navigationItem.title = title.length>0 ? title : AXWebViewControllerLocalizedString(@"browsing the web", @"browsing the web");
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *bundle = ([infoDictionary objectForKey:@"CFBundleDisplayName"]?:[infoDictionary objectForKey:@"CFBundleName"])?:[infoDictionary objectForKey:@"CFBundleIdentifier"];
     NSString *host;
