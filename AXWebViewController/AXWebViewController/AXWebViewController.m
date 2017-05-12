@@ -1014,32 +1014,35 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         [webView evaluateJavaScript:@"var a = document.getElementsByTagName('a');for(var i=0;i<a.length;i++){a[i].setAttribute('target','');}" completionHandler:nil];
     }
     // Resolve URL. Fixs the issue: https://github.com/devedbox/AXWebViewController/issues/7
-    NSURLComponents *components = [[NSURLComponents alloc] initWithString:webView.URL.absoluteString];
-    // For appstore.
-    if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/cn/app/' OR SELF BEGINSWITH[cd] 'mailto:' OR SELF BEGINSWITH[cd] 'tel:' OR SELF BEGINSWITH[cd] 'telprompt:'"] evaluateWithObject:webView.URL.absoluteString]) {
-        if ([[UIApplication sharedApplication] canOpenURL:webView.URL]) {
+    // !!!: Fixed url handleing of navigation request instead of main url.
+    // NSURLComponents *components = [[NSURLComponents alloc] initWithString:webView.URL.absoluteString];
+    NSURLComponents *components = [[NSURLComponents alloc] initWithString:navigationAction.request.URL.absoluteString];
+    // For appstore and system defines. This action will jump to AppStore app or the system apps.
+    if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/cn/app/' OR SELF BEGINSWITH[cd] 'mailto:' OR SELF BEGINSWITH[cd] 'tel:' OR SELF BEGINSWITH[cd] 'telprompt:'"] evaluateWithObject:components.URL.absoluteString]) {
+        if ([[UIApplication sharedApplication] canOpenURL:components.URL]) {
             if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
-                [UIApplication.sharedApplication openURL:webView.URL options:@{} completionHandler:NULL];
+                [UIApplication.sharedApplication openURL:components.URL options:@{} completionHandler:NULL];
             } else {
-                [[UIApplication sharedApplication] openURL:webView.URL];
+                [[UIApplication sharedApplication] openURL:components.URL];
             }
         }
         decisionHandler(WKNavigationActionPolicyCancel);
         return;
-    } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http' OR SELF MATCHES[cd] 'file' OR SELF MATCHES[cd] 'about'"] evaluateWithObject:components.scheme]) {// For any other schema.
-        if ([[UIApplication sharedApplication] canOpenURL:webView.URL]) {
+    } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http' OR SELF MATCHES[cd] 'file' OR SELF MATCHES[cd] 'about'"] evaluateWithObject:components.scheme]) {// For any other schema but not `https`、`http` and `file`.
+        if ([[UIApplication sharedApplication] canOpenURL:components.URL]) {
             if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
-                [UIApplication.sharedApplication openURL:webView.URL options:@{} completionHandler:NULL];
+                [UIApplication.sharedApplication openURL:components.URL options:@{} completionHandler:NULL];
             } else {
-                [[UIApplication sharedApplication] openURL:webView.URL];
+                [[UIApplication sharedApplication] openURL:components.URL];
             }
         }
         decisionHandler(WKNavigationActionPolicyCancel);
         return;
     }
     
-    // URL actions
+    // URL actions for 404 and Errors:
     if ([navigationAction.request.URL.absoluteString isEqualToString:kAX404NotFoundURLKey] || [navigationAction.request.URL.absoluteString isEqualToString:kAXNetworkErrorURLKey]) {
+        // Reload the original URL.
         [self loadURL:_URL];
     }
     // Update the items.
