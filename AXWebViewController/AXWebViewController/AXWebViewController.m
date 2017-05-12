@@ -319,14 +319,14 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [self updateNavigationItems];
+    if (_navigationType == AXWebViewControllerNavigationBarItem) [self updateNavigationItems];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     if ([super respondsToSelector:@selector(viewWillTransitionToSize:withTransitionCoordinator:)]) {
         [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     }
-    [self updateNavigationItems];
+    if (_navigationType == AXWebViewControllerNavigationBarItem) [self updateNavigationItems];
 }
 
 - (BOOL)navigationBar:(UINavigationBar *)navigationBar shouldPopItem:(UINavigationItem *)item {
