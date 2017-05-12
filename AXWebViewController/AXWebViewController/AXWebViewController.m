@@ -49,6 +49,9 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
     NSURL *_baseURL;
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     WKWebViewConfiguration *_configuration;
+    
+    WKWebViewDidReceiveAuthenticationChallengeHandler _challengeHandler;
+    AFSecurityPolicy *_securityPolicy;
 #endif
     
     NSURLRequest *_request;
@@ -1096,6 +1099,32 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     [self didFailLoadWithError:error];
 }
 - (void)webView:(WKWebView *)webView didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *__nullable credential))completionHandler {
+    // !!!: Do add the security policy if using a custom credential.
+    NSURLSessionAuthChallengeDisposition disposition = NSURLSessionAuthChallengePerformDefaultHandling;
+    __block NSURLCredential *credential = nil;
+    
+    if (self.challengeHandler) {
+        disposition = self.challengeHandler(webView, challenge, &credential);
+    } else {
+        if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+            if ([self.securityPolicy evaluateServerTrust:challenge.protectionSpace.serverTrust forDomain:challenge.protectionSpace.host]) {
+                credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+                if (credential) {
+                    disposition = NSURLSessionAuthChallengeUseCredential;
+                } else {
+                    disposition = NSURLSessionAuthChallengePerformDefaultHandling;
+                }
+            } else {
+                disposition = NSURLSessionAuthChallengePerformDefaultHandling;
+            }
+        } else {
+            disposition = NSURLSessionAuthChallengePerformDefaultHandling;
+        }
+    }
+    
+    if (completionHandler) {
+        completionHandler(disposition, credential);
+    }
     completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
 }
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_9_0
@@ -1520,6 +1549,24 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     if (_navigationType == AXWebViewControllerNavigationToolItem) { [self updateToolbarItems]; return; }
     // Otherwise update navigation items.
     [self updateNavigationItems];
+}
+@end
+
+@implementation AXWebViewController (Security)
+- (WKWebViewDidReceiveAuthenticationChallengeHandler)challengeHandler {
+    return _challengeHandler;
+}
+
+- (AFSecurityPolicy *)securityPolicy {
+    return _securityPolicy;
+}
+
+- (void)setChallengeHandler:(WKWebViewDidReceiveAuthenticationChallengeHandler)challengeHandler {
+    _challengeHandler = [challengeHandler copy];
+}
+
+- (void)setSecurityPolicy:(AFSecurityPolicy *)securityPolicy {
+    _securityPolicy = securityPolicy;
 }
 @end
 

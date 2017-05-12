@@ -43,6 +43,7 @@
 #import <NJKWebViewProgress/NJKWebViewProgressView.h>
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 #import <WebKit/WebKit.h>
+#import "AFSecurityPolicy.h"
 #endif
 #ifndef AX_REQUIRES_SUPER
 #if __has_attribute(objc_requires_super)
@@ -101,6 +102,8 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 - (void)webViewController:(AXWebViewController *)webViewController didFailLoadWithError:(NSError *)error;
 @end
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+typedef NSURLSessionAuthChallengeDisposition (^WKWebViewDidReceiveAuthenticationChallengeHandler)(WKWebView *webView, NSURLAuthenticationChallenge *challenge, NSURLCredential * _Nullable __autoreleasing * _Nullable credential);
+
 @interface AXWebViewController : UIViewController <WKUIDelegate, WKNavigationDelegate>
 {
     @protected
@@ -238,4 +241,14 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 ///
 @property(readonly, nonatomic) UILabel *descriptionLabel;
 @end
+
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+@interface AXWebViewController (Security)
+/// Challenge handler for the credential.
+@property(copy, nonatomic, nullable) WKWebViewDidReceiveAuthenticationChallengeHandler challengeHandler;
+/// The security policy used by created session to evaluate server trust for secure connections.
+/// `AXWebViewController` uses the `defaultPolicy` unless otherwise specified.
+@property (strong, nonatomic, nullable) AFSecurityPolicy *securityPolicy;
+@end
+#endif
 NS_ASSUME_NONNULL_END
