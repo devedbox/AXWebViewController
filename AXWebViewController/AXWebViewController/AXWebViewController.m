@@ -738,7 +738,10 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 - (void)didStartLoadWithNavigation:(WKNavigation *)navigation {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self didStartLoad];
+#pragma clang diagnostic pop
     // FIXME: Handle the navigation of WKWebView.
     // ...
 }
