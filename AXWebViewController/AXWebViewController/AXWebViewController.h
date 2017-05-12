@@ -130,7 +130,7 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 @property(assign, nonatomic) NSURLRequestCachePolicy cachePolicy;
 /// Url.
 @property(readonly, nonatomic) NSURL *URL;
-/// Shows tool bar.
+/// Shows tool bar.Default is YES.
 @property(assign, nonatomic) BOOL showsToolBar;
 /// Shows showsBackgroundLabel default YES.
 @property(assign, nonatomic) BOOL showsBackgroundLabel;
