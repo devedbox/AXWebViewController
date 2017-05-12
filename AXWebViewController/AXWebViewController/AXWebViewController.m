@@ -286,6 +286,8 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    
     if (self.navigationController) {
         [_progressView removeFromSuperview];
     }
@@ -293,6 +295,8 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     if (_navigationType == AXWebViewControllerNavigationBarItem) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
+    
+    [self.navigationItem setLeftBarButtonItems:nil animated:NO];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && _showsToolBar && _navigationType == AXWebViewControllerNavigationToolItem) {
         [self.navigationController setToolbarHidden:YES animated:animated];
@@ -304,11 +308,6 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    
-    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-    [self.navigationItem setLeftBarButtonItems:nil animated:NO];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
