@@ -363,6 +363,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _webView.UIDelegate = nil;
     _webView.navigationDelegate = nil;
     [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
+    [_webView removeObserver:self forKeyPath:@"scrollView.contentOffset"];
     /*
      [_webView.scrollView removeObserver:self forKeyPath:@"backgroundColor"];
      */
@@ -407,6 +408,10 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
          }
          */
 #endif
+    } else if ([keyPath isEqualToString:@"scrollView.contentOffset"]) {
+        // Get the current content offset.
+        CGPoint contentOffset = [change[NSKeyValueChangeNewKey] CGPointValue];
+        _backgroundLabel.transform = CGAffineTransformMakeTranslation(0, -contentOffset.y-_webView.scrollView.contentInset.top);
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -437,6 +442,8 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _webView.translatesAutoresizingMaskIntoConstraints = NO;
     _webView.UIDelegate = self;
     _webView.navigationDelegate = self;
+    // Obverse the content offset of the scroll view.
+    [_webView addObserver:self forKeyPath:@"scrollView.contentOffset" options:NSKeyValueObservingOptionNew context:NULL];
     return _webView;
 }
 
@@ -1388,9 +1395,6 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     
     // Add web view.
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-    [self.view addSubview:self.webView];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topLayoutGuide][_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView, topLayoutGuide, bottomLayoutGuide)]];
     // Set the content inset of scroll view to the max y position of navigation bar to adjust scroll view content inset.
     // To fix issue: https://github.com/devedbox/AXWebViewController/issues/10
     /*
@@ -1399,11 +1403,19 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _webView.scrollView.contentInset = contentInset;
      */
     
-    UIView *contentView = _webView.scrollView.subviews.firstObject;
-    [contentView addSubview:self.backgroundLabel];
-    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_backgroundLabel(<=width)]" options:0 metrics:@{@"width":@([UIScreen mainScreen].bounds.size.width)} views:NSDictionaryOfVariableBindings(_backgroundLabel)]];
-    [contentView addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    [contentView addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:-20]];
+    // Add background label to view.
+    // UIView *contentView = _webView.scrollView.subviews.firstObject;
+    [self.view addSubview:self.backgroundLabel];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_backgroundLabel(<=width)]" options:0 metrics:@{@"width":@(self.view.bounds.size.width)} views:NSDictionaryOfVariableBindings(_backgroundLabel)]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    // [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:-20]];
+    
+    [self.view addSubview:self.webView];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topLayoutGuide][_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView, topLayoutGuide, bottomLayoutGuide, _backgroundLabel)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_backgroundLabel]-20-[_webView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_backgroundLabel, _webView)]];
+    
+    [self.view bringSubviewToFront:_backgroundLabel];
 #else
     [self.view insertSubview:self.backgroundLabel atIndex:0];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-8-[_backgroundLabel]-8-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_backgroundLabel)]];
