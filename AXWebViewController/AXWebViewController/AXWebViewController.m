@@ -240,7 +240,6 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 #else
     self.view.backgroundColor = [UIColor whiteColor];
     self.progressView.progressTintColor = self.navigationController.navigationBar.tintColor;
-    _backgroundLabel.textColor = [UIColor colorWithRed:0.180 green:0.192 blue:0.196 alpha:1.00];
 #endif
 }
 
@@ -584,7 +583,11 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (UILabel *)backgroundLabel {
     if (_backgroundLabel) return _backgroundLabel;
     _backgroundLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+#if  AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    _backgroundLabel.textColor = [UIColor colorWithRed:0.180 green:0.192 blue:0.196 alpha:1.00];
+#else
     _backgroundLabel.textColor = [UIColor colorWithRed:0.322 green:0.322 blue:0.322 alpha:1.00];
+#endif
     _backgroundLabel.font = [UIFont systemFontOfSize:12];
     _backgroundLabel.numberOfLines = 0;
     _backgroundLabel.textAlignment = NSTextAlignmentCenter;
@@ -731,12 +734,12 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     }
 #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     _progressView.progress = 0.0;
+    _updating = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updatingProgress:) userInfo:nil repeats:YES];
 #endif
     if (_delegate && [_delegate respondsToSelector:@selector(webViewControllerDidStartLoad:)]) {
         [_delegate webViewControllerDidStartLoad:self];
     }
     _loading = YES;
-    // _updating = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updatingProgress:) userInfo:nil repeats:YES];
 }
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 - (void)didStartLoadWithNavigation:(WKNavigation *)navigation {
@@ -759,7 +762,9 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
             return;
         }
     }
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     if ([object isKindOfClass:WKNavigationClass]) [self didStartLoadWithNavigation:object];
+#endif
 }
 
 - (void)didFinishLoad{
@@ -1156,7 +1161,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     // URL actions
     if ([request.URL.absoluteString isEqualToString:kAX404NotFoundURLKey] || [request.URL.absoluteString isEqualToString:kAXNetworkErrorURLKey]) {
-        [self loadURL:_URL];
+        [self loadURL:_URL]; return NO;
     }
     // Resolve URL. Fixs the issue: https://github.com/devedbox/AXWebViewController/issues/7
     NSURLComponents *components = [[NSURLComponents alloc] initWithString:request.URL.absoluteString];
@@ -1170,7 +1175,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
             }
         }
         return NO;
-    } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http'"] evaluateWithObject:components.scheme]) {// For any other schema.
+    } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http' OR SELF MATCHES[cd] 'file' OR SELF MATCHES[cd] 'about'"] evaluateWithObject:components.scheme]) {// For any other schema.
         if ([[UIApplication sharedApplication] canOpenURL:request.URL]) {
             if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
                 [UIApplication.sharedApplication openURL:request.URL options:@{} completionHandler:NULL];
@@ -1224,6 +1229,9 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    if (error.code == NSURLErrorCancelled) {
+        [webView reload]; return;
+    }
     [self didFailLoadWithError:error];
 }
 #endif
@@ -1370,7 +1378,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         }];
     }
 }
-#endif
+
 - (void)updatingProgress:(NSTimer *)sender {
     if (!_loading) {
         if (_progressView.progress >= 1.0) {
@@ -1387,6 +1395,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         }
     }
 }
+#endif
 
 - (void)setupSubviews {
     // Add from label and constraints.
@@ -1564,6 +1573,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 @end
 
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 @implementation AXWebViewController (Security)
 - (WKWebViewDidReceiveAuthenticationChallengeHandler)challengeHandler {
     return _challengeHandler;
@@ -1581,6 +1591,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _securityPolicy = securityPolicy;
 }
 @end
+#endif
 
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 @implementation UIProgressView (WebKit)
