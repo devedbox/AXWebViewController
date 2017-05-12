@@ -146,7 +146,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _showsToolBar = YES;
     _showsBackgroundLabel = YES;
 #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-    _timeoutInternal = 10.0;
+    _timeoutInternal = 30.0;
     _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
 #endif
     
