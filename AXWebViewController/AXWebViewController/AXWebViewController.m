@@ -228,15 +228,6 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
      */
 #endif
     
-    
-    if (_navigationType == AXWebViewControllerNavigationToolItem) {
-        [self updateToolbarItems];
-    }
-    
-    if (_navigationType == AXWebViewControllerNavigationBarItem) {
-        [self updateNavigationItems];
-    }
-    
     // Config navigation item
     self.navigationItem.leftItemsSupplementBackButton = YES;
     
@@ -258,11 +249,13 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         [self.navigationController.navigationBar addSubview:self.progressView];
     }
     
-    /*
-     if (_navigationType == AXWebViewControllerNavigationBarItem) {
-     [self updateNavigationItems];
-     }
-     */
+    if (_navigationType == AXWebViewControllerNavigationToolItem) {
+        [self updateToolbarItems];
+    }
+    
+    if (_navigationType == AXWebViewControllerNavigationBarItem) {
+        [self updateNavigationItems];
+    }
     
     if (self.navigationController && [self.navigationController isBeingPresented]) {
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -282,7 +275,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self updateNavigationItems];
+    // [self updateNavigationItems];
     
     //----- SETUP DEVICE ORIENTATION CHANGE NOTIFICATION -----
     UIDevice *device = [UIDevice currentDevice]; //Get the device object
