@@ -734,10 +734,29 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         [_delegate webViewControllerDidStartLoad:self];
     }
     _loading = YES;
-    /*
-     _updating = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updatingProgress:) userInfo:nil repeats:YES];
-     */
+    // _updating = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updatingProgress:) userInfo:nil repeats:YES];
 }
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+- (void)didStartLoadWithNavigation:(WKNavigation *)navigation {
+    [self didStartLoad];
+    // FIXME: Handle the navigation of WKWebView.
+    // ...
+}
+#endif
+/// Did start load.
+/// @param object: Any object. WKNavigation if using WebKit.
+- (void)_didStartLoadWithObj:(id)object {
+    // Get WKNavigation class:
+    Class WKNavigationClass = NSClassFromString(@"WKNavigation");
+    if (WKNavigationClass == NULL) {
+        if (![object isKindOfClass:WKNavigationClass] || object == nil) {
+            [self didStartLoad];
+            return;
+        }
+    }
+    if ([object isKindOfClass:WKNavigationClass]) [self didStartLoadWithNavigation:object];
+}
+
 - (void)didFinishLoad{
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     @try {
@@ -1059,7 +1078,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     decisionHandler(WKNavigationResponsePolicyAllow);
 }
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation {
-    [self didStartLoad];
+    [self _didStartLoadWithObj:navigation];
 }
 - (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(null_unspecified WKNavigation *)navigation {
 }
@@ -1158,7 +1177,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-    [self didStartLoad];
+    [self _didStartLoadWithObj:nil];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {

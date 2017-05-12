@@ -204,7 +204,13 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 - (void)willStop AX_REQUIRES_SUPER;
 /// Called when web view did start loading. Do not call this directly.
 ///
-- (void)didStartLoad AX_REQUIRES_SUPER;
+- (void)didStartLoad AX_REQUIRES_SUPER NS_DEPRECATED_IOS(2_0, 8_0);
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+/// Called when web view(WKWebView) did start loading. Do not call this directly.
+///
+/// @param navigation Navigation object of the current request info.
+- (void)didStartLoadWithNavigation:(WKNavigation *)navigation AX_REQUIRES_SUPER NS_AVAILABLE(10_10, 8_0);
+#endif
 /// Called when web view did finish loading. Do not call this directly.
 ///
 - (void)didFinishLoad AX_REQUIRES_SUPER;
