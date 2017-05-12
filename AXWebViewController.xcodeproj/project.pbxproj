@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		014A663D1D51E2DB0055600B /* AXWebViewControllerActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 014A66381D51E2DB0055600B /* AXWebViewControllerActivity.m */; };
-		014A663E1D51E2DB0055600B /* AXWebViewControllerActivityChrome.m in Sources */ = {isa = PBXBuildFile; fileRef = 014A663A1D51E2DB0055600B /* AXWebViewControllerActivityChrome.m */; };
-		014A663F1D51E2DB0055600B /* AXWebViewControllerActivitySafari.m in Sources */ = {isa = PBXBuildFile; fileRef = 014A663C1D51E2DB0055600B /* AXWebViewControllerActivitySafari.m */; };
 		01513BF01C28F70700CB8238 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01513BEF1C28F70700CB8238 /* main.m */; };
 		01513BF31C28F70700CB8238 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 01513BF21C28F70700CB8238 /* AppDelegate.m */; };
 		01513BF91C28F70700CB8238 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01513BF71C28F70700CB8238 /* Main.storyboard */; };
@@ -23,18 +20,15 @@
 		01CDC15D1C2A41DF00D9AF53 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01CDC15C1C2A41DF00D9AF53 /* TableViewController.m */; };
 		97F6BE6D557C0BB485DDCF88 /* libPods-AXWebViewController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2642E682614F41BF460E7673 /* libPods-AXWebViewController.a */; };
 		DCABA01B1EC5EE2A005C7D31 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = DCABA01A1EC5EE2A005C7D31 /* AFSecurityPolicy.m */; };
+		DCABA0231EC5FDFF005C7D31 /* AXWebViewControllerActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = DCABA01E1EC5FDFF005C7D31 /* AXWebViewControllerActivity.m */; };
+		DCABA0241EC5FDFF005C7D31 /* AXWebViewControllerActivityChrome.m in Sources */ = {isa = PBXBuildFile; fileRef = DCABA0201EC5FDFF005C7D31 /* AXWebViewControllerActivityChrome.m */; };
+		DCABA0251EC5FDFF005C7D31 /* AXWebViewControllerActivitySafari.m in Sources */ = {isa = PBXBuildFile; fileRef = DCABA0221EC5FDFF005C7D31 /* AXWebViewControllerActivitySafari.m */; };
 		DCCF48241E7987C9009CF38E /* Swift.pdf in Resources */ = {isa = PBXBuildFile; fileRef = DCCF48231E7987C9009CF38E /* Swift.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		013513EA1D60B83D003BDCEA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		013513EB1D60B83D003BDCEA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
-		014A66371D51E2DB0055600B /* AXWebViewControllerActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXWebViewControllerActivity.h; sourceTree = "<group>"; };
-		014A66381D51E2DB0055600B /* AXWebViewControllerActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXWebViewControllerActivity.m; sourceTree = "<group>"; };
-		014A66391D51E2DB0055600B /* AXWebViewControllerActivityChrome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXWebViewControllerActivityChrome.h; sourceTree = "<group>"; };
-		014A663A1D51E2DB0055600B /* AXWebViewControllerActivityChrome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXWebViewControllerActivityChrome.m; sourceTree = "<group>"; };
-		014A663B1D51E2DB0055600B /* AXWebViewControllerActivitySafari.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXWebViewControllerActivitySafari.h; sourceTree = "<group>"; };
-		014A663C1D51E2DB0055600B /* AXWebViewControllerActivitySafari.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXWebViewControllerActivitySafari.m; sourceTree = "<group>"; };
 		01513BEB1C28F70700CB8238 /* AXWebViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AXWebViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01513BEF1C28F70700CB8238 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		01513BF11C28F70700CB8238 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -60,6 +54,12 @@
 		A13CC1561E977227003AC1B2 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		DCABA0191EC5EE2A005C7D31 /* AFSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFSecurityPolicy.h; sourceTree = "<group>"; };
 		DCABA01A1EC5EE2A005C7D31 /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSecurityPolicy.m; sourceTree = "<group>"; };
+		DCABA01D1EC5FDFF005C7D31 /* AXWebViewControllerActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXWebViewControllerActivity.h; sourceTree = "<group>"; };
+		DCABA01E1EC5FDFF005C7D31 /* AXWebViewControllerActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXWebViewControllerActivity.m; sourceTree = "<group>"; };
+		DCABA01F1EC5FDFF005C7D31 /* AXWebViewControllerActivityChrome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXWebViewControllerActivityChrome.h; sourceTree = "<group>"; };
+		DCABA0201EC5FDFF005C7D31 /* AXWebViewControllerActivityChrome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXWebViewControllerActivityChrome.m; sourceTree = "<group>"; };
+		DCABA0211EC5FDFF005C7D31 /* AXWebViewControllerActivitySafari.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXWebViewControllerActivitySafari.h; sourceTree = "<group>"; };
+		DCABA0221EC5FDFF005C7D31 /* AXWebViewControllerActivitySafari.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXWebViewControllerActivitySafari.m; sourceTree = "<group>"; };
 		DCCF48231E7987C9009CF38E /* Swift.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Swift.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,20 +76,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		014A66361D51E2DB0055600B /* AXWebViewControllerActivity */ = {
-			isa = PBXGroup;
-			children = (
-				014A66371D51E2DB0055600B /* AXWebViewControllerActivity.h */,
-				014A66381D51E2DB0055600B /* AXWebViewControllerActivity.m */,
-				014A66391D51E2DB0055600B /* AXWebViewControllerActivityChrome.h */,
-				014A663A1D51E2DB0055600B /* AXWebViewControllerActivityChrome.m */,
-				014A663B1D51E2DB0055600B /* AXWebViewControllerActivitySafari.h */,
-				014A663C1D51E2DB0055600B /* AXWebViewControllerActivitySafari.m */,
-			);
-			name = AXWebViewControllerActivity;
-			path = AXWebViewController/AXWebViewControllerActivity;
-			sourceTree = "<group>";
-		};
 		01513BE21C28F70700CB8238 = {
 			isa = PBXGroup;
 			children = (
@@ -144,8 +130,8 @@
 				01513C051C28F90000CB8238 /* AXWebViewController.h */,
 				01513C061C28F90000CB8238 /* AXWebViewController.m */,
 				01CDC1501C2A3C9100D9AF53 /* AXWebViewController.bundle */,
+				DCABA01C1EC5FDFF005C7D31 /* Activity */,
 				DCABA0181EC5EE2A005C7D31 /* Security */,
-				014A66361D51E2DB0055600B /* AXWebViewControllerActivity */,
 			);
 			name = AXWebViewController;
 			sourceTree = "<group>";
@@ -176,6 +162,20 @@
 			);
 			name = Security;
 			path = AXWebViewController/Security;
+			sourceTree = "<group>";
+		};
+		DCABA01C1EC5FDFF005C7D31 /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				DCABA01D1EC5FDFF005C7D31 /* AXWebViewControllerActivity.h */,
+				DCABA01E1EC5FDFF005C7D31 /* AXWebViewControllerActivity.m */,
+				DCABA01F1EC5FDFF005C7D31 /* AXWebViewControllerActivityChrome.h */,
+				DCABA0201EC5FDFF005C7D31 /* AXWebViewControllerActivityChrome.m */,
+				DCABA0211EC5FDFF005C7D31 /* AXWebViewControllerActivitySafari.h */,
+				DCABA0221EC5FDFF005C7D31 /* AXWebViewControllerActivitySafari.m */,
+			);
+			name = Activity;
+			path = AXWebViewController/Activity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -307,13 +307,13 @@
 				01AA4F191D4F28C2008F2A2C /* TabbarViewController1.m in Sources */,
 				01513BF31C28F70700CB8238 /* AppDelegate.m in Sources */,
 				01513C071C28F90000CB8238 /* AXWebViewController.m in Sources */,
-				014A663D1D51E2DB0055600B /* AXWebViewControllerActivity.m in Sources */,
+				DCABA0231EC5FDFF005C7D31 /* AXWebViewControllerActivity.m in Sources */,
+				DCABA0251EC5FDFF005C7D31 /* AXWebViewControllerActivitySafari.m in Sources */,
 				01513BF01C28F70700CB8238 /* main.m in Sources */,
 				01AA4F1C1D4F28DD008F2A2C /* TabbarViewController2.m in Sources */,
+				DCABA0241EC5FDFF005C7D31 /* AXWebViewControllerActivityChrome.m in Sources */,
 				DCABA01B1EC5EE2A005C7D31 /* AFSecurityPolicy.m in Sources */,
 				01CDC15D1C2A41DF00D9AF53 /* TableViewController.m in Sources */,
-				014A663F1D51E2DB0055600B /* AXWebViewControllerActivitySafari.m in Sources */,
-				014A663E1D51E2DB0055600B /* AXWebViewControllerActivityChrome.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
