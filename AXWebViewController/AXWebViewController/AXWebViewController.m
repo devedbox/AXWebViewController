@@ -72,8 +72,6 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 @property(strong, nonatomic) UIBarButtonItem *navigationCloseBarButtonItem;
 /// URL from label.
 @property(strong, nonatomic) UILabel *backgroundLabel;
-/// Updating timer.
-@property(strong, nonatomic) NSTimer *updating;
 #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 /// Progress proxy of progress.
 @property(strong, nonatomic) NJKWebViewProgress *progressProxy;
@@ -91,6 +89,8 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 @property(strong, nonatomic) UIPanGestureRecognizer* swipePanGesture;
 /// If is swiping now.
 @property(assign, nonatomic)BOOL isSwipingBack;
+/// Updating timer.
+@property(strong, nonatomic) NSTimer *updating;
 #endif
 @end
 
@@ -107,6 +107,24 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 @property(strong, nonatomic) WKNavigation *navigation;
 /// Progress view.
 @property(strong, nonatomic) UIProgressView *progressView;
+/// Container view.
+@property(readonly, nonatomic) UIView *containerView;
+@end
+
+@interface _AXWebContainerView: UIView { dispatch_block_t _hitBlock; } @end
+@interface _AXWebContainerView (HitTests)
+@property(copy, nonatomic) dispatch_block_t hitBlock;
+@end
+@implementation _AXWebContainerView
+- (dispatch_block_t)hitBlock { return _hitBlock; } - (void)setHitBlock:(dispatch_block_t)hitBlock { _hitBlock = [hitBlock copy]; }
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    // if (_hitBlock != NULL) _hitBlock();
+    // id view = [super hitTest:point withEvent:event];
+    // if ([view isKindOfClass:NSClassFromString(@"WKCompositingView")]) {
+    //     NSLog(@"View: %@", view);
+    // }
+    return [super hitTest:point withEvent:event];
+}
 @end
 #endif
 
@@ -120,6 +138,7 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 
 static NSString *const kAX404NotFoundURLKey = @"ax_404_not_found";
 static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
+static NSUInteger const kContainerViewTag = 0x893147;
 
 @implementation AXWebViewController
 #pragma mark - Life cycle
@@ -204,6 +223,23 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         _baseURL = baseURL;
     }
     return self;
+}
+
+- (void)loadView {
+    [super loadView];
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    id topLayoutGuide = self.topLayoutGuide;
+    _AXWebContainerView *container = [_AXWebContainerView new];
+    [container setHitBlock:^() {
+        // if (!self.webView.isLoading) [self.webView reloadFromOrigin];
+    }];
+    [container setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addSubview:container];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[container]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(container)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topLayoutGuide][container]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(topLayoutGuide, container)]];
+    [container setTag:kContainerViewTag];
+    [self.view setNeedsLayout]; [self.view layoutIfNeeded];
+#endif
 }
 
 - (void)viewDidLoad {
@@ -460,6 +496,8 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _progressView.ax_webViewController = wself;
     return _progressView;
 }
+
+- (UIView *)containerView { return [self.view viewWithTag:kContainerViewTag]; }
 #else
 - (UIWebView*)webView {
     if (_webView) return _webView;
@@ -1414,17 +1452,17 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     
     // Add background label to view.
     // UIView *contentView = _webView.scrollView.subviews.firstObject;
-    [self.view addSubview:self.backgroundLabel];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_backgroundLabel(<=width)]" options:0 metrics:@{@"width":@(self.view.bounds.size.width)} views:NSDictionaryOfVariableBindings(_backgroundLabel)]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    [self.containerView addSubview:self.backgroundLabel];
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_backgroundLabel(<=width)]" options:0 metrics:@{@"width":@(self.view.bounds.size.width)} views:NSDictionaryOfVariableBindings(_backgroundLabel)]];
+    [self.containerView addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.containerView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
     // [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:-20]];
     
-    [self.view addSubview:self.webView];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topLayoutGuide][_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView, topLayoutGuide, bottomLayoutGuide, _backgroundLabel)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_backgroundLabel]-20-[_webView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_backgroundLabel, _webView)]];
+    [self.containerView addSubview:self.webView];
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView)]];
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView, topLayoutGuide, bottomLayoutGuide, _backgroundLabel)]];
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_backgroundLabel]-20-[_webView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_backgroundLabel, _webView)]];
     
-    [self.view bringSubviewToFront:_backgroundLabel];
+    [self.containerView bringSubviewToFront:_backgroundLabel];
 #else
     [self.view insertSubview:self.backgroundLabel atIndex:0];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-8-[_backgroundLabel]-8-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_backgroundLabel)]];
