@@ -880,7 +880,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
 }
 
 + (void)clearWebCacheCompletion:(dispatch_block_t)completion {
-#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
     NSSet *websiteDataTypes = [WKWebsiteDataStore allWebsiteDataTypes];
     NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
     [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:completion];
@@ -1179,7 +1179,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
     }
     completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
 }
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_9_0
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
 - (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView {
     // Get the host name.
     NSString *host = webView.URL.host;
