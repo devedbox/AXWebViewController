@@ -167,6 +167,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
     // Set up default values.
     _showsToolBar = YES;
     _showsBackgroundLabel = YES;
+    _maxAllowedTitleLength = 10;
 #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     _timeoutInternal = 30.0;
     _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
@@ -713,6 +714,10 @@ static NSUInteger const kContainerViewTag = 0x893147;
     _showsBackgroundLabel = showsBackgroundLabel;
 }
 
+- (void)setMaxAllowedTitleLength:(NSUInteger)maxAllowedTitleLength {
+    _maxAllowedTitleLength = maxAllowedTitleLength;
+    [self _updateTitleOfWebVC];
+}
 
 #pragma mark - Public
 - (void)loadURL:(NSURL *)pageURL {
@@ -825,16 +830,9 @@ static NSUInteger const kContainerViewTag = 0x893147;
     if (_navigationType == AXWebViewControllerNavigationToolItem) {
         [self updateToolbarItems];
     }
-    NSString *title = self.title;
-#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-    title = title.length>0 ? title: [_webView title];
-#else
-    title = title.length>0 ? title: [_webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-#endif
-    if (title.length > 10) {
-        title = [[title substringToIndex:9] stringByAppendingString:@"…"];
-    }
-    self.navigationItem.title = title.length>0 ? title : AXWebViewControllerLocalizedString(@"browsing the web", @"browsing the web");
+    
+    [self _updateTitleOfWebVC];
+    
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *bundle = ([infoDictionary objectForKey:@"CFBundleDisplayName"]?:[infoDictionary objectForKey:@"CFBundleName"])?:[infoDictionary objectForKey:@"CFBundleIdentifier"];
     NSString *host;
@@ -1291,6 +1289,19 @@ static NSUInteger const kContainerViewTag = 0x893147;
 }
 
 #pragma mark - Helper
+- (void)_updateTitleOfWebVC {
+    NSString *title = self.title;
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    title = title.length>0 ? title: [_webView title];
+#else
+    title = title.length>0 ? title: [_webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+#endif
+    if (title.length > _maxAllowedTitleLength) {
+        title = [[title substringToIndex:_maxAllowedTitleLength-1] stringByAppendingString:@"…"];
+    }
+    self.navigationItem.title = title.length>0 ? title : AXWebViewControllerLocalizedString(@"browsing the web", @"browsing the web");
+}
+
 - (void)updateFrameOfProgressView {
     CGFloat progressBarHeight = 2.0f;
     CGRect navigationBarBounds = self.navigationController.navigationBar.bounds;

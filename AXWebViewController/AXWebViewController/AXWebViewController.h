@@ -128,6 +128,8 @@ typedef NSURLSessionAuthChallengeDisposition (^WKWebViewDidReceiveAuthentication
 /// Web view.
 @property(readonly, nonatomic) UIWebView *webView;
 #endif
+/// Max length of title string content. Default is 10.
+@property(assign, nonatomic) NSUInteger maxAllowedTitleLength;
 /// Time out internal.
 @property(assign, nonatomic) NSTimeInterval timeoutInternal;
 /// Cache policy.
