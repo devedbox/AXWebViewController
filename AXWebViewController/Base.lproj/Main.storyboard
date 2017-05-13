@@ -97,6 +97,9 @@
                             <rect key="frame" x="0.0" y="273" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Clear cache"/>
+                            <connections>
+                                <action selector="clearCache:" destination="5rv-UB-EIk" eventType="touchUpInside" id="0QU-K4-DuS"/>
+                            </connections>
                         </button>
                         <sections>
                             <tableViewSection id="fQZ-lc-Ako">
