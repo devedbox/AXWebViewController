@@ -382,6 +382,10 @@ static NSUInteger const kContainerViewTag = 0x893147;
             // Should not pop items.
             return NO;
         }else{
+            if (webVC.navigationType == AXWebViewControllerNavigationBarItem && [webVC.navigationItem.leftBarButtonItems containsObject:webVC.navigationCloseBarButtonItem]) { // Navigation items did not refresh.
+                [webVC updateNavigationItems];
+                return NO;
+            }
             // Pop view controlers directly.
             return YES;
         }
