@@ -28,6 +28,8 @@
 #import "AXWebViewControllerActivityChrome.h"
 #import <Aspects/Aspects.h>
 #import <objc/runtime.h>
+#import <StoreKit/StoreKit.h>
+#import <AXPracticalHUD/AXPracticalHUD.h>
 
 #ifndef AXWebViewControllerLocalizedString
 #define AXWebViewControllerLocalizedString(key, comment) \
@@ -40,7 +42,7 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 @end
 #endif
 
-@interface AXWebViewController ()<NJKWebViewProgressDelegate>
+@interface AXWebViewController ()<NJKWebViewProgressDelegate, SKStoreProductViewControllerDelegate>
 {
     BOOL _loading;
     UIBarButtonItem * __weak _doneItem;
@@ -1095,7 +1097,38 @@ static NSUInteger const kContainerViewTag = 0x893147;
     // NSURLComponents *components = [[NSURLComponents alloc] initWithString:webView.URL.absoluteString];
     NSURLComponents *components = [[NSURLComponents alloc] initWithString:navigationAction.request.URL.absoluteString];
     // For appstore and system defines. This action will jump to AppStore app or the system apps.
-    if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/cn/app/' OR SELF BEGINSWITH[cd] 'mailto:' OR SELF BEGINSWITH[cd] 'tel:' OR SELF BEGINSWITH[cd] 'telprompt:'"] evaluateWithObject:components.URL.absoluteString]) {
+    if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/' OR SELF BEGINSWITH[cd] 'mailto:' OR SELF BEGINSWITH[cd] 'tel:' OR SELF BEGINSWITH[cd] 'telprompt:'"] evaluateWithObject:components.URL.absoluteString]) {
+        if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/'"] evaluateWithObject:components.URL.absoluteString] && !_reviewsAppInAppStore) {
+            [[AXPracticalHUD sharedHUD] showSimpleInView:self.view.window text:nil detail:nil configuration:^(AXPracticalHUD *HUD) {
+                HUD.lockBackground = YES;
+                HUD.removeFromSuperViewOnHide = YES;
+            }];
+            SKStoreProductViewController *productVC = [[SKStoreProductViewController alloc] init];
+            productVC.delegate = self;
+            NSError *error;
+            NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"id[1-9]\\d*" options:NSRegularExpressionCaseInsensitive error:&error];
+            NSTextCheckingResult *result = [regex firstMatchInString:components.URL.absoluteString options:NSMatchingReportCompletion range:NSMakeRange(0, components.URL.absoluteString.length)];
+            
+            if (!error && result) {
+                NSRange range = NSMakeRange(result.range.location+2, result.range.length-2);
+                [productVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier: @([[components.URL.absoluteString substringWithRange:range] integerValue])} completionBlock:^(BOOL result, NSError * _Nullable error) {
+                    if (!result || error) {
+                        [[AXPracticalHUD sharedHUD] showErrorInView:self.view.window text:error.localizedDescription detail:nil configuration:^(AXPracticalHUD *HUD) {
+                            HUD.lockBackground = YES;
+                            HUD.removeFromSuperViewOnHide = YES;
+                        }];
+                        [[AXPracticalHUD sharedHUD] hide:YES afterDelay:1.5 completion:NULL];
+                    } else {
+                        [[AXPracticalHUD sharedHUD] hide:YES afterDelay:0.5 completion:NULL];
+                    }
+                }];
+                [self presentViewController:productVC animated:YES completion:NULL];
+                decisionHandler(WKNavigationActionPolicyCancel);
+                return;
+            } else {
+                [[AXPracticalHUD sharedHUD] hide:YES afterDelay:0.5 completion:NULL];
+            }
+        }
         if ([[UIApplication sharedApplication] canOpenURL:components.URL]) {
             if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
                 [UIApplication.sharedApplication openURL:components.URL options:@{} completionHandler:NULL];
@@ -1214,7 +1247,38 @@ static NSUInteger const kContainerViewTag = 0x893147;
     // Resolve URL. Fixs the issue: https://github.com/devedbox/AXWebViewController/issues/7
     NSURLComponents *components = [[NSURLComponents alloc] initWithString:request.URL.absoluteString];
     // For appstore.
-    if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/cn/app/' OR SELF BEGINSWITH[cd] 'mailto:' OR SELF BEGINSWITH[cd] 'tel:' OR SELF BEGINSWITH[cd] 'telprompt:'"] evaluateWithObject:request.URL.absoluteString]) {
+    if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/' OR SELF BEGINSWITH[cd] 'mailto:' OR SELF BEGINSWITH[cd] 'tel:' OR SELF BEGINSWITH[cd] 'telprompt:'"] evaluateWithObject:request.URL.absoluteString]) {
+        if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/'"] evaluateWithObject:components.URL.absoluteString] && !_reviewsAppInAppStore) {
+            [[AXPracticalHUD sharedHUD] showSimpleInView:self.view.window text:nil detail:nil configuration:^(AXPracticalHUD *HUD) {
+                HUD.lockBackground = YES;
+                HUD.removeFromSuperViewOnHide = YES;
+            }];
+            SKStoreProductViewController *productVC = [[SKStoreProductViewController alloc] init];
+            productVC.delegate = self;
+            NSError *error;
+            NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"id[1-9]\\d*" options:NSRegularExpressionCaseInsensitive error:&error];
+            NSTextCheckingResult *result = [regex firstMatchInString:components.URL.absoluteString options:NSMatchingReportCompletion range:NSMakeRange(0, components.URL.absoluteString.length)];
+            
+            if (!error && result) {
+                NSRange range = NSMakeRange(result.range.location+2, result.range.length-2);
+                [productVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier: @([[components.URL.absoluteString substringWithRange:range] integerValue])} completionBlock:^(BOOL result, NSError * _Nullable error) {
+                    if (!result || error) {
+                        [[AXPracticalHUD sharedHUD] showErrorInView:self.view.window text:error.localizedDescription detail:nil configuration:^(AXPracticalHUD *HUD) {
+                            HUD.lockBackground = YES;
+                            HUD.removeFromSuperViewOnHide = YES;
+                        }];
+                        [[AXPracticalHUD sharedHUD] hide:YES afterDelay:1.5 completion:NULL];
+                    } else {
+                        [[AXPracticalHUD sharedHUD] hide:YES afterDelay:0.5 completion:NULL];
+                    }
+                }];
+                [self presentViewController:productVC animated:YES completion:NULL];
+                decisionHandler(WKNavigationActionPolicyCancel);
+                return;
+            } else {
+                [[AXPracticalHUD sharedHUD] hide:YES afterDelay:0.5 completion:NULL];
+            }
+        }
         if ([[UIApplication sharedApplication] canOpenURL:request.URL]) {
             if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
                 [UIApplication.sharedApplication openURL:request.URL options:@{} completionHandler:NULL];
@@ -1294,6 +1358,11 @@ static NSUInteger const kContainerViewTag = 0x893147;
         [self.navigationController.navigationBar addSubview:self.progressView];
     }
     [_progressView setProgress:progress animated:YES];
+}
+
+#pragma mark - SKStoreProductViewControllerDelegate.
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    [viewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - Helper
