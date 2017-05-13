@@ -104,6 +104,10 @@
     [self.navigationController pushViewController:webVC animated:YES];
 }
 
+- (IBAction)clearCache:(id)sender {
+    [AXWebViewController clearWebCacheCompletion:NULL];
+}
+
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     // Get the text of text field.

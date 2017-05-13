@@ -7,165 +7,264 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		02BC53765AC158E334C79613FFD6463E /* NJKWebViewProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A679A649D403E6655DC8F04FB9C9B02A /* NJKWebViewProgressView.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		1A8200B536A880B714C46605FD83EA29 /* Aspects.m in Sources */ = {isa = PBXBuildFile; fileRef = B01A36496C6DC38F045717AB99A5F2E6 /* Aspects.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		1AEFEF375A22374BA4AAB595F27D26CE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A6FF208CEC4C2861F1E9D42D651453 /* Foundation.framework */; };
-		2A954DACD4C89F06B482F65551B2589A /* AXPopNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F001725D0F6370A74F99D54D329A03B /* AXPopNavigationController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		30DDFB149CB263228F5200CA59DD74B1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E86668F20F252C440D1015B816BE59C5 /* UIKit.framework */; };
-		32EFF502FBA4473781B2B65FD697B345 /* NJKWebViewProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = A94ABCB6E24D41B35C574137EA83C955 /* NJKWebViewProgress.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		53D585769A615C421C41CBA07E74A035 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A6FF208CEC4C2861F1E9D42D651453 /* Foundation.framework */; };
-		56EF1BCF142EACE6F21E803872214B0C /* Aspects.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BD8BEE6908A1553327854D7EE8D69D7 /* Aspects.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		93A2D6709FC0C2F08D2D010008BD06DC /* AXNavigationBackItemInjection-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA90DA2627ED7CA9B2AF3530316956A /* AXNavigationBackItemInjection-dummy.m */; };
-		A2A3685A707B7F40BBDE1A6E0C7FE7DD /* NJKWebViewProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = DE43F6019952B8FAA6555765D4747664 /* NJKWebViewProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA58D3EEFCBED00AA256325D80519762 /* NJKWebViewProgress-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A91C1A2569A55DF9550428B1F296D5F /* NJKWebViewProgress-dummy.m */; };
-		D9292BBBC73416625F82CA60F8413775 /* Pods-AXWebViewController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC007D8BDD9865B4DE40B85F328633 /* Pods-AXWebViewController-dummy.m */; };
-		EC00F3C541AB04C5FEF57AD8CB6C1759 /* AXPopNavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 372869EB661C1B41BBD99BE06CE1A197 /* AXPopNavigationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F1452B6DA45F2A6E29DE276C03964CCD /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDF4C9F139B14722D6D03B6E73F4DEF /* NJKWebViewProgress.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		F38CB806B2A74F31204C4972945BC89C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A6FF208CEC4C2861F1E9D42D651453 /* Foundation.framework */; };
-		F58F2966E9FE391EBC18A3115C36F804 /* Aspects-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = AEB4E9651E602770F6E8CA044FD7F7C2 /* Aspects-dummy.m */; };
-		F5FCA5C8A4BD8B6BB6BB50878FC7931E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A6FF208CEC4C2861F1E9D42D651453 /* Foundation.framework */; };
+		02F3E980419BACA7211261E53C10F8F0 /* AXCircleProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = 883C202F615ED9FF8E46C24621DA7C9E /* AXCircleProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0B22A7F12B26F5C6E828B2EA4585A198 /* AXIndicatorView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDA7B8119548ABC60BA0C72C1740066 /* AXIndicatorView-dummy.m */; };
+		1120F2652DBBA8AB6AD6D8E32515C081 /* AXIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 68634DBCFDA69741A5C78724BF6F13CF /* AXIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		172CFEFC45FFF7A49EF49EC549FB8304 /* AXPracticalHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7925DDA7CC0B8EA15FA4606B13EDE0B4 /* AXPracticalHUD.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		192A849D870240D386600AAE9C9ECD68 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */; };
+		1C2F5DA1807D8BEAC93B8FBEB3FC2ECE /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE7BD0F2C4810138F2CE7D39438711C /* NJKWebViewProgress.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		1E03F486C2F641235ABC3CABD13808C4 /* AXGradientProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96548B9EE64049CA955732018A4DF225 /* AXGradientProgressView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		20125CA9A1E3ADE18E0BC6D3673C9584 /* AXGradientProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = FAB8B86E1A5F48A333D7E5E37579990F /* AXGradientProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		23A6A3DB75B9C333804E102331954B76 /* AXActivityIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = D34EA324D9EDCB99028417B317FEB6F4 /* AXActivityIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2599D4395706D13ED9DAC3C139E9231C /* AXBreachedAnnulusIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = B43453BA9A6130BEE5139A9317923FEA /* AXBreachedAnnulusIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2A2F36610CD105E2D65FA85445D235B4 /* AXPopNavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ECBC53BC74910896F06CF238AC1A75A /* AXPopNavigationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		351A0D34AB73D7B390A17CFFE5055022 /* AXPracticalHUDContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C41AFD4BBDD67F747B98EDF6852EDE1 /* AXPracticalHUDContentView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		35B0C8D16979F12420AA47102E89059D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC994CDC2D681BA26389F78A7E4B325 /* UIKit.framework */; };
+		35B0CB3F46AD513C6BF87A49DF500A2F /* AXCircleProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = D87F28090953CA71EE8CF99358775E25 /* AXCircleProgressView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		38DA9D4D2C73378AB559DE9E52B17235 /* NJKWebViewProgress-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A639AE43E7DACB368899DA908A469 /* NJKWebViewProgress-dummy.m */; };
+		3F0F760F0BB2DB4164D3D9B1E11A10F9 /* AXPracticalHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = FB25B81D2CDD00443C0907D5E8A6F415 /* AXPracticalHUD.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		44AE116E79A018D8FF438AC10875155D /* Aspects-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D948E4F452D9397F6810BB315DDF9CDA /* Aspects-dummy.m */; };
+		4555765FD8034B4B9AA0B7356074D523 /* NJKWebViewProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = 975C2E32C09411C7752BC278424195CB /* NJKWebViewProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4EDEA320391B8AB0997DCD8EEF70E242 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */; };
+		5324FAADE048493FBD94C8BE42B02A03 /* AXPracticalHUD-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D8676731121D9B75C14946D76EFDC448 /* AXPracticalHUD-dummy.m */; };
+		5574A10F02DF784EAADC2F6524D0CA8B /* AXPopNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9ACAEC4F786F9FAF3845395D15B0249 /* AXPopNavigationController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		584270D1FEE8D2DBBFE148A715EF2230 /* Aspects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC26E5E1D1C6CD64BE4235EBE55313C3 /* Aspects.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		5AB80EAFE4ABA353F7F4166FFAD92B80 /* AXNavigationBackItemInjection-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 461EC61E68BA0AB98B7FA790AD6C52D4 /* AXNavigationBackItemInjection-dummy.m */; };
+		6318CFF57C5697891E9B45A4868E5F8C /* Aspects.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6189614621FDCC7E41BF3F9716F373 /* Aspects.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		75F6282A107E4A52E4D4E536B99C24EB /* AXBarProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = E765FE4455FFEB368DFFC020FFAB849F /* AXBarProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		853735E85DB365557D658581B266E71D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC994CDC2D681BA26389F78A7E4B325 /* UIKit.framework */; };
+		8A01A25372F9884966C6C43F1CA40C6E /* AXBreachedAnnulusIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A326A43D0E1E72C80FED778255FACC /* AXBreachedAnnulusIndicatorView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		92420F8E283ED18702C24E113CEC1E30 /* AXActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A4924365C5CED2AD58EF62070E070B1 /* AXActivityIndicatorView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		94486F0858A265DD49E7A1166CA6F689 /* Pods-AXWebViewController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC007D8BDD9865B4DE40B85F328633 /* Pods-AXWebViewController-dummy.m */; };
+		99E15509614F327AFC7E37188C05816F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC994CDC2D681BA26389F78A7E4B325 /* UIKit.framework */; };
+		9CB1DE91A3785A6AE1006BE3CCB82646 /* AXBarProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B347815F0191AA8CEAC28F6DFEC090C /* AXBarProgressView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		B1DE3B2A603894C7F4DFCBF9B994165C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */; };
+		B64E7520FD45088F497A14A769BF91A0 /* AXPracticalHUDContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 43920DDC2E5F956896F174F6D46FD4B0 /* AXPracticalHUDContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4F8546A82014998880F4C0E9465055F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */; };
+		E194F1D6DCE1FC68A556F5AB5F4AE605 /* NJKWebViewProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = 16DBC6FBB817F17FEAB5A2224C610322 /* NJKWebViewProgress.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E77B0B4FBA6BD91CDCDE3ACF5AE5AFB4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */; };
+		F2044C9B18E15050CA4264898D0E3C23 /* NJKWebViewProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E1B74E4CE0672526DD86118B8A4A5A /* NJKWebViewProgressView.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		F772C43EE2AE57FAB999C657A7E0F90D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		3509781ECBFCEA98365F4A2261D10426 /* PBXContainerItemProxy */ = {
+		2BE0F270186A9C3D30E0B41D59DC6EEA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B3311B67ED2DD468DE5F5F74287B266C;
+			remoteGlobalIDString = 36EBB26C1B73529533CBA4AC40656A6C;
+			remoteInfo = AXIndicatorView;
+		};
+		45BB1480FC2C2928231CCA29A101BA8C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8BA6986852A8A534ED5F5D70DB15F51C;
 			remoteInfo = AXNavigationBackItemInjection;
 		};
-		7C98E3C6E8CB1BC31C3A11BC0B1499DF /* PBXContainerItemProxy */ = {
+		D02CB70ED54DDC99285C61515C9B03F2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = DBC9A0AF6D4571D059D2AF2422F2BD6E;
+			remoteGlobalIDString = 405984B597EA9C891A014AF28FC9537D;
+			remoteInfo = AXPracticalHUD;
+		};
+		D6100150F0556D1D36513D4A2CC6CF93 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CCB7CB485E21C0801790635C83376BA2;
+			remoteInfo = NJKWebViewProgress;
+		};
+		F6B8C495E7217F868CDE65F3495D5438 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C7C5FD310966070D9553E5B95C59641B;
 			remoteInfo = Aspects;
 		};
-		D03FD5991FFB189B04D8DA443E7B78BE /* PBXContainerItemProxy */ = {
+		F8B2774435BA4974226AA88BB489C4E4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B4A3E08D49931371F7247521A50EAF79;
-			remoteInfo = NJKWebViewProgress;
+			remoteGlobalIDString = 36EBB26C1B73529533CBA4AC40656A6C;
+			remoteInfo = AXIndicatorView;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0074AF18AE897739B9903ED901C8F256 /* NJKWebViewProgress-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NJKWebViewProgress-prefix.pch"; sourceTree = "<group>"; };
+		0A4924365C5CED2AD58EF62070E070B1 /* AXActivityIndicatorView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AXActivityIndicatorView.m; path = AXIndicatorView/Classes/AXActivityIndicatorView.m; sourceTree = "<group>"; };
+		0A9916BEA8D183B23DC6B2EAAAE6BEDF /* AXNavigationBackItemInjection.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AXNavigationBackItemInjection.xcconfig; sourceTree = "<group>"; };
+		16DBC6FBB817F17FEAB5A2224C610322 /* NJKWebViewProgress.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NJKWebViewProgress.h; path = NJKWebViewProgress/NJKWebViewProgress.h; sourceTree = "<group>"; };
+		19BCBFA796AE16314A93B53ED7D27E31 /* NJKWebViewProgress-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NJKWebViewProgress-prefix.pch"; sourceTree = "<group>"; };
 		1BAC007D8BDD9865B4DE40B85F328633 /* Pods-AXWebViewController-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-AXWebViewController-dummy.m"; sourceTree = "<group>"; };
-		1BD8BEE6908A1553327854D7EE8D69D7 /* Aspects.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Aspects.h; sourceTree = "<group>"; };
-		2A91C1A2569A55DF9550428B1F296D5F /* NJKWebViewProgress-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NJKWebViewProgress-dummy.m"; sourceTree = "<group>"; };
-		372869EB661C1B41BBD99BE06CE1A197 /* AXPopNavigationController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AXPopNavigationController.h; path = AXNavigationBackItemInjection/AXNavigationBackItemInjection/AXPopNavigationController.h; sourceTree = "<group>"; };
-		4F001725D0F6370A74F99D54D329A03B /* AXPopNavigationController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AXPopNavigationController.m; path = AXNavigationBackItemInjection/AXNavigationBackItemInjection/AXPopNavigationController.m; sourceTree = "<group>"; };
-		5206834958D6C859C8E7183BF824BCC3 /* libPods-AXWebViewController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AXWebViewController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3860CFEC1A7C6935D90BD9D133BC222C /* Aspects.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Aspects.xcconfig; sourceTree = "<group>"; };
+		39E1B74E4CE0672526DD86118B8A4A5A /* NJKWebViewProgressView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NJKWebViewProgressView.m; path = NJKWebViewProgress/NJKWebViewProgressView.m; sourceTree = "<group>"; };
+		3AC25D645E61415853292ECF2415F79E /* AXPracticalHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AXPracticalHUD-prefix.pch"; sourceTree = "<group>"; };
+		3DE7BD0F2C4810138F2CE7D39438711C /* NJKWebViewProgress.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NJKWebViewProgress.m; path = NJKWebViewProgress/NJKWebViewProgress.m; sourceTree = "<group>"; };
+		43920DDC2E5F956896F174F6D46FD4B0 /* AXPracticalHUDContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AXPracticalHUDContentView.h; path = AXPracticalHUD/AXPracticalHUD/AXPracticalHUDContentView.h; sourceTree = "<group>"; };
+		442A639AE43E7DACB368899DA908A469 /* NJKWebViewProgress-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NJKWebViewProgress-dummy.m"; sourceTree = "<group>"; };
+		461EC61E68BA0AB98B7FA790AD6C52D4 /* AXNavigationBackItemInjection-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AXNavigationBackItemInjection-dummy.m"; sourceTree = "<group>"; };
+		4EBD243C2AC08AE0CB247F69F8DE63B9 /* AXPracticalHUD.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AXPracticalHUD.xcconfig; sourceTree = "<group>"; };
+		4F2B0F3D615ACEB71A0E0F6167251CAB /* AXPracticalHUD.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = AXPracticalHUD.bundle; path = AXPracticalHUD/AXPracticalHUD/AXPracticalHUD.bundle; sourceTree = "<group>"; };
+		510471D591C8F4380A748DC8376AC036 /* libPods-AXWebViewController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-AXWebViewController.a"; path = "libPods-AXWebViewController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58770428F78621A4B6D2BA79241B9152 /* Pods-AXWebViewController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AXWebViewController.debug.xcconfig"; sourceTree = "<group>"; };
-		6EDF4C9F139B14722D6D03B6E73F4DEF /* NJKWebViewProgress.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NJKWebViewProgress.m; path = NJKWebViewProgress/NJKWebViewProgress.m; sourceTree = "<group>"; };
-		6FA90DA2627ED7CA9B2AF3530316956A /* AXNavigationBackItemInjection-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AXNavigationBackItemInjection-dummy.m"; sourceTree = "<group>"; };
+		616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		68634DBCFDA69741A5C78724BF6F13CF /* AXIndicatorView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AXIndicatorView.h; path = AXIndicatorView/Classes/AXIndicatorView.h; sourceTree = "<group>"; };
+		6C41AFD4BBDD67F747B98EDF6852EDE1 /* AXPracticalHUDContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AXPracticalHUDContentView.m; path = AXPracticalHUD/AXPracticalHUD/AXPracticalHUDContentView.m; sourceTree = "<group>"; };
+		6C80BEED132B6CA37D0E2496E2CC4859 /* libAXIndicatorView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libAXIndicatorView.a; path = libAXIndicatorView.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D6189614621FDCC7E41BF3F9716F373 /* Aspects.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Aspects.h; sourceTree = "<group>"; };
+		6F293430B7E82815FADF17CCAD602790 /* libAXNavigationBackItemInjection.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libAXNavigationBackItemInjection.a; path = libAXNavigationBackItemInjection.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		767C4864E831F877371B90EE57D59224 /* libAXPracticalHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libAXPracticalHUD.a; path = libAXPracticalHUD.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7785DF08327F1605C57A1BECEC371506 /* Pods-AXWebViewController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AXWebViewController.release.xcconfig"; sourceTree = "<group>"; };
-		87618A78C7C8C34B085AC036291532EE /* AXNavigationBackItemInjection-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AXNavigationBackItemInjection-prefix.pch"; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9CE42465EBC49EA54D471F8F6D62EB32 /* AXNavigationBackItemInjection.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AXNavigationBackItemInjection.xcconfig; sourceTree = "<group>"; };
-		A2A6FF208CEC4C2861F1E9D42D651453 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		A679A649D403E6655DC8F04FB9C9B02A /* NJKWebViewProgressView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NJKWebViewProgressView.m; path = NJKWebViewProgress/NJKWebViewProgressView.m; sourceTree = "<group>"; };
-		A94ABCB6E24D41B35C574137EA83C955 /* NJKWebViewProgress.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NJKWebViewProgress.h; path = NJKWebViewProgress/NJKWebViewProgress.h; sourceTree = "<group>"; };
-		AA5CA314A1304900757C51EE96EB35E5 /* libAXNavigationBackItemInjection.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAXNavigationBackItemInjection.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		AEB4E9651E602770F6E8CA044FD7F7C2 /* Aspects-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Aspects-dummy.m"; sourceTree = "<group>"; };
-		B01A36496C6DC38F045717AB99A5F2E6 /* Aspects.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Aspects.m; sourceTree = "<group>"; };
-		B35191C3CFCE8B1ACC13A9422323B95C /* Aspects-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Aspects-prefix.pch"; sourceTree = "<group>"; };
+		7925DDA7CC0B8EA15FA4606B13EDE0B4 /* AXPracticalHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AXPracticalHUD.m; path = AXPracticalHUD/AXPracticalHUD/AXPracticalHUD.m; sourceTree = "<group>"; };
+		7EC994CDC2D681BA26389F78A7E4B325 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		8671FB81DE86687FBE6F1F08B1140253 /* libAspects.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libAspects.a; path = libAspects.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		883C202F615ED9FF8E46C24621DA7C9E /* AXCircleProgressView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AXCircleProgressView.h; path = AXPracticalHUD/AXPracticalHUD/AXCircleProgressView.h; sourceTree = "<group>"; };
+		8B347815F0191AA8CEAC28F6DFEC090C /* AXBarProgressView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AXBarProgressView.m; path = AXPracticalHUD/AXPracticalHUD/AXBarProgressView.m; sourceTree = "<group>"; };
+		8ECBC53BC74910896F06CF238AC1A75A /* AXPopNavigationController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AXPopNavigationController.h; path = AXNavigationBackItemInjection/AXNavigationBackItemInjection/AXPopNavigationController.h; sourceTree = "<group>"; };
+		8F7EBE05CCC08A798C434EDD035A7546 /* AXIndicatorView.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AXIndicatorView.xcconfig; sourceTree = "<group>"; };
+		90AF1DF995E9812F272B99DAD7D1B605 /* Aspects-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Aspects-prefix.pch"; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		96548B9EE64049CA955732018A4DF225 /* AXGradientProgressView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AXGradientProgressView.m; path = AXPracticalHUD/AXPracticalHUD/AXGradientProgressView.m; sourceTree = "<group>"; };
+		975C2E32C09411C7752BC278424195CB /* NJKWebViewProgressView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NJKWebViewProgressView.h; path = NJKWebViewProgress/NJKWebViewProgressView.h; sourceTree = "<group>"; };
+		9839E7034AA540C74AF4F95465367074 /* AXIndicatorView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AXIndicatorView-prefix.pch"; sourceTree = "<group>"; };
+		9EDA7B8119548ABC60BA0C72C1740066 /* AXIndicatorView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AXIndicatorView-dummy.m"; sourceTree = "<group>"; };
+		A272D922178FFC350CE40855E3E9F43A /* libNJKWebViewProgress.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libNJKWebViewProgress.a; path = libNJKWebViewProgress.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9ACAEC4F786F9FAF3845395D15B0249 /* AXPopNavigationController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AXPopNavigationController.m; path = AXNavigationBackItemInjection/AXNavigationBackItemInjection/AXPopNavigationController.m; sourceTree = "<group>"; };
+		B43453BA9A6130BEE5139A9317923FEA /* AXBreachedAnnulusIndicatorView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AXBreachedAnnulusIndicatorView.h; path = AXIndicatorView/Classes/AXBreachedAnnulusIndicatorView.h; sourceTree = "<group>"; };
 		BD2AAE8B757CC6700CF6CEC4A0BCB92A /* Pods-AXWebViewController-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AXWebViewController-acknowledgements.plist"; sourceTree = "<group>"; };
-		C3DB2591E24B9288F77C7B62EE43E1BD /* NJKWebViewProgress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = NJKWebViewProgress.xcconfig; sourceTree = "<group>"; };
 		C6ED407C314D8B118922677266C2ED61 /* Pods-AXWebViewController-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AXWebViewController-acknowledgements.markdown"; sourceTree = "<group>"; };
-		C7D7A706AAEB476FBF9AD7D2BC80E06D /* libNJKWebViewProgress.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNJKWebViewProgress.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		C820D984E8BA65B273258D6F77825BE9 /* Aspects.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Aspects.xcconfig; sourceTree = "<group>"; };
-		C99C746493043BD0EF8340175E64D98A /* libAspects.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAspects.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC26E5E1D1C6CD64BE4235EBE55313C3 /* Aspects.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Aspects.m; sourceTree = "<group>"; };
 		CF1D8D47C93C8CC019C5C2258F1CE7A4 /* Pods-AXWebViewController-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AXWebViewController-resources.sh"; sourceTree = "<group>"; };
+		D2661C3331DC0665D9D1367045A972A1 /* NJKWebViewProgress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = NJKWebViewProgress.xcconfig; sourceTree = "<group>"; };
+		D34EA324D9EDCB99028417B317FEB6F4 /* AXActivityIndicatorView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AXActivityIndicatorView.h; path = AXIndicatorView/Classes/AXActivityIndicatorView.h; sourceTree = "<group>"; };
+		D8676731121D9B75C14946D76EFDC448 /* AXPracticalHUD-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AXPracticalHUD-dummy.m"; sourceTree = "<group>"; };
+		D87F28090953CA71EE8CF99358775E25 /* AXCircleProgressView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AXCircleProgressView.m; path = AXPracticalHUD/AXPracticalHUD/AXCircleProgressView.m; sourceTree = "<group>"; };
+		D948E4F452D9397F6810BB315DDF9CDA /* Aspects-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Aspects-dummy.m"; sourceTree = "<group>"; };
 		DDDF65D4EF9AC0FA9AC3013A829680DD /* Pods-AXWebViewController-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AXWebViewController-frameworks.sh"; sourceTree = "<group>"; };
-		DE43F6019952B8FAA6555765D4747664 /* NJKWebViewProgressView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NJKWebViewProgressView.h; path = NJKWebViewProgress/NJKWebViewProgressView.h; sourceTree = "<group>"; };
-		E86668F20F252C440D1015B816BE59C5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		E3A326A43D0E1E72C80FED778255FACC /* AXBreachedAnnulusIndicatorView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AXBreachedAnnulusIndicatorView.m; path = AXIndicatorView/Classes/AXBreachedAnnulusIndicatorView.m; sourceTree = "<group>"; };
+		E765FE4455FFEB368DFFC020FFAB849F /* AXBarProgressView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AXBarProgressView.h; path = AXPracticalHUD/AXPracticalHUD/AXBarProgressView.h; sourceTree = "<group>"; };
+		EBE0612B98B77417F23BE030E22B81A0 /* AXNavigationBackItemInjection-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AXNavigationBackItemInjection-prefix.pch"; sourceTree = "<group>"; };
+		FAB8B86E1A5F48A333D7E5E37579990F /* AXGradientProgressView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AXGradientProgressView.h; path = AXPracticalHUD/AXPracticalHUD/AXGradientProgressView.h; sourceTree = "<group>"; };
+		FB25B81D2CDD00443C0907D5E8A6F415 /* AXPracticalHUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AXPracticalHUD.h; path = AXPracticalHUD/AXPracticalHUD/AXPracticalHUD.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		310ABB239CF60D033312438242D4AD2F /* Frameworks */ = {
+		0DDB2252030449FCDDE76C68E21C206A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AEFEF375A22374BA4AAB595F27D26CE /* Foundation.framework in Frameworks */,
+				4EDEA320391B8AB0997DCD8EEF70E242 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		479A301B847762F8FBB8D5A9EC8DC93F /* Frameworks */ = {
+		306C96B2FA7400EAD88B963B13558256 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F38CB806B2A74F31204C4972945BC89C /* Foundation.framework in Frameworks */,
-				30DDFB149CB263228F5200CA59DD74B1 /* UIKit.framework in Frameworks */,
+				B1DE3B2A603894C7F4DFCBF9B994165C /* Foundation.framework in Frameworks */,
+				853735E85DB365557D658581B266E71D /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9059AC276AEAEE67CA6CD37776499A2F /* Frameworks */ = {
+		418DEAB21CEC0C5193D482CB9AC4FF8E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5FCA5C8A4BD8B6BB6BB50878FC7931E /* Foundation.framework in Frameworks */,
+				E77B0B4FBA6BD91CDCDE3ACF5AE5AFB4 /* Foundation.framework in Frameworks */,
+				35B0C8D16979F12420AA47102E89059D /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		97E49FA248ACEB9253B400E8F2AF9901 /* Frameworks */ = {
+		8AC5423CE6437D946D7DA64E739F9398 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53D585769A615C421C41CBA07E74A035 /* Foundation.framework in Frameworks */,
+				F772C43EE2AE57FAB999C657A7E0F90D /* Foundation.framework in Frameworks */,
+				99E15509614F327AFC7E37188C05816F /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FCA6523A69AD797F2AD8793AFE0B64AC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				192A849D870240D386600AAE9C9ECD68 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF7BBE728C49110B1F0CD42AB3E4F3AB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4F8546A82014998880F4C0E9465055F /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		10B8ADAC0613ECD76B9DFFD0093BEDCA /* Support Files */ = {
+		173A14A43277F31B8CC0EA04B9B4BA90 /* AXNavigationBackItemInjection */ = {
 			isa = PBXGroup;
 			children = (
-				9CE42465EBC49EA54D471F8F6D62EB32 /* AXNavigationBackItemInjection.xcconfig */,
-				6FA90DA2627ED7CA9B2AF3530316956A /* AXNavigationBackItemInjection-dummy.m */,
-				87618A78C7C8C34B085AC036291532EE /* AXNavigationBackItemInjection-prefix.pch */,
+				8ECBC53BC74910896F06CF238AC1A75A /* AXPopNavigationController.h */,
+				A9ACAEC4F786F9FAF3845395D15B0249 /* AXPopNavigationController.m */,
+				B59EAD221432A965FB2CFC358A496492 /* Support Files */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/AXNavigationBackItemInjection";
+			name = AXNavigationBackItemInjection;
+			path = AXNavigationBackItemInjection;
 			sourceTree = "<group>";
 		};
-		125312D756154D2EA234E5BDC47ECDEA /* Products */ = {
+		21457080DB654D64531229B95CE2C1C9 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				C99C746493043BD0EF8340175E64D98A /* libAspects.a */,
-				AA5CA314A1304900757C51EE96EB35E5 /* libAXNavigationBackItemInjection.a */,
-				C7D7A706AAEB476FBF9AD7D2BC80E06D /* libNJKWebViewProgress.a */,
-				5206834958D6C859C8E7183BF824BCC3 /* libPods-AXWebViewController.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		158F337AB5D020975B302B1F7B8668B0 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				A94ABCB6E24D41B35C574137EA83C955 /* NJKWebViewProgress.h */,
-				6EDF4C9F139B14722D6D03B6E73F4DEF /* NJKWebViewProgress.m */,
+				16DBC6FBB817F17FEAB5A2224C610322 /* NJKWebViewProgress.h */,
+				3DE7BD0F2C4810138F2CE7D39438711C /* NJKWebViewProgress.m */,
 			);
 			name = Core;
 			sourceTree = "<group>";
 		};
-		2292744519718837CB884B3B91493227 /* Aspects */ = {
+		219F3B4443198D2D64D62E21F181DA79 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				1BD8BEE6908A1553327854D7EE8D69D7 /* Aspects.h */,
-				B01A36496C6DC38F045717AB99A5F2E6 /* Aspects.m */,
-				AB9E25B6569835F05E3FFC8D489D88F4 /* Support Files */,
+				CC45F6D4B9D1FDB034C350BF1751A43D /* Aspects */,
+				C15CD7955595647D5984D75435ECBF57 /* AXIndicatorView */,
+				173A14A43277F31B8CC0EA04B9B4BA90 /* AXNavigationBackItemInjection */,
+				818A7C1D6D56D9702A20A23D82CD74D9 /* AXPracticalHUD */,
+				59DB7BE5EAC05F739E01DBD036278AB5 /* NJKWebViewProgress */,
 			);
-			path = Aspects;
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		338980D9C0B05F063803E4816556A64E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8671FB81DE86687FBE6F1F08B1140253 /* libAspects.a */,
+				6C80BEED132B6CA37D0E2496E2CC4859 /* libAXIndicatorView.a */,
+				6F293430B7E82815FADF17CCAD602790 /* libAXNavigationBackItemInjection.a */,
+				767C4864E831F877371B90EE57D59224 /* libAXPracticalHUD.a */,
+				A272D922178FFC350CE40855E3E9F43A /* libNJKWebViewProgress.a */,
+				510471D591C8F4380A748DC8376AC036 /* libPods-AXWebViewController.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3C986B0D26AC1CF248E524A69097FFB8 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				8F7EBE05CCC08A798C434EDD035A7546 /* AXIndicatorView.xcconfig */,
+				9EDA7B8119548ABC60BA0C72C1740066 /* AXIndicatorView-dummy.m */,
+				9839E7034AA540C74AF4F95465367074 /* AXIndicatorView-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/AXIndicatorView";
 			sourceTree = "<group>";
 		};
 		433CD3331B6C3787F473C941B61FC68F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F302CD3B306AF1ED96B9AF31FCDBC26C /* iOS */,
+				E6EE98446B568159EE277B68FD442AF0 /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -178,14 +277,32 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		72DBDCB892C27D0BF8D8C4DE7045DC91 /* AXNavigationBackItemInjection */ = {
+		59DB7BE5EAC05F739E01DBD036278AB5 /* NJKWebViewProgress */ = {
 			isa = PBXGroup;
 			children = (
-				372869EB661C1B41BBD99BE06CE1A197 /* AXPopNavigationController.h */,
-				4F001725D0F6370A74F99D54D329A03B /* AXPopNavigationController.m */,
-				10B8ADAC0613ECD76B9DFFD0093BEDCA /* Support Files */,
+				21457080DB654D64531229B95CE2C1C9 /* Core */,
+				6986061A70D40920457499CBA25A0587 /* ProgressView */,
+				EA46938D03833E5BEDFFDFAFEFF940E4 /* Support Files */,
 			);
-			path = AXNavigationBackItemInjection;
+			name = NJKWebViewProgress;
+			path = NJKWebViewProgress;
+			sourceTree = "<group>";
+		};
+		6986061A70D40920457499CBA25A0587 /* ProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				975C2E32C09411C7752BC278424195CB /* NJKWebViewProgressView.h */,
+				39E1B74E4CE0672526DD86118B8A4A5A /* NJKWebViewProgressView.m */,
+			);
+			name = ProgressView;
+			sourceTree = "<group>";
+		};
+		768BEC0A977D3039FB60BA475C0B4ACD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4F2B0F3D615ACEB71A0E0F6167251CAB /* AXPracticalHUD.bundle */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
@@ -193,21 +310,30 @@
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				433CD3331B6C3787F473C941B61FC68F /* Frameworks */,
-				A53F724990F79FAA6C0F8CF0F1EF6046 /* Pods */,
-				125312D756154D2EA234E5BDC47ECDEA /* Products */,
+				219F3B4443198D2D64D62E21F181DA79 /* Pods */,
+				338980D9C0B05F063803E4816556A64E /* Products */,
 				531278A76F72D0366D24231274461A5D /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		7F560CBDF42B4B7D06353BCD41E4C292 /* Support Files */ = {
+		818A7C1D6D56D9702A20A23D82CD74D9 /* AXPracticalHUD */ = {
 			isa = PBXGroup;
 			children = (
-				C3DB2591E24B9288F77C7B62EE43E1BD /* NJKWebViewProgress.xcconfig */,
-				2A91C1A2569A55DF9550428B1F296D5F /* NJKWebViewProgress-dummy.m */,
-				0074AF18AE897739B9903ED901C8F256 /* NJKWebViewProgress-prefix.pch */,
+				E765FE4455FFEB368DFFC020FFAB849F /* AXBarProgressView.h */,
+				8B347815F0191AA8CEAC28F6DFEC090C /* AXBarProgressView.m */,
+				883C202F615ED9FF8E46C24621DA7C9E /* AXCircleProgressView.h */,
+				D87F28090953CA71EE8CF99358775E25 /* AXCircleProgressView.m */,
+				FAB8B86E1A5F48A333D7E5E37579990F /* AXGradientProgressView.h */,
+				96548B9EE64049CA955732018A4DF225 /* AXGradientProgressView.m */,
+				FB25B81D2CDD00443C0907D5E8A6F415 /* AXPracticalHUD.h */,
+				7925DDA7CC0B8EA15FA4606B13EDE0B4 /* AXPracticalHUD.m */,
+				43920DDC2E5F956896F174F6D46FD4B0 /* AXPracticalHUDContentView.h */,
+				6C41AFD4BBDD67F747B98EDF6852EDE1 /* AXPracticalHUDContentView.m */,
+				768BEC0A977D3039FB60BA475C0B4ACD /* Resources */,
+				B1C27827AF8A8CEA737B819365B9812E /* Support Files */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/NJKWebViewProgress";
+			name = AXPracticalHUD;
+			path = AXPracticalHUD;
 			sourceTree = "<group>";
 		};
 		83D098E85FF9E5D4B3BFB1722B84E9C8 /* Pods-AXWebViewController */ = {
@@ -225,93 +351,200 @@
 			path = "Target Support Files/Pods-AXWebViewController";
 			sourceTree = "<group>";
 		};
-		A53F724990F79FAA6C0F8CF0F1EF6046 /* Pods */ = {
+		89FFB45CEE6F84B1BFA69065CC9BFB89 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				2292744519718837CB884B3B91493227 /* Aspects */,
-				72DBDCB892C27D0BF8D8C4DE7045DC91 /* AXNavigationBackItemInjection */,
-				B442EE2EF5AD75A465BABD4ADD67D9F6 /* NJKWebViewProgress */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		AB9E25B6569835F05E3FFC8D489D88F4 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				C820D984E8BA65B273258D6F77825BE9 /* Aspects.xcconfig */,
-				AEB4E9651E602770F6E8CA044FD7F7C2 /* Aspects-dummy.m */,
-				B35191C3CFCE8B1ACC13A9422323B95C /* Aspects-prefix.pch */,
+				3860CFEC1A7C6935D90BD9D133BC222C /* Aspects.xcconfig */,
+				D948E4F452D9397F6810BB315DDF9CDA /* Aspects-dummy.m */,
+				90AF1DF995E9812F272B99DAD7D1B605 /* Aspects-prefix.pch */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/Aspects";
 			sourceTree = "<group>";
 		};
-		B442EE2EF5AD75A465BABD4ADD67D9F6 /* NJKWebViewProgress */ = {
+		B1C27827AF8A8CEA737B819365B9812E /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				158F337AB5D020975B302B1F7B8668B0 /* Core */,
-				CEC43F745AB0BEF1A38DB95D6AA435FB /* ProgressView */,
-				7F560CBDF42B4B7D06353BCD41E4C292 /* Support Files */,
+				4EBD243C2AC08AE0CB247F69F8DE63B9 /* AXPracticalHUD.xcconfig */,
+				D8676731121D9B75C14946D76EFDC448 /* AXPracticalHUD-dummy.m */,
+				3AC25D645E61415853292ECF2415F79E /* AXPracticalHUD-prefix.pch */,
 			);
-			path = NJKWebViewProgress;
+			name = "Support Files";
+			path = "../Target Support Files/AXPracticalHUD";
 			sourceTree = "<group>";
 		};
-		CEC43F745AB0BEF1A38DB95D6AA435FB /* ProgressView */ = {
+		B59EAD221432A965FB2CFC358A496492 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				DE43F6019952B8FAA6555765D4747664 /* NJKWebViewProgressView.h */,
-				A679A649D403E6655DC8F04FB9C9B02A /* NJKWebViewProgressView.m */,
+				0A9916BEA8D183B23DC6B2EAAAE6BEDF /* AXNavigationBackItemInjection.xcconfig */,
+				461EC61E68BA0AB98B7FA790AD6C52D4 /* AXNavigationBackItemInjection-dummy.m */,
+				EBE0612B98B77417F23BE030E22B81A0 /* AXNavigationBackItemInjection-prefix.pch */,
 			);
-			name = ProgressView;
+			name = "Support Files";
+			path = "../Target Support Files/AXNavigationBackItemInjection";
 			sourceTree = "<group>";
 		};
-		F302CD3B306AF1ED96B9AF31FCDBC26C /* iOS */ = {
+		C15CD7955595647D5984D75435ECBF57 /* AXIndicatorView */ = {
 			isa = PBXGroup;
 			children = (
-				A2A6FF208CEC4C2861F1E9D42D651453 /* Foundation.framework */,
-				E86668F20F252C440D1015B816BE59C5 /* UIKit.framework */,
+				D34EA324D9EDCB99028417B317FEB6F4 /* AXActivityIndicatorView.h */,
+				0A4924365C5CED2AD58EF62070E070B1 /* AXActivityIndicatorView.m */,
+				B43453BA9A6130BEE5139A9317923FEA /* AXBreachedAnnulusIndicatorView.h */,
+				E3A326A43D0E1E72C80FED778255FACC /* AXBreachedAnnulusIndicatorView.m */,
+				68634DBCFDA69741A5C78724BF6F13CF /* AXIndicatorView.h */,
+				3C986B0D26AC1CF248E524A69097FFB8 /* Support Files */,
+			);
+			name = AXIndicatorView;
+			path = AXIndicatorView;
+			sourceTree = "<group>";
+		};
+		CC45F6D4B9D1FDB034C350BF1751A43D /* Aspects */ = {
+			isa = PBXGroup;
+			children = (
+				6D6189614621FDCC7E41BF3F9716F373 /* Aspects.h */,
+				CC26E5E1D1C6CD64BE4235EBE55313C3 /* Aspects.m */,
+				89FFB45CEE6F84B1BFA69065CC9BFB89 /* Support Files */,
+			);
+			name = Aspects;
+			path = Aspects;
+			sourceTree = "<group>";
+		};
+		E6EE98446B568159EE277B68FD442AF0 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */,
+				7EC994CDC2D681BA26389F78A7E4B325 /* UIKit.framework */,
 			);
 			name = iOS;
+			sourceTree = "<group>";
+		};
+		EA46938D03833E5BEDFFDFAFEFF940E4 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				D2661C3331DC0665D9D1367045A972A1 /* NJKWebViewProgress.xcconfig */,
+				442A639AE43E7DACB368899DA908A469 /* NJKWebViewProgress-dummy.m */,
+				19BCBFA796AE16314A93B53ED7D27E31 /* NJKWebViewProgress-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/NJKWebViewProgress";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		1E4DD26C8B2FA56C9166C21C3F7E22F6 /* Headers */ = {
+		07E5D5F58F8EA64621B37ED2ADF24627 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC00F3C541AB04C5FEF57AD8CB6C1759 /* AXPopNavigationController.h in Headers */,
+				23A6A3DB75B9C333804E102331954B76 /* AXActivityIndicatorView.h in Headers */,
+				2599D4395706D13ED9DAC3C139E9231C /* AXBreachedAnnulusIndicatorView.h in Headers */,
+				1120F2652DBBA8AB6AD6D8E32515C081 /* AXIndicatorView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E8396AAECA7B0061597C8C1AB72E27FE /* Headers */ = {
+		0838161285D7F3F57DBEEAF1DF631472 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56EF1BCF142EACE6F21E803872214B0C /* Aspects.h in Headers */,
+				6318CFF57C5697891E9B45A4868E5F8C /* Aspects.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EA5686F09F8A6A619FEDFE0C36083294 /* Headers */ = {
+		0BF82E07E705C845B20405283C12B448 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32EFF502FBA4473781B2B65FD697B345 /* NJKWebViewProgress.h in Headers */,
-				A2A3685A707B7F40BBDE1A6E0C7FE7DD /* NJKWebViewProgressView.h in Headers */,
+				2A2F36610CD105E2D65FA85445D235B4 /* AXPopNavigationController.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7345E139776F8333735A5B2E7C318CAA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				75F6282A107E4A52E4D4E536B99C24EB /* AXBarProgressView.h in Headers */,
+				02F3E980419BACA7211261E53C10F8F0 /* AXCircleProgressView.h in Headers */,
+				20125CA9A1E3ADE18E0BC6D3673C9584 /* AXGradientProgressView.h in Headers */,
+				3F0F760F0BB2DB4164D3D9B1E11A10F9 /* AXPracticalHUD.h in Headers */,
+				B64E7520FD45088F497A14A769BF91A0 /* AXPracticalHUDContentView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB81C9A5BF83E18C248983C7610A2167 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E194F1D6DCE1FC68A556F5AB5F4AE605 /* NJKWebViewProgress.h in Headers */,
+				4555765FD8034B4B9AA0B7356074D523 /* NJKWebViewProgressView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		B3311B67ED2DD468DE5F5F74287B266C /* AXNavigationBackItemInjection */ = {
+		36EBB26C1B73529533CBA4AC40656A6C /* AXIndicatorView */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B7A7C32E7E0CE42E7E191A979DCBE51D /* Build configuration list for PBXNativeTarget "AXNavigationBackItemInjection" */;
+			buildConfigurationList = 3F16E76E0429154996800C0168727058 /* Build configuration list for PBXNativeTarget "AXIndicatorView" */;
 			buildPhases = (
-				8AF143E81E34D75E6437825AE2B56957 /* Sources */,
-				479A301B847762F8FBB8D5A9EC8DC93F /* Frameworks */,
-				1E4DD26C8B2FA56C9166C21C3F7E22F6 /* Headers */,
+				163CC27BF866765F0047E9B1653B458C /* Sources */,
+				306C96B2FA7400EAD88B963B13558256 /* Frameworks */,
+				07E5D5F58F8EA64621B37ED2ADF24627 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AXIndicatorView;
+			productName = AXIndicatorView;
+			productReference = 6C80BEED132B6CA37D0E2496E2CC4859 /* libAXIndicatorView.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		405984B597EA9C891A014AF28FC9537D /* AXPracticalHUD */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FBEE1F011B83B3CD40EEF02AF5819317 /* Build configuration list for PBXNativeTarget "AXPracticalHUD" */;
+			buildPhases = (
+				DAF69DBCE096D4D893F14F17A06B6BAD /* Sources */,
+				418DEAB21CEC0C5193D482CB9AC4FF8E /* Frameworks */,
+				7345E139776F8333735A5B2E7C318CAA /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E40A67F3D844A61F3254FA2541133196 /* PBXTargetDependency */,
+			);
+			name = AXPracticalHUD;
+			productName = AXPracticalHUD;
+			productReference = 767C4864E831F877371B90EE57D59224 /* libAXPracticalHUD.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		406B4BFB3AD953CE97A942DEFED9F976 /* Pods-AXWebViewController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8C27D6D23E3D25D491EF23E3D765872B /* Build configuration list for PBXNativeTarget "Pods-AXWebViewController" */;
+			buildPhases = (
+				44E7C27FD0004C5F1A8DB3CC8F59FDA6 /* Sources */,
+				FCA6523A69AD797F2AD8793AFE0B64AC /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9C11D534FEB3BCF6A18376AA8F0433C5 /* PBXTargetDependency */,
+				7BB92FBFBFE9A2243CD40F22A3140F74 /* PBXTargetDependency */,
+				55D9EABB6FA56E45D3E7BA029563F562 /* PBXTargetDependency */,
+				5191B38F2AADC236997926F05D38BA7A /* PBXTargetDependency */,
+				B7B60E7807538AA716121F91B4689C5E /* PBXTargetDependency */,
+			);
+			name = "Pods-AXWebViewController";
+			productName = "Pods-AXWebViewController";
+			productReference = 510471D591C8F4380A748DC8376AC036 /* libPods-AXWebViewController.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		8BA6986852A8A534ED5F5D70DB15F51C /* AXNavigationBackItemInjection */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D5D5C0F8A34A222280A9D26C950432A5 /* Build configuration list for PBXNativeTarget "AXNavigationBackItemInjection" */;
+			buildPhases = (
+				AE4080BF6940C9EDCE61BD522F1B08A0 /* Sources */,
+				8AC5423CE6437D946D7DA64E739F9398 /* Frameworks */,
+				0BF82E07E705C845B20405283C12B448 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -319,52 +552,16 @@
 			);
 			name = AXNavigationBackItemInjection;
 			productName = AXNavigationBackItemInjection;
-			productReference = AA5CA314A1304900757C51EE96EB35E5 /* libAXNavigationBackItemInjection.a */;
+			productReference = 6F293430B7E82815FADF17CCAD602790 /* libAXNavigationBackItemInjection.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		B4A3E08D49931371F7247521A50EAF79 /* NJKWebViewProgress */ = {
+		C7C5FD310966070D9553E5B95C59641B /* Aspects */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D5BA31DD0B8A4F55B5014D132B6BFFF5 /* Build configuration list for PBXNativeTarget "NJKWebViewProgress" */;
+			buildConfigurationList = ADDD598D97160FAFC23522D96D16607C /* Build configuration list for PBXNativeTarget "Aspects" */;
 			buildPhases = (
-				3619A66CEAF955C359CF25CBCC468ADE /* Sources */,
-				9059AC276AEAEE67CA6CD37776499A2F /* Frameworks */,
-				EA5686F09F8A6A619FEDFE0C36083294 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = NJKWebViewProgress;
-			productName = NJKWebViewProgress;
-			productReference = C7D7A706AAEB476FBF9AD7D2BC80E06D /* libNJKWebViewProgress.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		D34EED66C52E6B954540844D49F8536F /* Pods-AXWebViewController */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 60F9EE47F13A338A2FDB99DDEB65931A /* Build configuration list for PBXNativeTarget "Pods-AXWebViewController" */;
-			buildPhases = (
-				51F25CD453472947A390BB6274B82ECA /* Sources */,
-				97E49FA248ACEB9253B400E8F2AF9901 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				CCAE50CFA3481FD85057F83844005578 /* PBXTargetDependency */,
-				20126671DA79710AC0FE6C9CCC63D81C /* PBXTargetDependency */,
-				42508CA9B311A5705297784B512C0815 /* PBXTargetDependency */,
-			);
-			name = "Pods-AXWebViewController";
-			productName = "Pods-AXWebViewController";
-			productReference = 5206834958D6C859C8E7183BF824BCC3 /* libPods-AXWebViewController.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		DBC9A0AF6D4571D059D2AF2422F2BD6E /* Aspects */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D7E640E0F46EE3F4F8AA74467DDBB0DD /* Build configuration list for PBXNativeTarget "Aspects" */;
-			buildPhases = (
-				1A6D08028337D0A7D7070CC356148963 /* Sources */,
-				310ABB239CF60D033312438242D4AD2F /* Frameworks */,
-				E8396AAECA7B0061597C8C1AB72E27FE /* Headers */,
+				BD018B03EC4EEBEA8B4692A1744D1A43 /* Sources */,
+				FF7BBE728C49110B1F0CD42AB3E4F3AB /* Frameworks */,
+				0838161285D7F3F57DBEEAF1DF631472 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -372,7 +569,24 @@
 			);
 			name = Aspects;
 			productName = Aspects;
-			productReference = C99C746493043BD0EF8340175E64D98A /* libAspects.a */;
+			productReference = 8671FB81DE86687FBE6F1F08B1140253 /* libAspects.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		CCB7CB485E21C0801790635C83376BA2 /* NJKWebViewProgress */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 51D966A99F8F3E1C7F15E6DF42CBC57B /* Build configuration list for PBXNativeTarget "NJKWebViewProgress" */;
+			buildPhases = (
+				5DCF53D88990B7A29C777B0A6A3E53D7 /* Sources */,
+				0DDB2252030449FCDDE76C68E21C206A /* Frameworks */,
+				EB81C9A5BF83E18C248983C7610A2167 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NJKWebViewProgress;
+			productName = NJKWebViewProgress;
+			productReference = A272D922178FFC350CE40855E3E9F43A /* libNJKWebViewProgress.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -392,84 +606,175 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = 125312D756154D2EA234E5BDC47ECDEA /* Products */;
+			productRefGroup = 338980D9C0B05F063803E4816556A64E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DBC9A0AF6D4571D059D2AF2422F2BD6E /* Aspects */,
-				B3311B67ED2DD468DE5F5F74287B266C /* AXNavigationBackItemInjection */,
-				B4A3E08D49931371F7247521A50EAF79 /* NJKWebViewProgress */,
-				D34EED66C52E6B954540844D49F8536F /* Pods-AXWebViewController */,
+				C7C5FD310966070D9553E5B95C59641B /* Aspects */,
+				36EBB26C1B73529533CBA4AC40656A6C /* AXIndicatorView */,
+				8BA6986852A8A534ED5F5D70DB15F51C /* AXNavigationBackItemInjection */,
+				405984B597EA9C891A014AF28FC9537D /* AXPracticalHUD */,
+				CCB7CB485E21C0801790635C83376BA2 /* NJKWebViewProgress */,
+				406B4BFB3AD953CE97A942DEFED9F976 /* Pods-AXWebViewController */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		1A6D08028337D0A7D7070CC356148963 /* Sources */ = {
+		163CC27BF866765F0047E9B1653B458C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F58F2966E9FE391EBC18A3115C36F804 /* Aspects-dummy.m in Sources */,
-				1A8200B536A880B714C46605FD83EA29 /* Aspects.m in Sources */,
+				92420F8E283ED18702C24E113CEC1E30 /* AXActivityIndicatorView.m in Sources */,
+				8A01A25372F9884966C6C43F1CA40C6E /* AXBreachedAnnulusIndicatorView.m in Sources */,
+				0B22A7F12B26F5C6E828B2EA4585A198 /* AXIndicatorView-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3619A66CEAF955C359CF25CBCC468ADE /* Sources */ = {
+		44E7C27FD0004C5F1A8DB3CC8F59FDA6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA58D3EEFCBED00AA256325D80519762 /* NJKWebViewProgress-dummy.m in Sources */,
-				F1452B6DA45F2A6E29DE276C03964CCD /* NJKWebViewProgress.m in Sources */,
-				02BC53765AC158E334C79613FFD6463E /* NJKWebViewProgressView.m in Sources */,
+				94486F0858A265DD49E7A1166CA6F689 /* Pods-AXWebViewController-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		51F25CD453472947A390BB6274B82ECA /* Sources */ = {
+		5DCF53D88990B7A29C777B0A6A3E53D7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9292BBBC73416625F82CA60F8413775 /* Pods-AXWebViewController-dummy.m in Sources */,
+				38DA9D4D2C73378AB559DE9E52B17235 /* NJKWebViewProgress-dummy.m in Sources */,
+				1C2F5DA1807D8BEAC93B8FBEB3FC2ECE /* NJKWebViewProgress.m in Sources */,
+				F2044C9B18E15050CA4264898D0E3C23 /* NJKWebViewProgressView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8AF143E81E34D75E6437825AE2B56957 /* Sources */ = {
+		AE4080BF6940C9EDCE61BD522F1B08A0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93A2D6709FC0C2F08D2D010008BD06DC /* AXNavigationBackItemInjection-dummy.m in Sources */,
-				2A954DACD4C89F06B482F65551B2589A /* AXPopNavigationController.m in Sources */,
+				5AB80EAFE4ABA353F7F4166FFAD92B80 /* AXNavigationBackItemInjection-dummy.m in Sources */,
+				5574A10F02DF784EAADC2F6524D0CA8B /* AXPopNavigationController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BD018B03EC4EEBEA8B4692A1744D1A43 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				44AE116E79A018D8FF438AC10875155D /* Aspects-dummy.m in Sources */,
+				584270D1FEE8D2DBBFE148A715EF2230 /* Aspects.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAF69DBCE096D4D893F14F17A06B6BAD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9CB1DE91A3785A6AE1006BE3CCB82646 /* AXBarProgressView.m in Sources */,
+				35B0CB3F46AD513C6BF87A49DF500A2F /* AXCircleProgressView.m in Sources */,
+				1E03F486C2F641235ABC3CABD13808C4 /* AXGradientProgressView.m in Sources */,
+				5324FAADE048493FBD94C8BE42B02A03 /* AXPracticalHUD-dummy.m in Sources */,
+				172CFEFC45FFF7A49EF49EC549FB8304 /* AXPracticalHUD.m in Sources */,
+				351A0D34AB73D7B390A17CFFE5055022 /* AXPracticalHUDContentView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		20126671DA79710AC0FE6C9CCC63D81C /* PBXTargetDependency */ = {
+		5191B38F2AADC236997926F05D38BA7A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Aspects;
-			target = DBC9A0AF6D4571D059D2AF2422F2BD6E /* Aspects */;
-			targetProxy = 7C98E3C6E8CB1BC31C3A11BC0B1499DF /* PBXContainerItemProxy */;
+			target = C7C5FD310966070D9553E5B95C59641B /* Aspects */;
+			targetProxy = F6B8C495E7217F868CDE65F3495D5438 /* PBXContainerItemProxy */;
 		};
-		42508CA9B311A5705297784B512C0815 /* PBXTargetDependency */ = {
+		55D9EABB6FA56E45D3E7BA029563F562 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = NJKWebViewProgress;
-			target = B4A3E08D49931371F7247521A50EAF79 /* NJKWebViewProgress */;
-			targetProxy = D03FD5991FFB189B04D8DA443E7B78BE /* PBXContainerItemProxy */;
+			name = AXPracticalHUD;
+			target = 405984B597EA9C891A014AF28FC9537D /* AXPracticalHUD */;
+			targetProxy = D02CB70ED54DDC99285C61515C9B03F2 /* PBXContainerItemProxy */;
 		};
-		CCAE50CFA3481FD85057F83844005578 /* PBXTargetDependency */ = {
+		7BB92FBFBFE9A2243CD40F22A3140F74 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AXNavigationBackItemInjection;
-			target = B3311B67ED2DD468DE5F5F74287B266C /* AXNavigationBackItemInjection */;
-			targetProxy = 3509781ECBFCEA98365F4A2261D10426 /* PBXContainerItemProxy */;
+			target = 8BA6986852A8A534ED5F5D70DB15F51C /* AXNavigationBackItemInjection */;
+			targetProxy = 45BB1480FC2C2928231CCA29A101BA8C /* PBXContainerItemProxy */;
+		};
+		9C11D534FEB3BCF6A18376AA8F0433C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AXIndicatorView;
+			target = 36EBB26C1B73529533CBA4AC40656A6C /* AXIndicatorView */;
+			targetProxy = F8B2774435BA4974226AA88BB489C4E4 /* PBXContainerItemProxy */;
+		};
+		B7B60E7807538AA716121F91B4689C5E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = NJKWebViewProgress;
+			target = CCB7CB485E21C0801790635C83376BA2 /* NJKWebViewProgress */;
+			targetProxy = D6100150F0556D1D36513D4A2CC6CF93 /* PBXContainerItemProxy */;
+		};
+		E40A67F3D844A61F3254FA2541133196 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AXIndicatorView;
+			target = 36EBB26C1B73529533CBA4AC40656A6C /* AXIndicatorView */;
+			targetProxy = 2BE0F270186A9C3D30E0B41D59DC6EEA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		1046FC26D6D68D590BB0DEA75ABB4716 /* Release */ = {
+		011EDFCFE05CADF375EAFEA891F2A522 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9CE42465EBC49EA54D471F8F6D62EB32 /* AXNavigationBackItemInjection.xcconfig */;
+			baseConfigurationReference = 4EBD243C2AC08AE0CB247F69F8DE63B9 /* AXPracticalHUD.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/AXPracticalHUD/AXPracticalHUD-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		0A2155766E6FAE043FEEA750C2E0FC0A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4EBD243C2AC08AE0CB247F69F8DE63B9 /* AXPracticalHUD.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/AXPracticalHUD/AXPracticalHUD-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		18FF3481294083E90604F93497C1D4F1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0A9916BEA8D183B23DC6B2EAAAE6BEDF /* AXNavigationBackItemInjection.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -486,17 +791,19 @@
 			};
 			name = Release;
 		};
-		5CA1419A26EAF44FE652544B252DAEC1 /* Release */ = {
+		41FDF03E37B67B93BFD93293C36AA08B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7785DF08327F1605C57A1BECEC371506 /* Pods-AXWebViewController.release.xcconfig */;
+			baseConfigurationReference = 58770428F78621A4B6D2BA79241B9152 /* Pods-AXWebViewController.debug.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MACH_O_TYPE = staticlib;
-				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -505,18 +812,89 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
-		6AB13A3C55F34945ED8BEA158099D37D /* Debug */ = {
+		5137966D941F2389D7EF373F6452E8A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C3DB2591E24B9288F77C7B62EE43E1BD /* NJKWebViewProgress.xcconfig */;
+			baseConfigurationReference = D2661C3331DC0665D9D1367045A972A1 /* NJKWebViewProgress.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/NJKWebViewProgress/NJKWebViewProgress-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		571D41DFDF33A01D3157F48EFD389268 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F7EBE05CCC08A798C434EDD035A7546 /* AXIndicatorView.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/AXIndicatorView/AXIndicatorView-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		58CBEA234003B61DB2C818079B1D4BE6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0A9916BEA8D183B23DC6B2EAAAE6BEDF /* AXNavigationBackItemInjection.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/AXNavigationBackItemInjection/AXNavigationBackItemInjection-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		5CE00184ACF73A3ECD153DEFAC213C7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F7EBE05CCC08A798C434EDD035A7546 /* AXIndicatorView.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/AXIndicatorView/AXIndicatorView-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
@@ -568,11 +946,36 @@
 			};
 			name = Release;
 		};
-		AC174B215EBC29AC1C8F04EE17630936 /* Release */ = {
+		7C316EC1C9660FBD6475B6513DE61DB0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C3DB2591E24B9288F77C7B62EE43E1BD /* NJKWebViewProgress.xcconfig */;
+			baseConfigurationReference = 3860CFEC1A7C6935D90BD9D133BC222C /* Aspects.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Aspects/Aspects-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		7C4C62B4F5678E0335895E47A279B78F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D2661C3331DC0665D9D1367045A972A1 /* NJKWebViewProgress.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -589,37 +992,18 @@
 			};
 			name = Release;
 		};
-		B51F3484F8CDAE7C78A7C53C0608B07B /* Debug */ = {
+		84893E102A1A1FB8FAE0E269E0B3326A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 58770428F78621A4B6D2BA79241B9152 /* Pods-AXWebViewController.debug.xcconfig */;
+			baseConfigurationReference = 3860CFEC1A7C6935D90BD9D133BC222C /* Aspects.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MACH_O_TYPE = staticlib;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		C88DD2D86FEC63DD2AB7396DBA503364 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9CE42465EBC49EA54D471F8F6D62EB32 /* AXNavigationBackItemInjection.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/AXNavigationBackItemInjection/AXNavigationBackItemInjection-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				GCC_PREFIX_HEADER = "Target Support Files/Aspects/Aspects-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
@@ -630,6 +1014,29 @@
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
+		};
+		8D8041A8F844E6ADD18886DB33B6AA06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7785DF08327F1605C57A1BECEC371506 /* Pods-AXWebViewController.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
 		};
 		CF7953F66E785E8876EB4D370D777D50 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -675,48 +1082,6 @@
 			};
 			name = Debug;
 		};
-		EB044FB381FF729981170AB85DCC07BA /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C820D984E8BA65B273258D6F77825BE9 /* Aspects.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Aspects/Aspects-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		FA76CF8676C9DE62074CAE4239D899AC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C820D984E8BA65B273258D6F77825BE9 /* Aspects.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Aspects/Aspects-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -729,38 +1094,56 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		60F9EE47F13A338A2FDB99DDEB65931A /* Build configuration list for PBXNativeTarget "Pods-AXWebViewController" */ = {
+		3F16E76E0429154996800C0168727058 /* Build configuration list for PBXNativeTarget "AXIndicatorView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B51F3484F8CDAE7C78A7C53C0608B07B /* Debug */,
-				5CA1419A26EAF44FE652544B252DAEC1 /* Release */,
+				5CE00184ACF73A3ECD153DEFAC213C7E /* Debug */,
+				571D41DFDF33A01D3157F48EFD389268 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B7A7C32E7E0CE42E7E191A979DCBE51D /* Build configuration list for PBXNativeTarget "AXNavigationBackItemInjection" */ = {
+		51D966A99F8F3E1C7F15E6DF42CBC57B /* Build configuration list for PBXNativeTarget "NJKWebViewProgress" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C88DD2D86FEC63DD2AB7396DBA503364 /* Debug */,
-				1046FC26D6D68D590BB0DEA75ABB4716 /* Release */,
+				5137966D941F2389D7EF373F6452E8A6 /* Debug */,
+				7C4C62B4F5678E0335895E47A279B78F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D5BA31DD0B8A4F55B5014D132B6BFFF5 /* Build configuration list for PBXNativeTarget "NJKWebViewProgress" */ = {
+		8C27D6D23E3D25D491EF23E3D765872B /* Build configuration list for PBXNativeTarget "Pods-AXWebViewController" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6AB13A3C55F34945ED8BEA158099D37D /* Debug */,
-				AC174B215EBC29AC1C8F04EE17630936 /* Release */,
+				41FDF03E37B67B93BFD93293C36AA08B /* Debug */,
+				8D8041A8F844E6ADD18886DB33B6AA06 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D7E640E0F46EE3F4F8AA74467DDBB0DD /* Build configuration list for PBXNativeTarget "Aspects" */ = {
+		ADDD598D97160FAFC23522D96D16607C /* Build configuration list for PBXNativeTarget "Aspects" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FA76CF8676C9DE62074CAE4239D899AC /* Debug */,
-				EB044FB381FF729981170AB85DCC07BA /* Release */,
+				84893E102A1A1FB8FAE0E269E0B3326A /* Debug */,
+				7C316EC1C9660FBD6475B6513DE61DB0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D5D5C0F8A34A222280A9D26C950432A5 /* Build configuration list for PBXNativeTarget "AXNavigationBackItemInjection" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				58CBEA234003B61DB2C818079B1D4BE6 /* Debug */,
+				18FF3481294083E90604F93497C1D4F1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FBEE1F011B83B3CD40EEF02AF5819317 /* Build configuration list for PBXNativeTarget "AXPracticalHUD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				011EDFCFE05CADF375EAFEA891F2A522 /* Debug */,
+				0A2155766E6FAE043FEEA750C2E0FC0A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
