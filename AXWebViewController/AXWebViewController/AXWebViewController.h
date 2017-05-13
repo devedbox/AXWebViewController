@@ -233,7 +233,7 @@ typedef NSURLSessionAuthChallengeDisposition (^WKWebViewDidReceiveAuthentication
 /// Clear cache data of web view.
 ///
 /// @param completion completion block.
-+ (void)clearWebCacheCompletion:(dispatch_block_t)completion;
++ (void)clearWebCacheCompletion:(dispatch_block_t _Nullable)completion;
 @end
 
 /**
