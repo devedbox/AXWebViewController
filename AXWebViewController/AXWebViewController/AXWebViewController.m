@@ -24,8 +24,7 @@
 //  SOFTWARE.
 
 #import "AXWebViewController.h"
-#import "AXWebViewControllerActivitySafari.h"
-#import "AXWebViewControllerActivityChrome.h"
+#import "AXWebViewControllerActivity.h"
 #import <Aspects/Aspects.h>
 #import <objc/runtime.h>
 #import <StoreKit/StoreKit.h>

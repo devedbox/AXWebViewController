@@ -21,8 +21,6 @@
 		97F6BE6D557C0BB485DDCF88 /* libPods-AXWebViewController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2642E682614F41BF460E7673 /* libPods-AXWebViewController.a */; };
 		DCABA01B1EC5EE2A005C7D31 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = DCABA01A1EC5EE2A005C7D31 /* AFSecurityPolicy.m */; };
 		DCABA0231EC5FDFF005C7D31 /* AXWebViewControllerActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = DCABA01E1EC5FDFF005C7D31 /* AXWebViewControllerActivity.m */; };
-		DCABA0241EC5FDFF005C7D31 /* AXWebViewControllerActivityChrome.m in Sources */ = {isa = PBXBuildFile; fileRef = DCABA0201EC5FDFF005C7D31 /* AXWebViewControllerActivityChrome.m */; };
-		DCABA0251EC5FDFF005C7D31 /* AXWebViewControllerActivitySafari.m in Sources */ = {isa = PBXBuildFile; fileRef = DCABA0221EC5FDFF005C7D31 /* AXWebViewControllerActivitySafari.m */; };
 		DCCF48241E7987C9009CF38E /* Swift.pdf in Resources */ = {isa = PBXBuildFile; fileRef = DCCF48231E7987C9009CF38E /* Swift.pdf */; };
 /* End PBXBuildFile section */
 
@@ -56,10 +54,6 @@
 		DCABA01A1EC5EE2A005C7D31 /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSecurityPolicy.m; sourceTree = "<group>"; };
 		DCABA01D1EC5FDFF005C7D31 /* AXWebViewControllerActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXWebViewControllerActivity.h; sourceTree = "<group>"; };
 		DCABA01E1EC5FDFF005C7D31 /* AXWebViewControllerActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXWebViewControllerActivity.m; sourceTree = "<group>"; };
-		DCABA01F1EC5FDFF005C7D31 /* AXWebViewControllerActivityChrome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXWebViewControllerActivityChrome.h; sourceTree = "<group>"; };
-		DCABA0201EC5FDFF005C7D31 /* AXWebViewControllerActivityChrome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXWebViewControllerActivityChrome.m; sourceTree = "<group>"; };
-		DCABA0211EC5FDFF005C7D31 /* AXWebViewControllerActivitySafari.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXWebViewControllerActivitySafari.h; sourceTree = "<group>"; };
-		DCABA0221EC5FDFF005C7D31 /* AXWebViewControllerActivitySafari.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXWebViewControllerActivitySafari.m; sourceTree = "<group>"; };
 		DCCF48231E7987C9009CF38E /* Swift.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Swift.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -169,10 +163,6 @@
 			children = (
 				DCABA01D1EC5FDFF005C7D31 /* AXWebViewControllerActivity.h */,
 				DCABA01E1EC5FDFF005C7D31 /* AXWebViewControllerActivity.m */,
-				DCABA01F1EC5FDFF005C7D31 /* AXWebViewControllerActivityChrome.h */,
-				DCABA0201EC5FDFF005C7D31 /* AXWebViewControllerActivityChrome.m */,
-				DCABA0211EC5FDFF005C7D31 /* AXWebViewControllerActivitySafari.h */,
-				DCABA0221EC5FDFF005C7D31 /* AXWebViewControllerActivitySafari.m */,
 			);
 			name = Activity;
 			path = AXWebViewController/Activity;
@@ -308,10 +298,8 @@
 				01513BF31C28F70700CB8238 /* AppDelegate.m in Sources */,
 				01513C071C28F90000CB8238 /* AXWebViewController.m in Sources */,
 				DCABA0231EC5FDFF005C7D31 /* AXWebViewControllerActivity.m in Sources */,
-				DCABA0251EC5FDFF005C7D31 /* AXWebViewControllerActivitySafari.m in Sources */,
 				01513BF01C28F70700CB8238 /* main.m in Sources */,
 				01AA4F1C1D4F28DD008F2A2C /* TabbarViewController2.m in Sources */,
-				DCABA0241EC5FDFF005C7D31 /* AXWebViewControllerActivityChrome.m in Sources */,
 				DCABA01B1EC5EE2A005C7D31 /* AFSecurityPolicy.m in Sources */,
 				01CDC15D1C2A41DF00D9AF53 /* TableViewController.m in Sources */,
 			);

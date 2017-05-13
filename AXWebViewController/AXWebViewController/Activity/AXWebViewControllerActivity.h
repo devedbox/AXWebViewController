@@ -36,3 +36,6 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 /// Scheme prefix value.
 @property (nonatomic, strong) NSString *scheme;
 @end
+
+@interface AXWebViewControllerActivityChrome : AXWebViewControllerActivity @end
+@interface AXWebViewControllerActivitySafari : AXWebViewControllerActivity @end
