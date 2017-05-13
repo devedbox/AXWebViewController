@@ -38,6 +38,7 @@
         case 0:
         {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithURL:[NSURL fileURLWithPath:[NSBundle.mainBundle pathForResource:@"Swift" ofType:@"pdf"]]];
+            webVC.title = @"Swift.pdf";
             webVC.showsToolBar = NO;
             if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_9_0) {
                 webVC.webView.allowsLinkPreview = YES;
@@ -59,6 +60,7 @@
         {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://www.baidu.com"];
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+            nav.navigationBar.tintColor = [UIColor colorWithRed:0.322 green:0.322 blue:0.322 alpha:1.00];
             [self presentViewController:nav animated:YES completion:NULL];
             webVC.showsToolBar = YES;
             webVC.navigationType = 1;
