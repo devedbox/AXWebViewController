@@ -44,7 +44,7 @@
 #import <NJKWebViewProgress/NJKWebViewProgressView.h>
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 #import <WebKit/WebKit.h>
-#import "AFSecurityPolicy.h"
+#import "AXSecurityPolicy.h"
 #endif
 #ifndef AX_REQUIRES_SUPER
 #if __has_attribute(objc_requires_super)
@@ -253,7 +253,7 @@ typedef NSURLSessionAuthChallengeDisposition (^WKWebViewDidReceiveAuthentication
 @property(copy, nonatomic, nullable) WKWebViewDidReceiveAuthenticationChallengeHandler challengeHandler;
 /// The security policy used by created session to evaluate server trust for secure connections.
 /// `AXWebViewController` uses the `defaultPolicy` unless otherwise specified.
-@property (strong, nonatomic, nullable) AFSecurityPolicy *securityPolicy;
+@property (strong, nonatomic, nullable) AXSecurityPolicy *securityPolicy;
 @end
 #endif
 NS_ASSUME_NONNULL_END

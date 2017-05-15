@@ -52,7 +52,7 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
     WKWebViewConfiguration *_configuration;
     
     WKWebViewDidReceiveAuthenticationChallengeHandler _challengeHandler;
-    AFSecurityPolicy *_securityPolicy;
+    AXSecurityPolicy *_securityPolicy;
 #endif
     
     NSURLRequest *_request;
@@ -1708,7 +1708,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
     return _challengeHandler;
 }
 
-- (AFSecurityPolicy *)securityPolicy {
+- (AXSecurityPolicy *)securityPolicy {
     return _securityPolicy;
 }
 
@@ -1716,7 +1716,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
     _challengeHandler = [challengeHandler copy];
 }
 
-- (void)setSecurityPolicy:(AFSecurityPolicy *)securityPolicy {
+- (void)setSecurityPolicy:(AXSecurityPolicy *)securityPolicy {
     _securityPolicy = securityPolicy;
 }
 @end
