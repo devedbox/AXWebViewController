@@ -413,6 +413,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
     _webView.navigationDelegate = nil;
     [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
     [_webView removeObserver:self forKeyPath:@"scrollView.contentOffset"];
+    [_webView removeObserver:self forKeyPath:@"title"];
     /*
      [_webView.scrollView removeObserver:self forKeyPath:@"backgroundColor"];
      */
@@ -461,6 +462,11 @@ static NSUInteger const kContainerViewTag = 0x893147;
         // Get the current content offset.
         CGPoint contentOffset = [change[NSKeyValueChangeNewKey] CGPointValue];
         _backgroundLabel.transform = CGAffineTransformMakeTranslation(0, -contentOffset.y-_webView.scrollView.contentInset.top);
+    } else if ([keyPath isEqualToString:@"title"]) {
+        // Update title of vc.
+        [self _updateTitleOfWebVC];
+        // And update navigation items if needed.
+        if (_navigationType == AXWebViewControllerNavigationBarItem) [self updateNavigationItems];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -493,6 +499,8 @@ static NSUInteger const kContainerViewTag = 0x893147;
     _webView.navigationDelegate = self;
     // Obverse the content offset of the scroll view.
     [_webView addObserver:self forKeyPath:@"scrollView.contentOffset" options:NSKeyValueObservingOptionNew context:NULL];
+    // Obverse title. Fix issue: https://github.com/devedbox/AXWebViewController/issues/35
+    [_webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:NULL];
     return _webView;
 }
 
