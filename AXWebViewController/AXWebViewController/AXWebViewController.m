@@ -1217,7 +1217,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
     if (completionHandler) {
         completionHandler(disposition, credential);
     }
-    completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
+    // completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
 }
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
 - (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView {
