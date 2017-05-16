@@ -822,7 +822,10 @@ static NSUInteger const kContainerViewTag = 0x893147;
     Class WKNavigationClass = NSClassFromString(@"WKNavigation");
     if (WKNavigationClass == NULL) {
         if (![object isKindOfClass:WKNavigationClass] || object == nil) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [self didStartLoad];
+#pragma clang diagnostic pop
             return;
         }
     }
