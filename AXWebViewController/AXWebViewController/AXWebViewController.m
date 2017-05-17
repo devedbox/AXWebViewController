@@ -136,10 +136,60 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 #ifndef kAXNetworkErrorHTMLPath
 #define kAXNetworkErrorHTMLPath [[NSBundle bundleForClass:NSClassFromString(@"AXWebViewController")] pathForResource:@"AXWebViewController.bundle/html.bundle/neterror" ofType:@"html"]
 #endif
-
+/// URL key for 404 not found page.
 static NSString *const kAX404NotFoundURLKey = @"ax_404_not_found";
+/// URL key for network error page.
 static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
+/// Tag value for container view.
 static NSUInteger const kContainerViewTag = 0x893147;
+
+static NSUInteger const _kiOS8_0 = 8000;
+static NSUInteger const _kiOS9_0 = 9000;
+static NSUInteger const _kiOS10_0 = 10000;
+
+#ifndef kAX_WEB_VIEW_CONTROLLER_DEBUG_LOGGING
+#define kAX_WEB_VIEW_CONTROLLER_DEBUG_LOGGING 1
+#endif
+
+#ifndef kAX_WEB_VIEW_CONTROLLER_USING_NUMBER_COMPARING
+#define kAX_WEB_VIEW_CONTROLLER_USING_NUMBER_COMPARING 1
+#endif
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-function"
+static inline BOOL AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(NSUInteger plfm) {
+    NSString *systemVersion = [[UIDevice currentDevice].systemVersion copy];
+    NSArray *comp = [systemVersion componentsSeparatedByString:@"."];
+    if (comp.count == 0 || comp.count == 1) {
+        systemVersion = [NSString stringWithFormat:@"%@.0.0", systemVersion];
+    } else if (comp.count == 2) {
+        systemVersion = [NSString stringWithFormat:@"%@.0", systemVersion];
+    }
+#if kAX_WEB_VIEW_CONTROLLER_USING_NUMBER_COMPARING
+    NSString *currentSystemVersion = [systemVersion stringByReplacingOccurrencesOfString:@"." withString:@""];
+    NSUInteger currentSysVe = [[NSString stringWithFormat:@"%.5ld", (long)[currentSystemVersion integerValue]*10] integerValue];
+    NSUInteger platform = [[NSString stringWithFormat:@"%.5ld", (unsigned long)plfm] integerValue];
+#if kAX_WEB_VIEW_CONTROLLER_DEBUG_LOGGING
+    // Log for the versions.
+    NSLog(@"CurrentSysVe: %@", @(currentSysVe));
+    NSLog(@"Platform: %@", @(platform));
+#endif
+    return platform >= currentSysVe;
+#else
+    NSString *plat = [NSString stringWithFormat:@"%@.0.0", @(plfm/1000)];
+    NSComparisonResult result = [plat compare:systemVersion options:NSNumericSearch];
+    return result == NSOrderedSame || result == NSOrderedDescending;
+#endif
+}
+
+static inline BOOL AX_WEB_VIEW_CONTROLLER_NEED_USING_WEB_KIT() {
+    return !AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS8_0);
+}
+
+static inline BOOL AX_WEB_VIEW_CONTROLLER_NOT_USING_WEB_KIT() {
+    return !AX_WEB_VIEW_CONTROLLER_NEED_USING_WEB_KIT();
+}
+#pragma clang diagnostic pop
 
 @implementation AXWebViewController
 #pragma mark - Life cycle
@@ -169,19 +219,31 @@ static NSUInteger const kContainerViewTag = 0x893147;
     _showsToolBar = YES;
     _showsBackgroundLabel = YES;
     _maxAllowedTitleLength = 10;
-#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-    _timeoutInternal = 30.0;
-    _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
-#endif
-    
-#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-    // Change auto just scroll view insets to NO to fix issue: https://github.com/devedbox/AXWebViewController/issues/10
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.extendedLayoutIncludesOpaqueBars = YES;
-    /* Using contraints to view instead of bottom layout guide.
-     self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
-     */
-#endif
+    /*
+    #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+        _timeoutInternal = 30.0;
+        _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
+    #endif
+
+    #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+        // Change auto just scroll view insets to NO to fix issue: https://github.com/devedbox/AXWebViewController/issues/10
+        self.automaticallyAdjustsScrollViewInsets = NO;
+        self.extendedLayoutIncludesOpaqueBars = YES;
+        // Using contraints to view instead of bottom layout guide.
+        // self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
+    #endif
+    */
+    if (AX_WEB_VIEW_CONTROLLER_NEED_USING_WEB_KIT()) {
+        // Change auto just scroll view insets to NO to fix issue: https://github.com/devedbox/AXWebViewController/issues/10
+        self.automaticallyAdjustsScrollViewInsets = NO;
+        self.extendedLayoutIncludesOpaqueBars = YES;
+        /* Using contraints to view instead of bottom layout guide.
+         self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
+         */
+    } else {
+        _timeoutInternal = 30.0;
+        _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
+    }
 }
 
 - (instancetype)initWithAddress:(NSString *)urlString {
@@ -229,19 +291,34 @@ static NSUInteger const kContainerViewTag = 0x893147;
 
 - (void)loadView {
     [super loadView];
-#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-    id topLayoutGuide = self.topLayoutGuide;
-    _AXWebContainerView *container = [_AXWebContainerView new];
-    [container setHitBlock:^() {
-        // if (!self.webView.isLoading) [self.webView reloadFromOrigin];
-    }];
-    [container setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addSubview:container];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[container]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(container)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topLayoutGuide][container]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(topLayoutGuide, container)]];
-    [container setTag:kContainerViewTag];
-    [self.view setNeedsLayout]; [self.view layoutIfNeeded];
-#endif
+    /*
+    #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+        id topLayoutGuide = self.topLayoutGuide;
+        _AXWebContainerView *container = [_AXWebContainerView new];
+        [container setHitBlock:^() {
+            // if (!self.webView.isLoading) [self.webView reloadFromOrigin];
+        }];
+        [container setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self.view addSubview:container];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[container]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(container)]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topLayoutGuide][container]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(topLayoutGuide, container)]];
+        [container setTag:kContainerViewTag];
+        [self.view setNeedsLayout]; [self.view layoutIfNeeded];
+    #endif
+     */
+    if (AX_WEB_VIEW_CONTROLLER_NEED_USING_WEB_KIT()) {
+        id topLayoutGuide = self.topLayoutGuide;
+        _AXWebContainerView *container = [_AXWebContainerView new];
+        [container setHitBlock:^() {
+            // if (!self.webView.isLoading) [self.webView reloadFromOrigin];
+        }];
+        [container setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self.view addSubview:container];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[container]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(container)]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topLayoutGuide][container]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(topLayoutGuide, container)]];
+        [container setTag:kContainerViewTag];
+        [self.view setNeedsLayout]; [self.view layoutIfNeeded];
+    }
 }
 
 - (void)viewDidLoad {
@@ -260,24 +337,19 @@ static NSUInteger const kContainerViewTag = 0x893147;
         [self loadURL:[NSURL fileURLWithPath:kAX404NotFoundHTMLPath]];
     }
     
-#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-    [self progressProxy];
-#else
-    [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
-    /*
-     [_webView.scrollView addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew context:NULL];
-     */
-#endif
-    
     // Config navigation item
     self.navigationItem.leftItemsSupplementBackButton = YES;
     
 #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    [self progressProxy];
     self.view.backgroundColor = [UIColor colorWithRed:0.180 green:0.192 blue:0.196 alpha:1.00];
     self.progressView.progressBarView.backgroundColor = self.navigationController.navigationBar.tintColor;
 #else
     self.view.backgroundColor = [UIColor whiteColor];
     self.progressView.progressTintColor = self.navigationController.navigationBar.tintColor;
+    [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
+    
+    // [_webView.scrollView addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew context:NULL];
 #endif
 }
 
@@ -414,13 +486,13 @@ static NSUInteger const kContainerViewTag = 0x893147;
     [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
     [_webView removeObserver:self forKeyPath:@"scrollView.contentOffset"];
     [_webView removeObserver:self forKeyPath:@"title"];
-    /*
-     [_webView.scrollView removeObserver:self forKeyPath:@"backgroundColor"];
-     */
+    // [_webView.scrollView removeObserver:self forKeyPath:@"backgroundColor"];
 #else
     _webView.delegate = nil;
 #endif
-    // NSLog(@"One of AXWebViewController's instances was destroyed.");
+#if kAX_WEB_VIEW_CONTROLLER_DEBUG_LOGGING
+    NSLog(@"One of AXWebViewController's instances was destroyed.");
+#endif
 }
 
 #pragma mark - Override.
@@ -451,13 +523,13 @@ static NSUInteger const kContainerViewTag = 0x893147;
             [_progressView setProgress:progress animated:NO];
         }
     } else if ([keyPath isEqualToString:@"backgroundColor"]) {
-#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+        // #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
         /*
          if (![_webView.scrollView.backgroundColor isEqual:[UIColor clearColor]]) {
          _webView.scrollView.backgroundColor = [UIColor clearColor];
          }
          */
-#endif
+        // #endif
     } else if ([keyPath isEqualToString:@"scrollView.contentOffset"]) {
         // Get the current content offset.
         CGPoint contentOffset = [change[NSKeyValueChangeNewKey] CGPointValue];
@@ -480,14 +552,31 @@ static NSUInteger const kContainerViewTag = 0x893147;
     if (!config) {
         config = [[WKWebViewConfiguration alloc] init];
         config.preferences.minimumFontSize = 9.0;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_9_0
-        if ([config respondsToSelector:@selector(setApplicationNameForUserAgent:)]) {
-            [config setApplicationNameForUserAgent:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]];
-        }
+        /*
+        #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_9_0
+                if ([config respondsToSelector:@selector(setApplicationNameForUserAgent:)]) {
+                    [config setApplicationNameForUserAgent:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]];
+                }
+                if ([config respondsToSelector:@selector(setAllowsInlineMediaPlayback:)]) {
+                    [config setAllowsInlineMediaPlayback:YES];
+                }
+        #endif
+         */
         if ([config respondsToSelector:@selector(setAllowsInlineMediaPlayback:)]) {
             [config setAllowsInlineMediaPlayback:YES];
         }
-#endif
+        if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS9_0)) {
+            if ([config respondsToSelector:@selector(setApplicationNameForUserAgent:)]) {
+                [config setApplicationNameForUserAgent:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]];
+            }
+        }
+        if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0) && [config respondsToSelector:@selector(setMediaTypesRequiringUserActionForPlayback:)]) {
+            [config setMediaTypesRequiringUserActionForPlayback:WKAudiovisualMediaTypeNone];
+        } else if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS9_0) && [config respondsToSelector:@selector(setRequiresUserActionForMediaPlayback:)]) {
+            [config setRequiresUserActionForMediaPlayback:NO];
+        } else if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS8_0) && [config respondsToSelector:@selector(setMediaPlaybackRequiresUserAction:)]) {
+            [config setMediaPlaybackRequiresUserAction:NO];
+        }
     }
     _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
     _webView.allowsBackForwardNavigationGestures = YES;
@@ -643,11 +732,18 @@ static NSUInteger const kContainerViewTag = 0x893147;
 - (UILabel *)backgroundLabel {
     if (_backgroundLabel) return _backgroundLabel;
     _backgroundLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-#if  AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-    _backgroundLabel.textColor = [UIColor colorWithRed:0.180 green:0.192 blue:0.196 alpha:1.00];
-#else
-    _backgroundLabel.textColor = [UIColor colorWithRed:0.322 green:0.322 blue:0.322 alpha:1.00];
-#endif
+    /*
+    #if  AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+        _backgroundLabel.textColor = [UIColor colorWithRed:0.180 green:0.192 blue:0.196 alpha:1.00];
+    #else
+        _backgroundLabel.textColor = [UIColor colorWithRed:0.322 green:0.322 blue:0.322 alpha:1.00];
+    #endif
+     */
+    if (AX_WEB_VIEW_CONTROLLER_NEED_USING_WEB_KIT()) {
+        _backgroundLabel.textColor = [UIColor colorWithRed:0.180 green:0.192 blue:0.196 alpha:1.00];
+    } else {
+        _backgroundLabel.textColor = [UIColor colorWithRed:0.322 green:0.322 blue:0.322 alpha:1.00];
+    }
     _backgroundLabel.font = [UIFont systemFontOfSize:12];
     _backgroundLabel.numberOfLines = 0;
     _backgroundLabel.textAlignment = NSTextAlignmentCenter;
@@ -829,9 +925,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
             return;
         }
     }
-#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-    if ([object isKindOfClass:WKNavigationClass]) [self didStartLoadWithNavigation:object];
-#endif
+    if (AX_WEB_VIEW_CONTROLLER_NEED_USING_WEB_KIT() && [object isKindOfClass:WKNavigationClass]) [self didStartLoadWithNavigation:object];
 }
 
 - (void)didFinishLoad{
@@ -877,13 +971,13 @@ static NSUInteger const kContainerViewTag = 0x893147;
 }
 
 - (void)didFailLoadWithError:(NSError *)error{
-#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    // #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     if (error.code == NSURLErrorCannotFindHost) {// 404
         [self loadURL:[NSURL fileURLWithPath:kAX404NotFoundHTMLPath]];
     } else {
         [self loadURL:[NSURL fileURLWithPath:kAXNetworkErrorHTMLPath]];
     }
-#endif
+    // #endif
     _backgroundLabel.text = [NSString stringWithFormat:@"%@%@",AXWebViewControllerLocalizedString(@"load failed:", nil) , error.localizedDescription];
     self.navigationItem.title = AXWebViewControllerLocalizedString(@"load failed", nil);
     if (_navigationType == AXWebViewControllerNavigationBarItem) {
@@ -900,6 +994,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
 }
 
 + (void)clearWebCacheCompletion:(dispatch_block_t)completion {
+    /*
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
     NSSet *websiteDataTypes = [WKWebsiteDataStore allWebsiteDataTypes];
     NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
@@ -912,16 +1007,39 @@ static NSUInteger const kContainerViewTag = 0x893147;
     NSString *webKitFolderInCachesfs = [NSString stringWithFormat:@"%@/Caches/%@/fsCachedData",libraryDir,bundleId];
     
     NSError *error;
-    /* iOS8.0 WebView Cache path */
+    // iOS8.0 WebView Cache path
     [[NSFileManager defaultManager] removeItemAtPath:webKitFolderInCaches error:&error];
     [[NSFileManager defaultManager] removeItemAtPath:webkitFolderInLib error:nil];
     
-    /* iOS7.0 WebView Cache path */
+    // iOS7.0 WebView Cache path
     [[NSFileManager defaultManager] removeItemAtPath:webKitFolderInCachesfs error:&error];
     if (completion) {
         completion();
     }
 #endif
+     */
+    if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS9_0)) {
+        NSSet *websiteDataTypes = [WKWebsiteDataStore allWebsiteDataTypes];
+        NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
+        [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:completion];
+    } else {
+        NSString *libraryDir = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)[0];
+        NSString *bundleId  =  [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIdentifier"];
+        NSString *webkitFolderInLib = [NSString stringWithFormat:@"%@/WebKit",libraryDir];
+        NSString *webKitFolderInCaches = [NSString stringWithFormat:@"%@/Caches/%@/WebKit",libraryDir,bundleId];
+        NSString *webKitFolderInCachesfs = [NSString stringWithFormat:@"%@/Caches/%@/fsCachedData",libraryDir,bundleId];
+        
+        NSError *error;
+        /* iOS8.0 WebView Cache path */
+        [[NSFileManager defaultManager] removeItemAtPath:webKitFolderInCaches error:&error];
+        [[NSFileManager defaultManager] removeItemAtPath:webkitFolderInLib error:nil];
+        
+        /* iOS7.0 WebView Cache path */
+        [[NSFileManager defaultManager] removeItemAtPath:webKitFolderInCachesfs error:&error];
+        if (completion) {
+            completion();
+        }
+    }
 }
 
 #pragma mark - Actions
@@ -1140,7 +1258,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
             }
         }
         if ([[UIApplication sharedApplication] canOpenURL:components.URL]) {
-            if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
+            if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0)/*UIDevice.currentDevice.systemVersion.floatValue >= 10.0*/) {
                 [UIApplication.sharedApplication openURL:components.URL options:@{} completionHandler:NULL];
             } else {
                 [[UIApplication sharedApplication] openURL:components.URL];
@@ -1150,7 +1268,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
         return;
     } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http' OR SELF MATCHES[cd] 'file' OR SELF MATCHES[cd] 'about'"] evaluateWithObject:components.scheme]) {// For any other schema but not `https`、`http` and `file`.
         if ([[UIApplication sharedApplication] canOpenURL:components.URL]) {
-            if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
+            if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0)/*UIDevice.currentDevice.systemVersion.floatValue >= 10.0*/) {
                 [UIApplication.sharedApplication openURL:components.URL options:@{} completionHandler:NULL];
             } else {
                 [[UIApplication sharedApplication] openURL:components.URL];
@@ -1290,7 +1408,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
             }
         }
         if ([[UIApplication sharedApplication] canOpenURL:request.URL]) {
-            if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
+            if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0)/*UIDevice.currentDevice.systemVersion.floatValue >= 10.0*/) {
                 [UIApplication.sharedApplication openURL:request.URL options:@{} completionHandler:NULL];
             } else {
                 [[UIApplication sharedApplication] openURL:request.URL];
@@ -1299,7 +1417,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
         return NO;
     } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http' OR SELF MATCHES[cd] 'file' OR SELF MATCHES[cd] 'about'"] evaluateWithObject:components.scheme]) {// For any other schema.
         if ([[UIApplication sharedApplication] canOpenURL:request.URL]) {
-            if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
+            if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0)/*UIDevice.currentDevice.systemVersion.floatValue >= 10.0*/) {
                 [UIApplication.sharedApplication openURL:request.URL options:@{} completionHandler:NULL];
             } else {
                 [[UIApplication sharedApplication] openURL:request.URL];
