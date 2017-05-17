@@ -40,7 +40,7 @@
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithURL:[NSURL fileURLWithPath:[NSBundle.mainBundle pathForResource:@"Swift" ofType:@"pdf"]]];
             webVC.title = @"Swift.pdf";
             webVC.showsToolBar = NO;
-            if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_9_0) {
+            if (AX_WEB_VIEW_CONTROLLER_iOS9_0_AVAILABLE()) {
                 webVC.webView.allowsLinkPreview = YES;
             }
             [self.navigationController pushViewController:webVC animated:YES];
@@ -50,7 +50,7 @@
         {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://www.baidu.com"];
             webVC.showsToolBar = NO;
-            if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_9_0) {
+            if (AX_WEB_VIEW_CONTROLLER_iOS9_0_AVAILABLE()) {
                 webVC.webView.allowsLinkPreview = YES;
             }
             [self.navigationController pushViewController:webVC animated:YES];
