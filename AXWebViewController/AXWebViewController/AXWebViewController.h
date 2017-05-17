@@ -39,6 +39,12 @@
 #define AX_WEB_VIEW_CONTROLLER_DEFINES_PROXY AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 #endif
 
+#ifndef AX_WEB_VIEW_CONTROLLER_AVAILABLITY
+#define AX_WEB_VIEW_CONTROLLER_AVAILABLITY BOOL AX_WEB_VIEW_CONTROLLER_iOS8_0_AVAILABLE();\
+BOOL AX_WEB_VIEW_CONTROLLER_iOS9_0_AVAILABLE();\
+BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE();
+#endif
+
 #import <UIKit/UIKit.h>
 #import <NJKWebViewProgress/NJKWebViewProgress.h>
 #import <NJKWebViewProgress/NJKWebViewProgressView.h>
@@ -102,6 +108,9 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 /// @param error a failed loading error.
 - (void)webViewController:(AXWebViewController *)webViewController didFailLoadWithError:(NSError *)error;
 @end
+
+AX_WEB_VIEW_CONTROLLER_AVAILABLITY;
+
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 typedef NSURLSessionAuthChallengeDisposition (^WKWebViewDidReceiveAuthenticationChallengeHandler)(WKWebView *webView, NSURLAuthenticationChallenge *challenge, NSURLCredential * _Nullable __autoreleasing * _Nullable credential);
 

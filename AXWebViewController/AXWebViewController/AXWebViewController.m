@@ -174,21 +174,26 @@ static inline BOOL AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(NSUInteger plfm) {
     NSLog(@"CurrentSysVe: %@", @(currentSysVe));
     NSLog(@"Platform: %@", @(platform));
 #endif
-    return platform >= currentSysVe;
+    return currentSysVe >= platform;
 #else
     NSString *plat = [NSString stringWithFormat:@"%@.0.0", @(plfm/1000)];
-    NSComparisonResult result = [plat compare:systemVersion options:NSNumericSearch];
+    NSComparisonResult result = [systemVersion compare:plat options:NSNumericSearch];
     return result == NSOrderedSame || result == NSOrderedDescending;
 #endif
 }
 
 static inline BOOL AX_WEB_VIEW_CONTROLLER_NEED_USING_WEB_KIT() {
-    return !AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS8_0);
+    return AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS8_0);
 }
 
 static inline BOOL AX_WEB_VIEW_CONTROLLER_NOT_USING_WEB_KIT() {
     return !AX_WEB_VIEW_CONTROLLER_NEED_USING_WEB_KIT();
 }
+
+BOOL AX_WEB_VIEW_CONTROLLER_iOS8_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS8_0); }
+BOOL AX_WEB_VIEW_CONTROLLER_iOS9_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS9_0); }
+BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0); }
+
 #pragma clang diagnostic pop
 
 @implementation AXWebViewController
