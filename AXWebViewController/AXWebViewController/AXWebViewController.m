@@ -1617,7 +1617,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
             [self.previousSnapshotView removeFromSuperview];
             [self.swipingBackgoundView removeFromSuperview];
             [self.currentSnapshotView removeFromSuperview];
-            [self.webView goBack];
+            [self goBackClicked];
             [self.snapshots removeLastObject];
             self.view.userInteractionEnabled = YES;
             
