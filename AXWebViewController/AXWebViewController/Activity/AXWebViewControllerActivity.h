@@ -1,5 +1,5 @@
 //
-//  AXWebViewControllerActivitySafari.h
+//  AXWebViewControllerActivity.h
 //  AXWebViewController
 //
 //  Created by ai on 15/12/23.
@@ -23,7 +23,19 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-#import "AXWebViewControllerActivity.h"
+#import <UIKit/UIKit.h>
 
-@interface AXWebViewControllerActivitySafari : AXWebViewControllerActivity
+#ifndef AXWebViewControllerLocalizedString
+#define AXWebViewControllerLocalizedString(key, comment) \
+NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundleWithPath:[[[NSBundle bundleForClass:NSClassFromString(@"AXWebViewController")] resourcePath] stringByAppendingPathComponent:@"AXWebViewController.bundle"]], comment)
+#endif
+
+@interface AXWebViewControllerActivity : UIActivity
+/// URL to open.
+@property (nonatomic, strong) NSURL *URL;
+/// Scheme prefix value.
+@property (nonatomic, strong) NSString *scheme;
 @end
+
+@interface AXWebViewControllerActivityChrome : AXWebViewControllerActivity @end
+@interface AXWebViewControllerActivitySafari : AXWebViewControllerActivity @end

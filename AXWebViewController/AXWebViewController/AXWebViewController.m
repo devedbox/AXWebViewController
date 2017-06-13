@@ -24,23 +24,24 @@
 //  SOFTWARE.
 
 #import "AXWebViewController.h"
-#import "AXWebViewControllerActivitySafari.h"
-#import "AXWebViewControllerActivityChrome.h"
+#import "AXWebViewControllerActivity.h"
 #import <Aspects/Aspects.h>
 #import <objc/runtime.h>
+#import <StoreKit/StoreKit.h>
+#import <AXPracticalHUD/AXPracticalHUD.h>
 
 #ifndef AXWebViewControllerLocalizedString
 #define AXWebViewControllerLocalizedString(key, comment) \
 NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundleWithPath:[[[NSBundle bundleForClass:[AXWebViewController class]] resourcePath] stringByAppendingPathComponent:@"AXWebViewController.bundle"]], comment)
 #endif
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 @interface _AXWebViewProgressView : NJKWebViewProgressView
 /// The view controller controller.
 @property(weak, nonatomic) AXWebViewController *webViewController;
 @end
 #endif
 
-@interface AXWebViewController ()<NJKWebViewProgressDelegate>
+@interface AXWebViewController ()<NJKWebViewProgressDelegate, SKStoreProductViewControllerDelegate>
 {
     BOOL _loading;
     UIBarButtonItem * __weak _doneItem;
@@ -49,7 +50,12 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
     NSURL *_baseURL;
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     WKWebViewConfiguration *_configuration;
+    
+    WKWebViewDidReceiveAuthenticationChallengeHandler _challengeHandler;
+    AXSecurityPolicy *_securityPolicy;
 #endif
+    
+    NSURLRequest *_request;
 }
 /// Back bar button item of tool bar.
 @property(strong, nonatomic) UIBarButtonItem *backBarButtonItem;
@@ -67,9 +73,7 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 @property(strong, nonatomic) UIBarButtonItem *navigationCloseBarButtonItem;
 /// URL from label.
 @property(strong, nonatomic) UILabel *backgroundLabel;
-/// Updating timer.
-@property(strong, nonatomic) NSTimer *updating;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 /// Progress proxy of progress.
 @property(strong, nonatomic) NJKWebViewProgress *progressProxy;
 /// Progress view to show progress of requests.
@@ -86,6 +90,8 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 @property(strong, nonatomic) UIPanGestureRecognizer* swipePanGesture;
 /// If is swiping now.
 @property(assign, nonatomic)BOOL isSwipingBack;
+/// Updating timer.
+@property(strong, nonatomic) NSTimer *updating;
 #endif
 @end
 
@@ -102,6 +108,24 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 @property(strong, nonatomic) WKNavigation *navigation;
 /// Progress view.
 @property(strong, nonatomic) UIProgressView *progressView;
+/// Container view.
+@property(readonly, nonatomic) UIView *containerView;
+@end
+
+@interface _AXWebContainerView: UIView { dispatch_block_t _hitBlock; } @end
+@interface _AXWebContainerView (HitTests)
+@property(copy, nonatomic) dispatch_block_t hitBlock;
+@end
+@implementation _AXWebContainerView
+- (dispatch_block_t)hitBlock { return _hitBlock; } - (void)setHitBlock:(dispatch_block_t)hitBlock { _hitBlock = [hitBlock copy]; }
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    // if (_hitBlock != NULL) _hitBlock();
+    // id view = [super hitTest:point withEvent:event];
+    // if ([view isKindOfClass:NSClassFromString(@"WKCompositingView")]) {
+    //     NSLog(@"View: %@", view);
+    // }
+    return [super hitTest:point withEvent:event];
+}
 @end
 #endif
 
@@ -112,9 +136,65 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 #ifndef kAXNetworkErrorHTMLPath
 #define kAXNetworkErrorHTMLPath [[NSBundle bundleForClass:NSClassFromString(@"AXWebViewController")] pathForResource:@"AXWebViewController.bundle/html.bundle/neterror" ofType:@"html"]
 #endif
-
+/// URL key for 404 not found page.
 static NSString *const kAX404NotFoundURLKey = @"ax_404_not_found";
+/// URL key for network error page.
 static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
+/// Tag value for container view.
+static NSUInteger const kContainerViewTag = 0x893147;
+
+static NSUInteger const _kiOS8_0 = 8000;
+static NSUInteger const _kiOS9_0 = 9000;
+static NSUInteger const _kiOS10_0 = 10000;
+
+#ifndef kAX_WEB_VIEW_CONTROLLER_DEBUG_LOGGING
+#define kAX_WEB_VIEW_CONTROLLER_DEBUG_LOGGING 0
+#endif
+
+#ifndef kAX_WEB_VIEW_CONTROLLER_USING_NUMBER_COMPARING
+#define kAX_WEB_VIEW_CONTROLLER_USING_NUMBER_COMPARING 1
+#endif
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-function"
+static inline BOOL AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(NSUInteger plfm) {
+    NSString *systemVersion = [[UIDevice currentDevice].systemVersion copy];
+    NSArray *comp = [systemVersion componentsSeparatedByString:@"."];
+    if (comp.count == 0 || comp.count == 1) {
+        systemVersion = [NSString stringWithFormat:@"%@.0.0", systemVersion];
+    } else if (comp.count == 2) {
+        systemVersion = [NSString stringWithFormat:@"%@.0", systemVersion];
+    }
+#if kAX_WEB_VIEW_CONTROLLER_USING_NUMBER_COMPARING
+    NSString *currentSystemVersion = [systemVersion stringByReplacingOccurrencesOfString:@"." withString:@""];
+    NSUInteger currentSysVe = [[NSString stringWithFormat:@"%.5ld", (long)[currentSystemVersion integerValue]*10] integerValue];
+    NSUInteger platform = [[NSString stringWithFormat:@"%.5ld", (unsigned long)plfm] integerValue];
+#if kAX_WEB_VIEW_CONTROLLER_DEBUG_LOGGING
+    // Log for the versions.
+    NSLog(@"CurrentSysVe: %@", @(currentSysVe));
+    NSLog(@"Platform: %@", @(platform));
+#endif
+    return currentSysVe >= platform;
+#else
+    NSString *plat = [NSString stringWithFormat:@"%@.0.0", @(plfm/1000)];
+    NSComparisonResult result = [systemVersion compare:plat options:NSNumericSearch];
+    return result == NSOrderedSame || result == NSOrderedDescending;
+#endif
+}
+
+static inline BOOL AX_WEB_VIEW_CONTROLLER_NEED_USING_WEB_KIT() {
+    return AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS8_0);
+}
+
+static inline BOOL AX_WEB_VIEW_CONTROLLER_NOT_USING_WEB_KIT() {
+    return !AX_WEB_VIEW_CONTROLLER_NEED_USING_WEB_KIT();
+}
+
+BOOL AX_WEB_VIEW_CONTROLLER_iOS8_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS8_0); }
+BOOL AX_WEB_VIEW_CONTROLLER_iOS9_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS9_0); }
+BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0); }
+
+#pragma clang diagnostic pop
 
 @implementation AXWebViewController
 #pragma mark - Life cycle
@@ -143,19 +223,32 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     // Set up default values.
     _showsToolBar = YES;
     _showsBackgroundLabel = YES;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-    _timeoutInternal = 10.0;
-    _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
-#endif
-    
-#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-    // Change auto just scroll view insets to NO to fix issue: https://github.com/devedbox/AXWebViewController/issues/10
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.extendedLayoutIncludesOpaqueBars = YES;
-    /* Using contraints to view instead of bottom layout guide.
-     self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
-     */
-#endif
+    _maxAllowedTitleLength = 10;
+    /*
+    #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+        _timeoutInternal = 30.0;
+        _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
+    #endif
+
+    #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+        // Change auto just scroll view insets to NO to fix issue: https://github.com/devedbox/AXWebViewController/issues/10
+        self.automaticallyAdjustsScrollViewInsets = NO;
+        self.extendedLayoutIncludesOpaqueBars = YES;
+        // Using contraints to view instead of bottom layout guide.
+        // self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
+    #endif
+    */
+    if (AX_WEB_VIEW_CONTROLLER_NEED_USING_WEB_KIT()) {
+        // Change auto just scroll view insets to NO to fix issue: https://github.com/devedbox/AXWebViewController/issues/10
+        self.automaticallyAdjustsScrollViewInsets = NO;
+        self.extendedLayoutIncludesOpaqueBars = YES;
+        /* Using contraints to view instead of bottom layout guide.
+         self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
+         */
+    } else {
+        _timeoutInternal = 30.0;
+        _cachePolicy = NSURLRequestReloadRevalidatingCacheData;
+    }
 }
 
 - (instancetype)initWithAddress:(NSString *)urlString {
@@ -169,9 +262,24 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     return self;
 }
 
+- (instancetype)initWithRequest:(NSURLRequest *)request {
+    if (self = [self init]) {
+        _request = request;
+    }
+    return self;
+}
+
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 - (instancetype)initWithURL:(NSURL *)URL configuration:(WKWebViewConfiguration *)configuration {
     if (self = [self initWithURL:URL]) {
+        _configuration = configuration;
+    }
+    return self;
+}
+
+- (instancetype)initWithRequest:(NSURLRequest *)request configuration:(WKWebViewConfiguration *)configuration {
+    if (self = [self initWithRequest:request]) {
+        _request = request;
         _configuration = configuration;
     }
     return self;
@@ -186,12 +294,46 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     return self;
 }
 
+- (void)loadView {
+    [super loadView];
+    /*
+    #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+        id topLayoutGuide = self.topLayoutGuide;
+        _AXWebContainerView *container = [_AXWebContainerView new];
+        [container setHitBlock:^() {
+            // if (!self.webView.isLoading) [self.webView reloadFromOrigin];
+        }];
+        [container setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self.view addSubview:container];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[container]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(container)]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topLayoutGuide][container]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(topLayoutGuide, container)]];
+        [container setTag:kContainerViewTag];
+        [self.view setNeedsLayout]; [self.view layoutIfNeeded];
+    #endif
+     */
+    if (AX_WEB_VIEW_CONTROLLER_NEED_USING_WEB_KIT()) {
+        id topLayoutGuide = self.topLayoutGuide;
+        _AXWebContainerView *container = [_AXWebContainerView new];
+        [container setHitBlock:^() {
+            // if (!self.webView.isLoading) [self.webView reloadFromOrigin];
+        }];
+        [container setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self.view addSubview:container];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[container]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(container)]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topLayoutGuide][container]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(topLayoutGuide, container)]];
+        [container setTag:kContainerViewTag];
+        [self.view setNeedsLayout]; [self.view layoutIfNeeded];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setupSubviews];
     
-    if (_URL) {
+    if (_request) {
+        [self loadURLRequest:_request];
+    } else if (_URL) {
         [self loadURL:_URL];
     } else if (_baseURL && _HTMLString) {
         [self loadHTMLString:_HTMLString baseURL:_baseURL];
@@ -200,35 +342,28 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         [self loadURL:[NSURL fileURLWithPath:kAX404NotFoundHTMLPath]];
     }
     
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-    [self progressProxy];
-#else
-    [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
-    /*
-     [_webView.scrollView addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew context:NULL];
-     */
-#endif
-    
-    
-    if (_navigationType == AXWebViewControllerNavigationToolItem) {
-        [self updateToolbarItems];
-    }
-    
-    if (_navigationType == AXWebViewControllerNavigationBarItem) {
-        [self updateNavigationItems];
-    }
-    
     // Config navigation item
     self.navigationItem.leftItemsSupplementBackButton = YES;
     
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    [self progressProxy];
     self.view.backgroundColor = [UIColor colorWithRed:0.180 green:0.192 blue:0.196 alpha:1.00];
     self.progressView.progressBarView.backgroundColor = self.navigationController.navigationBar.tintColor;
 #else
     self.view.backgroundColor = [UIColor whiteColor];
     self.progressView.progressTintColor = self.navigationController.navigationBar.tintColor;
-    _backgroundLabel.textColor = [UIColor colorWithRed:0.180 green:0.192 blue:0.196 alpha:1.00];
+    [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
+    
+    // [_webView.scrollView addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew context:NULL];
 #endif
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    if (_navigationType == AXWebViewControllerNavigationBarItem) {
+        [self updateNavigationItems];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -239,11 +374,13 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         [self.navigationController.navigationBar addSubview:self.progressView];
     }
     
-    /*
-     if (_navigationType == AXWebViewControllerNavigationBarItem) {
-     [self updateNavigationItems];
-     }
-     */
+    if (_navigationType == AXWebViewControllerNavigationToolItem) {
+        [self updateToolbarItems];
+    }
+    
+    if (_navigationType == AXWebViewControllerNavigationBarItem) {
+        [self updateNavigationItems];
+    }
     
     if (self.navigationController && [self.navigationController isBeingPresented]) {
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -263,7 +400,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self updateNavigationItems];
+    // [self updateNavigationItems];
     
     //----- SETUP DEVICE ORIENTATION CHANGE NOTIFICATION -----
     UIDevice *device = [UIDevice currentDevice]; //Get the device object
@@ -274,6 +411,8 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    
     if (self.navigationController) {
         [_progressView removeFromSuperview];
     }
@@ -281,6 +420,8 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     if (_navigationType == AXWebViewControllerNavigationBarItem) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
+    
+    [self.navigationItem setLeftBarButtonItems:nil animated:NO];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && _showsToolBar && _navigationType == AXWebViewControllerNavigationToolItem) {
         [self.navigationController setToolbarHidden:YES animated:animated];
@@ -292,11 +433,6 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    
-    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-    [self.navigationItem setLeftBarButtonItems:nil animated:NO];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -308,14 +444,14 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [self updateNavigationItems];
+    if (_navigationType == AXWebViewControllerNavigationBarItem) [self updateNavigationItems];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     if ([super respondsToSelector:@selector(viewWillTransitionToSize:withTransitionCoordinator:)]) {
         [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     }
-    [self updateNavigationItems];
+    if (_navigationType == AXWebViewControllerNavigationBarItem) [self updateNavigationItems];
 }
 
 - (BOOL)navigationBar:(UINavigationBar *)navigationBar shouldPopItem:(UINavigationItem *)item {
@@ -333,6 +469,10 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
             // Should not pop items.
             return NO;
         }else{
+            if (webVC.navigationType == AXWebViewControllerNavigationBarItem && [webVC.navigationItem.leftBarButtonItems containsObject:webVC.navigationCloseBarButtonItem]) { // Navigation items did not refresh.
+                [webVC updateNavigationItems];
+                return NO;
+            }
             // Pop view controlers directly.
             return YES;
         }
@@ -349,13 +489,15 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _webView.UIDelegate = nil;
     _webView.navigationDelegate = nil;
     [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
-    /*
-     [_webView.scrollView removeObserver:self forKeyPath:@"backgroundColor"];
-     */
+    [_webView removeObserver:self forKeyPath:@"scrollView.contentOffset"];
+    [_webView removeObserver:self forKeyPath:@"title"];
+    // [_webView.scrollView removeObserver:self forKeyPath:@"backgroundColor"];
 #else
     _webView.delegate = nil;
 #endif
-    // NSLog(@"One of AXWebViewController's instances was destroyed.");
+#if kAX_WEB_VIEW_CONTROLLER_DEBUG_LOGGING
+    NSLog(@"One of AXWebViewController's instances was destroyed.");
+#endif
 }
 
 #pragma mark - Override.
@@ -386,13 +528,22 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
             [_progressView setProgress:progress animated:NO];
         }
     } else if ([keyPath isEqualToString:@"backgroundColor"]) {
-#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+        // #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
         /*
          if (![_webView.scrollView.backgroundColor isEqual:[UIColor clearColor]]) {
          _webView.scrollView.backgroundColor = [UIColor clearColor];
          }
          */
-#endif
+        // #endif
+    } else if ([keyPath isEqualToString:@"scrollView.contentOffset"]) {
+        // Get the current content offset.
+        CGPoint contentOffset = [change[NSKeyValueChangeNewKey] CGPointValue];
+        _backgroundLabel.transform = CGAffineTransformMakeTranslation(0, -contentOffset.y-_webView.scrollView.contentInset.top);
+    } else if ([keyPath isEqualToString:@"title"]) {
+        // Update title of vc.
+        [self _updateTitleOfWebVC];
+        // And update navigation items if needed.
+        if (_navigationType == AXWebViewControllerNavigationBarItem) [self updateNavigationItems];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -406,14 +557,31 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     if (!config) {
         config = [[WKWebViewConfiguration alloc] init];
         config.preferences.minimumFontSize = 9.0;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_9_0
-        if ([config respondsToSelector:@selector(setApplicationNameForUserAgent:)]) {
-            [config setApplicationNameForUserAgent:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]];
-        }
+        /*
+        #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_9_0
+                if ([config respondsToSelector:@selector(setApplicationNameForUserAgent:)]) {
+                    [config setApplicationNameForUserAgent:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]];
+                }
+                if ([config respondsToSelector:@selector(setAllowsInlineMediaPlayback:)]) {
+                    [config setAllowsInlineMediaPlayback:YES];
+                }
+        #endif
+         */
         if ([config respondsToSelector:@selector(setAllowsInlineMediaPlayback:)]) {
             [config setAllowsInlineMediaPlayback:YES];
         }
-#endif
+        if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS9_0)) {
+            if ([config respondsToSelector:@selector(setApplicationNameForUserAgent:)]) {
+                [config setApplicationNameForUserAgent:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]];
+            }
+        }
+        if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0) && [config respondsToSelector:@selector(setMediaTypesRequiringUserActionForPlayback:)]) {
+            [config setMediaTypesRequiringUserActionForPlayback:WKAudiovisualMediaTypeNone];
+        } else if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS9_0) && [config respondsToSelector:@selector(setRequiresUserActionForMediaPlayback:)]) {
+            [config setRequiresUserActionForMediaPlayback:NO];
+        } else if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS8_0) && [config respondsToSelector:@selector(setMediaPlaybackRequiresUserAction:)]) {
+            [config setMediaPlaybackRequiresUserAction:NO];
+        }
     }
     _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
     _webView.allowsBackForwardNavigationGestures = YES;
@@ -423,6 +591,10 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _webView.translatesAutoresizingMaskIntoConstraints = NO;
     _webView.UIDelegate = self;
     _webView.navigationDelegate = self;
+    // Obverse the content offset of the scroll view.
+    [_webView addObserver:self forKeyPath:@"scrollView.contentOffset" options:NSKeyValueObservingOptionNew context:NULL];
+    // Obverse title. Fix issue: https://github.com/devedbox/AXWebViewController/issues/35
+    [_webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:NULL];
     return _webView;
 }
 
@@ -440,6 +612,8 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _progressView.ax_webViewController = wself;
     return _progressView;
 }
+
+- (UIView *)containerView { return [self.view viewWithTag:kContainerViewTag]; }
 #else
 - (UIWebView*)webView {
     if (_webView) return _webView;
@@ -537,7 +711,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     }
     return _navigationCloseBarButtonItem;
 }
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 - (NJKWebViewProgress *)progressProxy {
     if (_progressProxy) return _progressProxy;
     _progressProxy = [[NJKWebViewProgress alloc] init];
@@ -563,7 +737,18 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (UILabel *)backgroundLabel {
     if (_backgroundLabel) return _backgroundLabel;
     _backgroundLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _backgroundLabel.textColor = [UIColor colorWithRed:0.322 green:0.322 blue:0.322 alpha:1.00];
+    /*
+    #if  AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+        _backgroundLabel.textColor = [UIColor colorWithRed:0.180 green:0.192 blue:0.196 alpha:1.00];
+    #else
+        _backgroundLabel.textColor = [UIColor colorWithRed:0.322 green:0.322 blue:0.322 alpha:1.00];
+    #endif
+     */
+    if (AX_WEB_VIEW_CONTROLLER_NEED_USING_WEB_KIT()) {
+        _backgroundLabel.textColor = [UIColor colorWithRed:0.180 green:0.192 blue:0.196 alpha:1.00];
+    } else {
+        _backgroundLabel.textColor = [UIColor colorWithRed:0.322 green:0.322 blue:0.322 alpha:1.00];
+    }
     _backgroundLabel.font = [UIFont systemFontOfSize:12];
     _backgroundLabel.numberOfLines = 0;
     _backgroundLabel.textAlignment = NSTextAlignmentCenter;
@@ -577,7 +762,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (UILabel *)descriptionLabel {
     return self.backgroundLabel;
 }
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 -(UIView*)swipingBackgoundView{
     if (!_swipingBackgoundView) {
         _swipingBackgoundView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -608,21 +793,33 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 #endif
 #pragma mark - Setter
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
 - (void)setTimeoutInternal:(NSTimeInterval)timeoutInternal {
     _timeoutInternal = timeoutInternal;
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    NSMutableURLRequest *request = [_request mutableCopy];
+    request.timeoutInterval = _timeoutInternal;
+    _navigation = [_webView loadRequest:request];
+    _request = [request copy];
+#else
     NSMutableURLRequest *request = [self.webView.request mutableCopy];
     request.timeoutInterval = _timeoutInternal;
     [_webView loadRequest:request];
+#endif
 }
 
 - (void)setCachePolicy:(NSURLRequestCachePolicy)cachePolicy {
     _cachePolicy = cachePolicy;
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    NSMutableURLRequest *request = [_request mutableCopy];
+    request.cachePolicy = _cachePolicy;
+    _navigation = [_webView loadRequest:request];
+    _request = [request copy];
+#else
     NSMutableURLRequest *request = [self.webView.request mutableCopy];
     request.cachePolicy = _cachePolicy;
     [_webView loadRequest:request];
-}
 #endif
+}
 
 - (void)setShowsToolBar:(BOOL)showsToolBar {
     _showsToolBar = showsToolBar;
@@ -635,18 +832,32 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _showsBackgroundLabel = showsBackgroundLabel;
 }
 
+- (void)setMaxAllowedTitleLength:(NSUInteger)maxAllowedTitleLength {
+    _maxAllowedTitleLength = maxAllowedTitleLength;
+    [self _updateTitleOfWebVC];
+}
 
 #pragma mark - Public
 - (void)loadURL:(NSURL *)pageURL {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:pageURL];
+    request.timeoutInterval = _timeoutInternal;
+    request.cachePolicy = _cachePolicy;
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     _navigation = [_webView loadRequest:request];
 #else
-    request.timeoutInterval = _timeoutInternal;
-    request.cachePolicy = _cachePolicy;
     [_webView loadRequest:request];
 #endif
 }
+
+- (void)loadURLRequest:(NSURLRequest *)request {
+    NSMutableURLRequest *__request = [request mutableCopy];
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    _navigation = [_webView loadRequest:__request];
+#else
+    [_webView loadRequest:__request];
+#endif
+}
+
 - (void)loadHTMLString:(NSString *)HTMLString baseURL:(NSURL *)baseURL {
     _baseURL = baseURL;
     _HTMLString = HTMLString;
@@ -686,17 +897,42 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     if (_navigationType == AXWebViewControllerNavigationToolItem) {
         [self updateToolbarItems];
     }
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     _progressView.progress = 0.0;
+    _updating = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updatingProgress:) userInfo:nil repeats:YES];
 #endif
     if (_delegate && [_delegate respondsToSelector:@selector(webViewControllerDidStartLoad:)]) {
         [_delegate webViewControllerDidStartLoad:self];
     }
     _loading = YES;
-    /*
-     _updating = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updatingProgress:) userInfo:nil repeats:YES];
-     */
 }
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+- (void)didStartLoadWithNavigation:(WKNavigation *)navigation {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    [self didStartLoad];
+#pragma clang diagnostic pop
+    // FIXME: Handle the navigation of WKWebView.
+    // ...
+}
+#endif
+/// Did start load.
+/// @param object: Any object. WKNavigation if using WebKit.
+- (void)_didStartLoadWithObj:(id)object {
+    // Get WKNavigation class:
+    Class WKNavigationClass = NSClassFromString(@"WKNavigation");
+    if (WKNavigationClass == NULL) {
+        if (![object isKindOfClass:WKNavigationClass] || object == nil) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            [self didStartLoad];
+#pragma clang diagnostic pop
+            return;
+        }
+    }
+    if (AX_WEB_VIEW_CONTROLLER_NEED_USING_WEB_KIT() && [object isKindOfClass:WKNavigationClass]) [self didStartLoadWithNavigation:object];
+}
+
 - (void)didFinishLoad{
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     @try {
@@ -713,19 +949,9 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     if (_navigationType == AXWebViewControllerNavigationToolItem) {
         [self updateToolbarItems];
     }
-    NSString *title;
-#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-    title = [_webView title];
-    if (title.length > 10) {
-        title = [[title substringToIndex:9] stringByAppendingString:@"…"];
-    }
-#else
-    title = [_webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-    if (title.length > 10) {
-        title = [[title substringToIndex:9] stringByAppendingString:@"…"];
-    }
-#endif
-    self.navigationItem.title = title?:AXWebViewControllerLocalizedString(@"browsing the web", @"browsing the web");
+    
+    [self _updateTitleOfWebVC];
+    
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *bundle = ([infoDictionary objectForKey:@"CFBundleDisplayName"]?:[infoDictionary objectForKey:@"CFBundleName"])?:[infoDictionary objectForKey:@"CFBundleIdentifier"];
     NSString *host;
@@ -739,7 +965,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         [_delegate webViewControllerDidFinishLoad:self];
     }
     _loading = NO;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     [_progressView setProgress:0.9 animated:YES];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (_progressView.progress != 1.0) {
@@ -750,13 +976,13 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 
 - (void)didFailLoadWithError:(NSError *)error{
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+    // #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     if (error.code == NSURLErrorCannotFindHost) {// 404
         [self loadURL:[NSURL fileURLWithPath:kAX404NotFoundHTMLPath]];
     } else {
         [self loadURL:[NSURL fileURLWithPath:kAXNetworkErrorHTMLPath]];
     }
-#endif
+    // #endif
     _backgroundLabel.text = [NSString stringWithFormat:@"%@%@",AXWebViewControllerLocalizedString(@"load failed:", nil) , error.localizedDescription];
     self.navigationItem.title = AXWebViewControllerLocalizedString(@"load failed", nil);
     if (_navigationType == AXWebViewControllerNavigationBarItem) {
@@ -773,7 +999,8 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 
 + (void)clearWebCacheCompletion:(dispatch_block_t)completion {
-#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    /*
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
     NSSet *websiteDataTypes = [WKWebsiteDataStore allWebsiteDataTypes];
     NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
     [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:completion];
@@ -785,16 +1012,39 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     NSString *webKitFolderInCachesfs = [NSString stringWithFormat:@"%@/Caches/%@/fsCachedData",libraryDir,bundleId];
     
     NSError *error;
-    /* iOS8.0 WebView Cache path */
+    // iOS8.0 WebView Cache path
     [[NSFileManager defaultManager] removeItemAtPath:webKitFolderInCaches error:&error];
     [[NSFileManager defaultManager] removeItemAtPath:webkitFolderInLib error:nil];
     
-    /* iOS7.0 WebView Cache path */
+    // iOS7.0 WebView Cache path
     [[NSFileManager defaultManager] removeItemAtPath:webKitFolderInCachesfs error:&error];
     if (completion) {
         completion();
     }
 #endif
+     */
+    if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS9_0)) {
+        NSSet *websiteDataTypes = [WKWebsiteDataStore allWebsiteDataTypes];
+        NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
+        [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:completion];
+    } else {
+        NSString *libraryDir = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)[0];
+        NSString *bundleId  =  [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIdentifier"];
+        NSString *webkitFolderInLib = [NSString stringWithFormat:@"%@/WebKit",libraryDir];
+        NSString *webKitFolderInCaches = [NSString stringWithFormat:@"%@/Caches/%@/WebKit",libraryDir,bundleId];
+        NSString *webKitFolderInCachesfs = [NSString stringWithFormat:@"%@/Caches/%@/fsCachedData",libraryDir,bundleId];
+        
+        NSError *error;
+        /* iOS8.0 WebView Cache path */
+        [[NSFileManager defaultManager] removeItemAtPath:webKitFolderInCaches error:&error];
+        [[NSFileManager defaultManager] removeItemAtPath:webkitFolderInLib error:nil];
+        
+        /* iOS7.0 WebView Cache path */
+        [[NSFileManager defaultManager] removeItemAtPath:webKitFolderInCachesfs error:&error];
+        if (completion) {
+            completion();
+        }
+    }
 }
 
 #pragma mark - Actions
@@ -874,7 +1124,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 -(void)swipePanGestureHandler:(UIPanGestureRecognizer*)panGesture{
     CGPoint translation = [panGesture translationInView:self.webView];
     CGPoint location = [panGesture locationInView:self.webView];
@@ -976,32 +1226,66 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         [webView evaluateJavaScript:@"var a = document.getElementsByTagName('a');for(var i=0;i<a.length;i++){a[i].setAttribute('target','');}" completionHandler:nil];
     }
     // Resolve URL. Fixs the issue: https://github.com/devedbox/AXWebViewController/issues/7
-    NSURLComponents *components = [[NSURLComponents alloc] initWithString:webView.URL.absoluteString];
-    // For appstore.
-    if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/cn/app/' OR SELF BEGINSWITH[cd] 'mailto:' OR SELF BEGINSWITH[cd] 'tel:' OR SELF BEGINSWITH[cd] 'telprompt:'"] evaluateWithObject:webView.URL.absoluteString]) {
-        if ([[UIApplication sharedApplication] canOpenURL:webView.URL]) {
-            if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
-                [UIApplication.sharedApplication openURL:webView.URL options:@{} completionHandler:NULL];
+    // !!!: Fixed url handleing of navigation request instead of main url.
+    // NSURLComponents *components = [[NSURLComponents alloc] initWithString:webView.URL.absoluteString];
+    NSURLComponents *components = [[NSURLComponents alloc] initWithString:navigationAction.request.URL.absoluteString];
+    // For appstore and system defines. This action will jump to AppStore app or the system apps.
+    if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/' OR SELF BEGINSWITH[cd] 'mailto:' OR SELF BEGINSWITH[cd] 'tel:' OR SELF BEGINSWITH[cd] 'telprompt:'"] evaluateWithObject:components.URL.absoluteString]) {
+        if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/'"] evaluateWithObject:components.URL.absoluteString] && !_reviewsAppInAppStore) {
+            [[AXPracticalHUD sharedHUD] showSimpleInView:self.view.window text:nil detail:nil configuration:^(AXPracticalHUD *HUD) {
+                HUD.lockBackground = YES;
+                HUD.removeFromSuperViewOnHide = YES;
+            }];
+            SKStoreProductViewController *productVC = [[SKStoreProductViewController alloc] init];
+            productVC.delegate = self;
+            NSError *error;
+            NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"id[1-9]\\d*" options:NSRegularExpressionCaseInsensitive error:&error];
+            NSTextCheckingResult *result = [regex firstMatchInString:components.URL.absoluteString options:NSMatchingReportCompletion range:NSMakeRange(0, components.URL.absoluteString.length)];
+            
+            if (!error && result) {
+                NSRange range = NSMakeRange(result.range.location+2, result.range.length-2);
+                [productVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier: @([[components.URL.absoluteString substringWithRange:range] integerValue])} completionBlock:^(BOOL result, NSError * _Nullable error) {
+                    if (!result || error) {
+                        [[AXPracticalHUD sharedHUD] showErrorInView:self.view.window text:error.localizedDescription detail:nil configuration:^(AXPracticalHUD *HUD) {
+                            HUD.lockBackground = YES;
+                            HUD.removeFromSuperViewOnHide = YES;
+                        }];
+                        [[AXPracticalHUD sharedHUD] hide:YES afterDelay:1.5 completion:NULL];
+                    } else {
+                        [[AXPracticalHUD sharedHUD] hide:YES afterDelay:0.5 completion:NULL];
+                    }
+                }];
+                [self presentViewController:productVC animated:YES completion:NULL];
+                decisionHandler(WKNavigationActionPolicyCancel);
+                return;
             } else {
-                [[UIApplication sharedApplication] openURL:webView.URL];
+                [[AXPracticalHUD sharedHUD] hide:YES afterDelay:0.5 completion:NULL];
+            }
+        }
+        if ([[UIApplication sharedApplication] canOpenURL:components.URL]) {
+            if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0)/*UIDevice.currentDevice.systemVersion.floatValue >= 10.0*/) {
+                [UIApplication.sharedApplication openURL:components.URL options:@{} completionHandler:NULL];
+            } else {
+                [[UIApplication sharedApplication] openURL:components.URL];
             }
         }
         decisionHandler(WKNavigationActionPolicyCancel);
         return;
-    } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http' OR SELF MATCHES[cd] 'file' OR SELF MATCHES[cd] 'about'"] evaluateWithObject:components.scheme]) {// For any other schema.
-        if ([[UIApplication sharedApplication] canOpenURL:webView.URL]) {
-            if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
-                [UIApplication.sharedApplication openURL:webView.URL options:@{} completionHandler:NULL];
+    } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http' OR SELF MATCHES[cd] 'file' OR SELF MATCHES[cd] 'about'"] evaluateWithObject:components.scheme]) {// For any other schema but not `https`、`http` and `file`.
+        if ([[UIApplication sharedApplication] canOpenURL:components.URL]) {
+            if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0)/*UIDevice.currentDevice.systemVersion.floatValue >= 10.0*/) {
+                [UIApplication.sharedApplication openURL:components.URL options:@{} completionHandler:NULL];
             } else {
-                [[UIApplication sharedApplication] openURL:webView.URL];
+                [[UIApplication sharedApplication] openURL:components.URL];
             }
         }
         decisionHandler(WKNavigationActionPolicyCancel);
         return;
     }
     
-    // URL actions
+    // URL actions for 404 and Errors:
     if ([navigationAction.request.URL.absoluteString isEqualToString:kAX404NotFoundURLKey] || [navigationAction.request.URL.absoluteString isEqualToString:kAXNetworkErrorURLKey]) {
+        // Reload the original URL.
         [self loadURL:_URL];
     }
     // Update the items.
@@ -1014,28 +1298,62 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     // Call the decision handler to allow to load web page.
     decisionHandler(WKNavigationActionPolicyAllow);
 }
+
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
     decisionHandler(WKNavigationResponsePolicyAllow);
 }
+
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation {
-    [self didStartLoad];
+    [self _didStartLoadWithObj:navigation];
 }
-- (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(null_unspecified WKNavigation *)navigation {
-}
-- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
-}
-- (void)webView:(WKWebView *)webView didCommitNavigation:(null_unspecified WKNavigation *)navigation {
-}
+
+- (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(null_unspecified WKNavigation *)navigation {}
+
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {}
+
+- (void)webView:(WKWebView *)webView didCommitNavigation:(null_unspecified WKNavigation *)navigation {}
+
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation {
     [self didFinishLoad];
 }
 - (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
+    if (error.code == NSURLErrorCancelled) {
+        [webView reloadFromOrigin];
+        return;
+    }
+    // id _request = [navigation valueForKeyPath:@"_request"];
     [self didFailLoadWithError:error];
 }
 - (void)webView:(WKWebView *)webView didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *__nullable credential))completionHandler {
-    completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
+    // !!!: Do add the security policy if using a custom credential.
+    NSURLSessionAuthChallengeDisposition disposition = NSURLSessionAuthChallengePerformDefaultHandling;
+    __block NSURLCredential *credential = nil;
+    
+    if (self.challengeHandler) {
+        disposition = self.challengeHandler(webView, challenge, &credential);
+    } else {
+        if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+            if ([self.securityPolicy evaluateServerTrust:challenge.protectionSpace.serverTrust forDomain:challenge.protectionSpace.host]) {
+                credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+                if (credential) {
+                    disposition = NSURLSessionAuthChallengeUseCredential;
+                } else {
+                    disposition = NSURLSessionAuthChallengePerformDefaultHandling;
+                }
+            } else {
+                disposition = NSURLSessionAuthChallengePerformDefaultHandling;
+            }
+        } else {
+            disposition = NSURLSessionAuthChallengePerformDefaultHandling;
+        }
+    }
+    
+    if (completionHandler) {
+        completionHandler(disposition, credential);
+    }
+    // completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
 }
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_9_0
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
 - (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView {
     // Get the host name.
     NSString *host = webView.URL.host;
@@ -1057,23 +1375,54 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     // URL actions
     if ([request.URL.absoluteString isEqualToString:kAX404NotFoundURLKey] || [request.URL.absoluteString isEqualToString:kAXNetworkErrorURLKey]) {
-        [self loadURL:_URL];
+        [self loadURL:_URL]; return NO;
     }
     // Resolve URL. Fixs the issue: https://github.com/devedbox/AXWebViewController/issues/7
     NSURLComponents *components = [[NSURLComponents alloc] initWithString:request.URL.absoluteString];
     // For appstore.
-    if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/cn/app/' OR SELF BEGINSWITH[cd] 'mailto:' OR SELF BEGINSWITH[cd] 'tel:' OR SELF BEGINSWITH[cd] 'telprompt:'"] evaluateWithObject:request.URL.absoluteString]) {
+    if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/' OR SELF BEGINSWITH[cd] 'mailto:' OR SELF BEGINSWITH[cd] 'tel:' OR SELF BEGINSWITH[cd] 'telprompt:'"] evaluateWithObject:request.URL.absoluteString]) {
+        if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/'"] evaluateWithObject:components.URL.absoluteString] && !_reviewsAppInAppStore) {
+            [[AXPracticalHUD sharedHUD] showSimpleInView:self.view.window text:nil detail:nil configuration:^(AXPracticalHUD *HUD) {
+                HUD.lockBackground = YES;
+                HUD.removeFromSuperViewOnHide = YES;
+            }];
+            SKStoreProductViewController *productVC = [[SKStoreProductViewController alloc] init];
+            productVC.delegate = self;
+            NSError *error;
+            NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"id[1-9]\\d*" options:NSRegularExpressionCaseInsensitive error:&error];
+            NSTextCheckingResult *result = [regex firstMatchInString:components.URL.absoluteString options:NSMatchingReportCompletion range:NSMakeRange(0, components.URL.absoluteString.length)];
+            
+            if (!error && result) {
+                NSRange range = NSMakeRange(result.range.location+2, result.range.length-2);
+                [productVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier: @([[components.URL.absoluteString substringWithRange:range] integerValue])} completionBlock:^(BOOL result, NSError * _Nullable error) {
+                    if (!result || error) {
+                        [[AXPracticalHUD sharedHUD] showErrorInView:self.view.window text:error.localizedDescription detail:nil configuration:^(AXPracticalHUD *HUD) {
+                            HUD.lockBackground = YES;
+                            HUD.removeFromSuperViewOnHide = YES;
+                        }];
+                        [[AXPracticalHUD sharedHUD] hide:YES afterDelay:1.5 completion:NULL];
+                    } else {
+                        [[AXPracticalHUD sharedHUD] hide:YES afterDelay:0.5 completion:NULL];
+                    }
+                }];
+                [self presentViewController:productVC animated:YES completion:NULL];
+                decisionHandler(WKNavigationActionPolicyCancel);
+                return;
+            } else {
+                [[AXPracticalHUD sharedHUD] hide:YES afterDelay:0.5 completion:NULL];
+            }
+        }
         if ([[UIApplication sharedApplication] canOpenURL:request.URL]) {
-            if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
+            if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0)/*UIDevice.currentDevice.systemVersion.floatValue >= 10.0*/) {
                 [UIApplication.sharedApplication openURL:request.URL options:@{} completionHandler:NULL];
             } else {
                 [[UIApplication sharedApplication] openURL:request.URL];
             }
         }
         return NO;
-    } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http'"] evaluateWithObject:components.scheme]) {// For any other schema.
+    } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http' OR SELF MATCHES[cd] 'file' OR SELF MATCHES[cd] 'about'"] evaluateWithObject:components.scheme]) {// For any other schema.
         if ([[UIApplication sharedApplication] canOpenURL:request.URL]) {
-            if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
+            if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0)/*UIDevice.currentDevice.systemVersion.floatValue >= 10.0*/) {
                 [UIApplication.sharedApplication openURL:request.URL options:@{} completionHandler:NULL];
             } else {
                 [[UIApplication sharedApplication] openURL:request.URL];
@@ -1117,7 +1466,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-    [self didStartLoad];
+    [self _didStartLoadWithObj:nil];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -1125,6 +1474,9 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    if (error.code == NSURLErrorCancelled) {
+        [webView reload]; return;
+    }
     [self didFailLoadWithError:error];
 }
 #endif
@@ -1141,7 +1493,25 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     [_progressView setProgress:progress animated:YES];
 }
 
+#pragma mark - SKStoreProductViewControllerDelegate.
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    [viewController dismissViewControllerAnimated:YES completion:NULL];
+}
+
 #pragma mark - Helper
+- (void)_updateTitleOfWebVC {
+    NSString *title = self.title;
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+    title = title.length>0 ? title: [_webView title];
+#else
+    title = title.length>0 ? title: [_webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+#endif
+    if (title.length > _maxAllowedTitleLength) {
+        title = [[title substringToIndex:_maxAllowedTitleLength-1] stringByAppendingString:@"…"];
+    }
+    self.navigationItem.title = title.length>0 ? title : AXWebViewControllerLocalizedString(@"browsing the web", @"browsing the web");
+}
+
 - (void)updateFrameOfProgressView {
     CGFloat progressBarHeight = 2.0f;
     CGRect navigationBarBounds = self.navigationController.navigationBar.bounds;
@@ -1149,7 +1519,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _progressView.frame = barFrame;
 }
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 -(void)pushCurrentSnapshotViewWithRequest:(NSURLRequest*)request{
     NSURLRequest* lastRequest = (NSURLRequest*)[[self.snapshots lastObject] objectForKey:@"request"];
     
@@ -1271,7 +1641,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         }];
     }
 }
-#endif
+
 - (void)updatingProgress:(NSTimer *)sender {
     if (!_loading) {
         if (_progressView.progress >= 1.0) {
@@ -1288,6 +1658,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
         }
     }
 }
+#endif
 
 - (void)setupSubviews {
     // Add from label and constraints.
@@ -1296,9 +1667,6 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     
     // Add web view.
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-    [self.view addSubview:self.webView];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topLayoutGuide][_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView, topLayoutGuide, bottomLayoutGuide)]];
     // Set the content inset of scroll view to the max y position of navigation bar to adjust scroll view content inset.
     // To fix issue: https://github.com/devedbox/AXWebViewController/issues/10
     /*
@@ -1307,11 +1675,19 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     _webView.scrollView.contentInset = contentInset;
      */
     
-    UIView *contentView = _webView.scrollView.subviews.firstObject;
-    [contentView addSubview:self.backgroundLabel];
-    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_backgroundLabel(<=width)]" options:0 metrics:@{@"width":@([UIScreen mainScreen].bounds.size.width)} views:NSDictionaryOfVariableBindings(_backgroundLabel)]];
-    [contentView addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    [contentView addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:-20]];
+    // Add background label to view.
+    // UIView *contentView = _webView.scrollView.subviews.firstObject;
+    [self.containerView addSubview:self.backgroundLabel];
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_backgroundLabel(<=width)]" options:0 metrics:@{@"width":@(self.view.bounds.size.width)} views:NSDictionaryOfVariableBindings(_backgroundLabel)]];
+    [self.containerView addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.containerView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    // [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:-20]];
+    
+    [self.containerView addSubview:self.webView];
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView)]];
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_webView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_webView, topLayoutGuide, bottomLayoutGuide, _backgroundLabel)]];
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_backgroundLabel]-20-[_webView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_backgroundLabel, _webView)]];
+    
+    [self.containerView bringSubviewToFront:_backgroundLabel];
 #else
     [self.view insertSubview:self.backgroundLabel atIndex:0];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-8-[_backgroundLabel]-8-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_backgroundLabel)]];
@@ -1337,15 +1713,10 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        CGFloat toolbarWidth = 250.0f;
         fixedSpace.width = 35.0f;
         
         NSArray *items = [NSArray arrayWithObjects:fixedSpace, refreshStopBarButtonItem, fixedSpace, self.backBarButtonItem, fixedSpace, self.forwardBarButtonItem, fixedSpace, self.actionBarButtonItem, nil];
         
-        UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, toolbarWidth, 44.0f)];
-        toolbar.items = items;
-        toolbar.barStyle = self.navigationController.navigationBar.barStyle;
-        toolbar.tintColor = self.navigationController.navigationBar.tintColor;
         self.navigationItem.rightBarButtonItems = items.reverseObjectEnumerator.allObjects;
     }
     
@@ -1461,6 +1832,26 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 @end
 
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+@implementation AXWebViewController (Security)
+- (WKWebViewDidReceiveAuthenticationChallengeHandler)challengeHandler {
+    return _challengeHandler;
+}
+
+- (AXSecurityPolicy *)securityPolicy {
+    return _securityPolicy;
+}
+
+- (void)setChallengeHandler:(WKWebViewDidReceiveAuthenticationChallengeHandler)challengeHandler {
+    _challengeHandler = [challengeHandler copy];
+}
+
+- (void)setSecurityPolicy:(AXSecurityPolicy *)securityPolicy {
+    _securityPolicy = securityPolicy;
+}
+@end
+#endif
+
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 @implementation UIProgressView (WebKit)
 + (void)load {
     static dispatch_once_t onceToken;
@@ -1535,7 +1926,7 @@ static NSString *const kAXNetworkErrorURLKey = @"ax_network_error";
 }
 @end
 #endif
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+#if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 @implementation _AXWebViewProgressView
 - (void)setProgress:(float)progress animated:(BOOL)animated {
     [super setProgress:progress animated:animated];

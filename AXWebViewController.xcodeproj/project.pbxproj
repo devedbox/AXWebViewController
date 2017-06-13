@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		014A663D1D51E2DB0055600B /* AXWebViewControllerActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 014A66381D51E2DB0055600B /* AXWebViewControllerActivity.m */; };
-		014A663E1D51E2DB0055600B /* AXWebViewControllerActivityChrome.m in Sources */ = {isa = PBXBuildFile; fileRef = 014A663A1D51E2DB0055600B /* AXWebViewControllerActivityChrome.m */; };
-		014A663F1D51E2DB0055600B /* AXWebViewControllerActivitySafari.m in Sources */ = {isa = PBXBuildFile; fileRef = 014A663C1D51E2DB0055600B /* AXWebViewControllerActivitySafari.m */; };
 		01513BF01C28F70700CB8238 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01513BEF1C28F70700CB8238 /* main.m */; };
 		01513BF31C28F70700CB8238 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 01513BF21C28F70700CB8238 /* AppDelegate.m */; };
 		01513BF91C28F70700CB8238 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01513BF71C28F70700CB8238 /* Main.storyboard */; };
@@ -22,18 +19,14 @@
 		01CDC1511C2A3C9100D9AF53 /* AXWebViewController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 01CDC1501C2A3C9100D9AF53 /* AXWebViewController.bundle */; };
 		01CDC15D1C2A41DF00D9AF53 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01CDC15C1C2A41DF00D9AF53 /* TableViewController.m */; };
 		97F6BE6D557C0BB485DDCF88 /* libPods-AXWebViewController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2642E682614F41BF460E7673 /* libPods-AXWebViewController.a */; };
+		DCABA01B1EC5EE2A005C7D31 /* AXSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = DCABA01A1EC5EE2A005C7D31 /* AXSecurityPolicy.m */; };
+		DCABA0231EC5FDFF005C7D31 /* AXWebViewControllerActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = DCABA01E1EC5FDFF005C7D31 /* AXWebViewControllerActivity.m */; };
 		DCCF48241E7987C9009CF38E /* Swift.pdf in Resources */ = {isa = PBXBuildFile; fileRef = DCCF48231E7987C9009CF38E /* Swift.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		013513EA1D60B83D003BDCEA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		013513EB1D60B83D003BDCEA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
-		014A66371D51E2DB0055600B /* AXWebViewControllerActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXWebViewControllerActivity.h; sourceTree = "<group>"; };
-		014A66381D51E2DB0055600B /* AXWebViewControllerActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXWebViewControllerActivity.m; sourceTree = "<group>"; };
-		014A66391D51E2DB0055600B /* AXWebViewControllerActivityChrome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXWebViewControllerActivityChrome.h; sourceTree = "<group>"; };
-		014A663A1D51E2DB0055600B /* AXWebViewControllerActivityChrome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXWebViewControllerActivityChrome.m; sourceTree = "<group>"; };
-		014A663B1D51E2DB0055600B /* AXWebViewControllerActivitySafari.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXWebViewControllerActivitySafari.h; sourceTree = "<group>"; };
-		014A663C1D51E2DB0055600B /* AXWebViewControllerActivitySafari.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXWebViewControllerActivitySafari.m; sourceTree = "<group>"; };
 		01513BEB1C28F70700CB8238 /* AXWebViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AXWebViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01513BEF1C28F70700CB8238 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		01513BF11C28F70700CB8238 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -57,6 +50,10 @@
 		3B7311EC599653BFAAF42107 /* Pods-AXWebViewController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AXWebViewController.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AXWebViewController/Pods-AXWebViewController.debug.xcconfig"; sourceTree = "<group>"; };
 		A13CC1551E977227003AC1B2 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		A13CC1561E977227003AC1B2 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		DCABA0191EC5EE2A005C7D31 /* AXSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXSecurityPolicy.h; sourceTree = "<group>"; };
+		DCABA01A1EC5EE2A005C7D31 /* AXSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXSecurityPolicy.m; sourceTree = "<group>"; };
+		DCABA01D1EC5FDFF005C7D31 /* AXWebViewControllerActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXWebViewControllerActivity.h; sourceTree = "<group>"; };
+		DCABA01E1EC5FDFF005C7D31 /* AXWebViewControllerActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXWebViewControllerActivity.m; sourceTree = "<group>"; };
 		DCCF48231E7987C9009CF38E /* Swift.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Swift.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -73,20 +70,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		014A66361D51E2DB0055600B /* AXWebViewControllerActivity */ = {
-			isa = PBXGroup;
-			children = (
-				014A66371D51E2DB0055600B /* AXWebViewControllerActivity.h */,
-				014A66381D51E2DB0055600B /* AXWebViewControllerActivity.m */,
-				014A66391D51E2DB0055600B /* AXWebViewControllerActivityChrome.h */,
-				014A663A1D51E2DB0055600B /* AXWebViewControllerActivityChrome.m */,
-				014A663B1D51E2DB0055600B /* AXWebViewControllerActivitySafari.h */,
-				014A663C1D51E2DB0055600B /* AXWebViewControllerActivitySafari.m */,
-			);
-			name = AXWebViewControllerActivity;
-			path = AXWebViewController/AXWebViewControllerActivity;
-			sourceTree = "<group>";
-		};
 		01513BE21C28F70700CB8238 = {
 			isa = PBXGroup;
 			children = (
@@ -141,7 +124,8 @@
 				01513C051C28F90000CB8238 /* AXWebViewController.h */,
 				01513C061C28F90000CB8238 /* AXWebViewController.m */,
 				01CDC1501C2A3C9100D9AF53 /* AXWebViewController.bundle */,
-				014A66361D51E2DB0055600B /* AXWebViewControllerActivity */,
+				DCABA01C1EC5FDFF005C7D31 /* Activity */,
+				DCABA0181EC5EE2A005C7D31 /* Security */,
 			);
 			name = AXWebViewController;
 			sourceTree = "<group>";
@@ -162,6 +146,26 @@
 				2642E682614F41BF460E7673 /* libPods-AXWebViewController.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DCABA0181EC5EE2A005C7D31 /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				DCABA0191EC5EE2A005C7D31 /* AXSecurityPolicy.h */,
+				DCABA01A1EC5EE2A005C7D31 /* AXSecurityPolicy.m */,
+			);
+			name = Security;
+			path = AXWebViewController/Security;
+			sourceTree = "<group>";
+		};
+		DCABA01C1EC5FDFF005C7D31 /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				DCABA01D1EC5FDFF005C7D31 /* AXWebViewControllerActivity.h */,
+				DCABA01E1EC5FDFF005C7D31 /* AXWebViewControllerActivity.m */,
+			);
+			name = Activity;
+			path = AXWebViewController/Activity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,12 +197,13 @@
 		01513BE31C28F70700CB8238 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = AiXing;
 				TargetAttributes = {
 					01513BEA1C28F70700CB8238 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = E5EPLTYPR9;
+						DevelopmentTeam = TKA48YVS5T;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -292,12 +297,11 @@
 				01AA4F191D4F28C2008F2A2C /* TabbarViewController1.m in Sources */,
 				01513BF31C28F70700CB8238 /* AppDelegate.m in Sources */,
 				01513C071C28F90000CB8238 /* AXWebViewController.m in Sources */,
-				014A663D1D51E2DB0055600B /* AXWebViewControllerActivity.m in Sources */,
+				DCABA0231EC5FDFF005C7D31 /* AXWebViewControllerActivity.m in Sources */,
 				01513BF01C28F70700CB8238 /* main.m in Sources */,
 				01AA4F1C1D4F28DD008F2A2C /* TabbarViewController2.m in Sources */,
+				DCABA01B1EC5EE2A005C7D31 /* AXSecurityPolicy.m in Sources */,
 				01CDC15D1C2A41DF00D9AF53 /* TableViewController.m in Sources */,
-				014A663F1D51E2DB0055600B /* AXWebViewControllerActivitySafari.m in Sources */,
-				014A663E1D51E2DB0055600B /* AXWebViewControllerActivityChrome.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +335,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -340,8 +345,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -374,6 +381,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -383,8 +391,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -412,12 +422,14 @@
 			baseConfigurationReference = 3B7311EC599653BFAAF42107 /* Pods-AXWebViewController.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = E5EPLTYPR9;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = TKA48YVS5T;
 				INFOPLIST_FILE = AXWebViewController/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = KEEPStudio.AXWebViewController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -427,12 +439,14 @@
 			baseConfigurationReference = 0326F0589F0B7F449EE39607 /* Pods-AXWebViewController.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = E5EPLTYPR9;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = TKA48YVS5T;
 				INFOPLIST_FILE = AXWebViewController/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = KEEPStudio.AXWebViewController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

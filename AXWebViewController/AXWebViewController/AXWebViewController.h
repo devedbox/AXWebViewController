@@ -32,10 +32,17 @@
 
 #ifndef AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 #define AX_WEB_VIEW_CONTROLLER_USING_WEBKIT __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
+// #define AX_WEB_VIEW_CONTROLLER_USING_WEBKIT 1
 #endif
 
 #ifndef AX_WEB_VIEW_CONTROLLER_DEFINES_PROXY
 #define AX_WEB_VIEW_CONTROLLER_DEFINES_PROXY AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+#endif
+
+#ifndef AX_WEB_VIEW_CONTROLLER_AVAILABLITY
+#define AX_WEB_VIEW_CONTROLLER_AVAILABLITY BOOL AX_WEB_VIEW_CONTROLLER_iOS8_0_AVAILABLE();\
+                                           BOOL AX_WEB_VIEW_CONTROLLER_iOS9_0_AVAILABLE();\
+                                           BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE();
 #endif
 
 #import <UIKit/UIKit.h>
@@ -43,6 +50,7 @@
 #import <NJKWebViewProgress/NJKWebViewProgressView.h>
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 #import <WebKit/WebKit.h>
+#import "AXSecurityPolicy.h"
 #endif
 #ifndef AX_REQUIRES_SUPER
 #if __has_attribute(objc_requires_super)
@@ -100,7 +108,12 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 /// @param error a failed loading error.
 - (void)webViewController:(AXWebViewController *)webViewController didFailLoadWithError:(NSError *)error;
 @end
+
+AX_WEB_VIEW_CONTROLLER_AVAILABLITY;
+
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+typedef NSURLSessionAuthChallengeDisposition (^WKWebViewDidReceiveAuthenticationChallengeHandler)(WKWebView *webView, NSURLAuthenticationChallenge *challenge, NSURLCredential * _Nullable __autoreleasing * _Nullable credential);
+
 @interface AXWebViewController : UIViewController <WKUIDelegate, WKNavigationDelegate>
 {
     @protected
@@ -123,14 +136,18 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 #else
 /// Web view.
 @property(readonly, nonatomic) UIWebView *webView;
+#endif
+/// Open app link in app store app. Default is NO.
+@property(assign, nonatomic) BOOL reviewsAppInAppStore;
+/// Max length of title string content. Default is 10.
+@property(assign, nonatomic) NSUInteger maxAllowedTitleLength;
 /// Time out internal.
 @property(assign, nonatomic) NSTimeInterval timeoutInternal;
 /// Cache policy.
 @property(assign, nonatomic) NSURLRequestCachePolicy cachePolicy;
-#endif
 /// Url.
 @property(readonly, nonatomic) NSURL *URL;
-/// Shows tool bar.
+/// Shows tool bar.Default is YES.
 @property(assign, nonatomic) BOOL showsToolBar;
 /// Shows showsBackgroundLabel default YES.
 @property(assign, nonatomic) BOOL showsBackgroundLabel;
@@ -148,14 +165,27 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 ///
 /// @return a instance of `AXWebViewController`.
 - (instancetype)initWithURL:(NSURL*)URL;
+/// Get a instance of `AXWebViewController` by a url request.
+///
+/// @param request a URL request to be loaded.
+///
+/// @return a instance of `AXWebViewController`.
+- (instancetype)initWithRequest:(NSURLRequest *)request;
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
-/// Get a instance of `AXWebViewController` by a url.
+/// Get a instance of `AXWebViewController` by a url and configuration of web view.
 ///
 /// @param URL a URL to be loaded.
 /// @param configuration configuration instance of WKWebViewConfiguration to create web view.
 ///
 /// @return a instance of `AXWebViewController`.
 - (instancetype)initWithURL:(NSURL *)URL configuration:(WKWebViewConfiguration *)configuration;
+/// Get a instance of `AXWebViewController` by a request and configuration of web view.
+///
+/// @param request a URL request to be loaded.
+/// @param configuration configuration instance of WKWebViewConfiguration to create web view.
+///
+/// @return a instance of `AXWebViewController`.
+- (instancetype)initWithRequest:(NSURLRequest *)request configuration:(WKWebViewConfiguration *)configuration;
 #endif
 /// Get a instance of `AXWebViewController` by a HTML string and a base URL.
 ///
@@ -191,7 +221,13 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 - (void)willStop AX_REQUIRES_SUPER;
 /// Called when web view did start loading. Do not call this directly.
 ///
-- (void)didStartLoad AX_REQUIRES_SUPER;
+- (void)didStartLoad AX_REQUIRES_SUPER NS_DEPRECATED_IOS(2_0, 8_0);
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+/// Called when web view(WKWebView) did start loading. Do not call this directly.
+///
+/// @param navigation Navigation object of the current request info.
+- (void)didStartLoadWithNavigation:(WKNavigation *)navigation AX_REQUIRES_SUPER NS_AVAILABLE(10_10, 8_0);
+#endif
 /// Called when web view did finish loading. Do not call this directly.
 ///
 - (void)didFinishLoad AX_REQUIRES_SUPER;
@@ -208,7 +244,7 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 /// Clear cache data of web view.
 ///
 /// @param completion completion block.
-+ (void)clearWebCacheCompletion:(dispatch_block_t)completion;
++ (void)clearWebCacheCompletion:(dispatch_block_t _Nullable)completion;
 @end
 
 /**
@@ -219,4 +255,14 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 ///
 @property(readonly, nonatomic) UILabel *descriptionLabel;
 @end
+
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+@interface AXWebViewController (Security)
+/// Challenge handler for the credential.
+@property(copy, nonatomic, nullable) WKWebViewDidReceiveAuthenticationChallengeHandler challengeHandler;
+/// The security policy used by created session to evaluate server trust for secure connections.
+/// `AXWebViewController` uses the `defaultPolicy` unless otherwise specified.
+@property (strong, nonatomic, nullable) AXSecurityPolicy *securityPolicy;
+@end
+#endif
 NS_ASSUME_NONNULL_END

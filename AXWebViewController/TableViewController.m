@@ -8,6 +8,7 @@
 
 #import "TableViewController.h"
 #import "AXWebViewController.h"
+#import <AXPracticalHUD/AXPracticalHUD.h>
 
 @interface TableViewController () <UITextFieldDelegate>
 
@@ -37,10 +38,11 @@
         case 0:
         {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithURL:[NSURL fileURLWithPath:[NSBundle.mainBundle pathForResource:@"Swift" ofType:@"pdf"]]];
+            webVC.title = @"Swift.pdf";
             webVC.showsToolBar = NO;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
-            webVC.webView.allowsLinkPreview = YES;
-#endif
+            if (AX_WEB_VIEW_CONTROLLER_iOS9_0_AVAILABLE()) {
+                webVC.webView.allowsLinkPreview = YES;
+            }
             [self.navigationController pushViewController:webVC animated:YES];
         }
             break;
@@ -48,9 +50,9 @@
         {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://www.baidu.com"];
             webVC.showsToolBar = NO;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
-            webVC.webView.allowsLinkPreview = YES;
-#endif
+            if (AX_WEB_VIEW_CONTROLLER_iOS9_0_AVAILABLE()) {
+                webVC.webView.allowsLinkPreview = YES;
+            }
             [self.navigationController pushViewController:webVC animated:YES];
         }
             break;
@@ -58,6 +60,7 @@
         {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://www.baidu.com"];
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+            nav.navigationBar.tintColor = [UIColor colorWithRed:0.322 green:0.322 blue:0.322 alpha:1.00];
             [self presentViewController:nav animated:YES completion:NULL];
             webVC.showsToolBar = YES;
             webVC.navigationType = 1;
@@ -67,17 +70,17 @@
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"https://github.com/devedbox/AXWebViewController"];
             webVC.showsToolBar = NO;
             webVC.showsBackgroundLabel = NO;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
-            webVC.webView.allowsLinkPreview = YES;
-#endif
+            if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_9_0) {
+                webVC.webView.allowsLinkPreview = YES;
+            }
             [self.navigationController pushViewController:webVC animated:YES];
         } break;
         case 4: {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"https://github.com/devedbox/AXWebViewController/releases/latest"];
             webVC.showsToolBar = NO;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
-            webVC.webView.allowsLinkPreview = YES;
-#endif
+            if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_9_0) {
+                webVC.webView.allowsLinkPreview = YES;
+            }
             [self.navigationController pushViewController:webVC animated:YES];
         } break;
         default:
@@ -98,10 +101,17 @@
 - (IBAction)gotoGithub:(id)sender {
     AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"https://github.com/devedbox/AXWebViewController"];
     webVC.showsToolBar = NO;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
-    webVC.webView.allowsLinkPreview = YES;
-#endif
+    if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_9_0) {
+        webVC.webView.allowsLinkPreview = YES;
+    }
     [self.navigationController pushViewController:webVC animated:YES];
+}
+
+- (IBAction)clearCache:(id)sender {
+    [[AXPracticalHUD sharedHUD] showSimpleInView:self.navigationController.view text:@"清理缓存..." detail:nil configuration:NULL];
+    [AXWebViewController clearWebCacheCompletion:^{
+        [[AXPracticalHUD sharedHUD] hide:YES afterDelay:0.5 completion:NULL];
+    }];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -116,9 +126,9 @@
         
         AXWebViewController *webVC = [[AXWebViewController alloc] initWithURL:URL];
         webVC.showsToolBar = NO;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
-        webVC.webView.allowsLinkPreview = YES;
-#endif
+        if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_9_0) {
+            webVC.webView.allowsLinkPreview = YES;
+        }
         [self.navigationController pushViewController:webVC animated:YES];
     }
     

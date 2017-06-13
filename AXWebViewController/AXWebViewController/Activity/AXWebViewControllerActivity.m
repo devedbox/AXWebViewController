@@ -1,5 +1,5 @@
 //
-//  AXWebViewControllerActivityChrome.m
+//  AXWebViewControllerActivity.m
 //  AXWebViewController
 //
 //  Created by ai on 15/12/23.
@@ -23,7 +23,31 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-#import "AXWebViewControllerActivityChrome.h"
+#import "AXWebViewControllerActivity.h"
+
+extern BOOL AX_WEB_VIEW_CONTROLLER_iOS9_0_AVAILABLE();
+extern BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE();
+
+@implementation AXWebViewControllerActivity
+- (NSString *)activityType {
+    return NSStringFromClass([self class]);
+}
+
+- (UIImage *)activityImage {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return [UIImage imageNamed:[NSString stringWithFormat:@"AXWebViewController.bundle/%@",[self.activityType stringByAppendingString:@"-iPad"]]];
+    else
+        return [UIImage imageNamed:[NSString stringWithFormat:@"AXWebViewController.bundle/%@",self.activityType]];
+}
+
+- (void)prepareWithActivityItems:(NSArray *)activityItems {
+    for (id activityItem in activityItems) {
+        if ([activityItem isKindOfClass:[NSURL class]]) {
+            self.URL = activityItem;
+        }
+    }
+}
+@end
 
 @implementation AXWebViewControllerActivityChrome
 - (NSString *)schemePrefix {
@@ -45,17 +69,43 @@
 
 - (void)performActivity {
     NSString *openingURL;
-    if (kCFCoreFoundationVersionNumber <= kCFCoreFoundationVersionNumber_iOS_8_4) {
+    if (AX_WEB_VIEW_CONTROLLER_iOS9_0_AVAILABLE()) {
+        openingURL = [self.URL.absoluteString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         openingURL = [self.URL.absoluteString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 #pragma clang diagnostic pop
-    } else {
-        openingURL = [self.URL.absoluteString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     }
+
     NSURL *activityURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", self.schemePrefix, openingURL]];
-    [[UIApplication sharedApplication] openURL:activityURL];
+    
+    if (AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE()) {
+        [[UIApplication sharedApplication] openURL:activityURL options:@{} completionHandler:NULL];
+    } else {
+        [[UIApplication sharedApplication] openURL:activityURL];
+    }
     
     [self activityDidFinish:YES];
+}
+@end
+
+@implementation AXWebViewControllerActivitySafari
+- (NSString *)activityTitle {
+    return AXWebViewControllerLocalizedString(@"OpenInSafari", @"Open in Safari");
+}
+
+- (BOOL)canPerformWithActivityItems:(NSArray *)activityItems {
+    for (id activityItem in activityItems) {
+        if ([activityItem isKindOfClass:[NSURL class]] && [[UIApplication sharedApplication] canOpenURL:activityItem]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (void)performActivity {
+    BOOL completed = [[UIApplication sharedApplication] openURL:self.URL];
+    [self activityDidFinish:completed];
 }
 @end

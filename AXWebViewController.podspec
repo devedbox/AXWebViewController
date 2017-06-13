@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 #
 
 s.name         = "AXWebViewController"
-s.version      = "0.4.5"
+s.version      = "0.6.0"
 s.summary      = "A light weight web view controller in iOS."
 
 # This description is used to generate tags and improve search results.
@@ -83,7 +83,7 @@ s.platform     = :ios, "7.0"
 #  Supports git, hg, bzr, svn and HTTP.
 #
 
-s.source       = { :git => "https://github.com/devedbox/AXWebViewController.git", :tag => "0.4.5" }
+s.source       = { :git => "https://github.com/devedbox/AXWebViewController.git", :tag => s.version }
 
 
 # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -94,7 +94,7 @@ s.source       = { :git => "https://github.com/devedbox/AXWebViewController.git"
 #  Not including the public_header_files will make all headers public.
 #
 
-s.source_files  = "AXWebViewController/AXWebViewController/*.{h,m}", "AXWebViewController/AXWebViewController/AXWebViewControllerActivity/*.{h,m}"
+s.source_files  = "AXWebViewController/AXWebViewController/*.{h,m}", "AXWebViewController/AXWebViewController/Activity/*.{h,m}", "AXWebViewController/AXWebViewController/Security/*.{h,m}"
 #s.exclude_files = "Classes/Exclude"
 
 # s.public_header_files = "Classes/**/*.h"
@@ -137,7 +137,7 @@ s.requires_arc = true
 
 # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
 # s.dependency "JSONKit", "~> 1.4"
-# s.dependency "AXPracticalHUD"
+s.dependency "AXPracticalHUD"
 s.dependency "AXNavigationBackItemInjection"
 s.dependency "NJKWebViewProgress"
 s.dependency "Aspects"

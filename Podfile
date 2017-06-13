@@ -5,4 +5,5 @@ target 'AXWebViewController' do
     pod 'AXNavigationBackItemInjection'
     pod 'NJKWebViewProgress'
     pod 'Aspects'
+    pod 'AXPracticalHUD'
 end
