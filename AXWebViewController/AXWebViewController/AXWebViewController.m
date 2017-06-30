@@ -1168,9 +1168,12 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         [alert dismissViewControllerAnimated:YES completion:NULL];
         completionHandler();
     }];
+    completionHandler();
+    
     // Add actions.
     [alert addAction:cancelAction];
     [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:NULL];
 }
 - (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL result))completionHandler {
     // Get the host name.
@@ -1190,6 +1193,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     // Add actions.
     [alert addAction:cancelAction];
     [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:NULL];
 }
 - (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(nullable NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * __nullable result))completionHandler {
     // Get the host of url.
