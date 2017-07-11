@@ -589,7 +589,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     _webView.scrollView.backgroundColor = [UIColor clearColor];
     // Set auto layout enabled.
     _webView.translatesAutoresizingMaskIntoConstraints = NO;
-    _webView.UIDelegate = self;
+    if (_enabledWebViewUIDelegate) _webView.UIDelegate = self;
     _webView.navigationDelegate = self;
     // Obverse the content offset of the scroll view.
     [_webView addObserver:self forKeyPath:@"scrollView.contentOffset" options:NSKeyValueObservingOptionNew context:NULL];
@@ -793,6 +793,18 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 }
 #endif
 #pragma mark - Setter
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+- (void)setEnabledWebViewUIDelegate:(BOOL)enabledWebViewUIDelegate {
+    _enabledWebViewUIDelegate = enabledWebViewUIDelegate;
+    if (AX_WEB_VIEW_CONTROLLER_iOS8_0_AVAILABLE()) {
+        if (_enabledWebViewUIDelegate) {
+            _webView.UIDelegate = self;
+        } else {
+            _webView.UIDelegate = nil;
+        }
+    }
+}
+#endif
 - (void)setTimeoutInternal:(NSTimeInterval)timeoutInternal {
     _timeoutInternal = timeoutInternal;
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
@@ -1162,13 +1174,18 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     // Init the alert view controller.
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:host?:AXWebViewControllerLocalizedString(@"messages", nil) message:message preferredStyle: UIAlertControllerStyleAlert];
     // Init the cancel action.
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"cancel", @"cancel") style:UIAlertActionStyleCancel handler:NULL];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"cancel", @"cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        if (completionHandler != NULL) {
+            completionHandler();
+        }
+    }];
     // Init the ok action.
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"confirm", @"confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:NULL];
-        completionHandler();
+        if (completionHandler != NULL) {
+            completionHandler();
+        }
     }];
-    completionHandler();
     
     // Add actions.
     [alert addAction:cancelAction];
@@ -1183,12 +1200,16 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     // Initialize cancel action.
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"cancel", @"cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:NULL];
-        completionHandler(NO);
+        if (completionHandler != NULL) {
+            completionHandler(NO);
+        }
     }];
     // Initialize ok action.
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"confirm", @"confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:NULL];
-        completionHandler(YES);
+        if (completionHandler != NULL) {
+            completionHandler(YES);
+        }
     }];
     // Add actions.
     [alert addAction:cancelAction];
@@ -1210,14 +1231,18 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         [alert dismissViewControllerAnimated:YES completion:NULL];
         // Get inputed string.
         NSString *string = [alert.textFields firstObject].text;
-        completionHandler(string?:defaultText);
+        if (completionHandler != NULL) {
+            completionHandler(string?:defaultText);
+        }
     }];
     // Initialize ok action.
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"confirm", @"confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:NULL];
         // Get inputed string.
         NSString *string = [alert.textFields firstObject].text;
-        completionHandler(string?:defaultText);
+        if (completionHandler != NULL) {
+            completionHandler(string?:defaultText);
+        }
     }];
     // Add actions.
     [alert addAction:cancelAction];
