@@ -137,6 +137,10 @@ typedef NSURLSessionAuthChallengeDisposition (^WKWebViewDidReceiveAuthentication
 /// Web view.
 @property(readonly, nonatomic) UIWebView *webView;
 #endif
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+/// Default is NO. Enabled to allow present alert views.
+@property(assign, nonatomic) BOOL enabledWebViewUIDelegate;
+#endif
 /// Open app link in app store app. Default is NO.
 @property(assign, nonatomic) BOOL reviewsAppInAppStore;
 /// Max length of title string content. Default is 10.
