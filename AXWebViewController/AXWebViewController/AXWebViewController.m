@@ -70,7 +70,7 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 /// Navigation back bar button item.
 @property(strong, nonatomic) UIBarButtonItem *navigationBackBarButtonItem;
 /// Navigation close bar button item.
-@property(strong, nonatomic) UIBarButtonItem *navigationCloseBarButtonItem;
+@property(readonly, nonatomic) UIBarButtonItem *navigationCloseBarButtonItem;
 /// URL from label.
 @property(strong, nonatomic) UILabel *backgroundLabel;
 #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
@@ -703,13 +703,13 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 }
 
 - (UIBarButtonItem *)navigationCloseBarButtonItem {
-    if (_navigationCloseBarButtonItem) return _navigationCloseBarButtonItem;
+    if (_navigationCloseItem) return _navigationCloseItem;
     if (self.navigationItem.rightBarButtonItem == _doneItem && self.navigationItem.rightBarButtonItem != nil) {
-        _navigationCloseBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:AXWebViewControllerLocalizedString(@"close", @"close") style:0 target:self action:@selector(doneButtonClicked:)];
+        _navigationCloseItem = [[UIBarButtonItem alloc] initWithTitle:AXWebViewControllerLocalizedString(@"close", @"close") style:0 target:self action:@selector(doneButtonClicked:)];
     } else {
-        _navigationCloseBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:AXWebViewControllerLocalizedString(@"close", @"close") style:0 target:self action:@selector(navigationIemHandleClose:)];
+        _navigationCloseItem = [[UIBarButtonItem alloc] initWithTitle:AXWebViewControllerLocalizedString(@"close", @"close") style:0 target:self action:@selector(navigationIemHandleClose:)];
     }
-    return _navigationCloseBarButtonItem;
+    return _navigationCloseItem;
 }
 #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 - (NJKWebViewProgress *)progressProxy {

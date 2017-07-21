@@ -157,6 +157,8 @@ typedef NSURLSessionAuthChallengeDisposition (^WKWebViewDidReceiveAuthentication
 @property(assign, nonatomic) BOOL showsBackgroundLabel;
 /// Navigation type.
 @property(assign, nonatomic) AXWebViewControllerNavigationType navigationType;
+/// Navigation close bar button item.
+@property(readwrite, nonatomic) UIBarButtonItem *navigationCloseItem;
 /// Get a instance of `AXWebViewController` by a url string.
 ///
 /// @param urlString a string of url to be loaded.
