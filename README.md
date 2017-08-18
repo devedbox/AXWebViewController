@@ -31,7 +31,7 @@
 ### CocoaPods
 [CocoaPods](http://cocoapods.org) is the recommended way to add AXWebViewController to your project.
 
-1. Add a pod entry for AXPopoverView to your Podfile `pod 'AXWebViewController', '~> 0.1.10'`
+1. Add a pod entry for AXPopoverView to your Podfile `pod 'AXWebViewController', '~> 0.6.0'`
 2. Install the pod(s) by running `pod install`.
 3. Include AXPopoverView wherever you need it with `#import "AXWebViewController.h"`.
 
