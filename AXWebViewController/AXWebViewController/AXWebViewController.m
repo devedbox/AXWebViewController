@@ -743,7 +743,6 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 }
 
 - (UIBarButtonItem *)navigationCloseBarButtonItem {
-    if (!_showsNavigationCloseBarButtonItem) return [[UIBarButtonItem alloc] init] ;
     if (_navigationCloseItem) return _navigationCloseItem;
     if (self.navigationItem.rightBarButtonItem == _doneItem && self.navigationItem.rightBarButtonItem != nil) {
         _navigationCloseItem = [[UIBarButtonItem alloc] initWithTitle:AXWebViewControllerLocalizedString(@"close", @"close") style:0 target:self action:@selector(doneButtonClicked:)];
@@ -1829,9 +1828,21 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         spaceButtonItem.width = -6.5;
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
         if (self.navigationController.viewControllers.count == 1) {
-            [self.navigationItem setLeftBarButtonItems:@[spaceButtonItem, self.navigationBackBarButtonItem, self.navigationCloseBarButtonItem] animated:NO];
+            NSMutableArray *leftBarButtonItems = [NSMutableArray arrayWithArray:@[spaceButtonItem,self.navigationBackBarButtonItem]];
+            
+            if (self.showsNavigationCloseBarButtonItem){
+                [leftBarButtonItems addObject:self.navigationCloseBarButtonItem];
+            }
+            
+            [self.navigationItem setLeftBarButtonItems:leftBarButtonItems animated:NO];
         } else {
-            [self.navigationItem setLeftBarButtonItems:@[self.navigationCloseBarButtonItem] animated:NO];
+            
+            if (self.showsNavigationCloseBarButtonItem){
+                [self.navigationItem setLeftBarButtonItems:@[self.navigationCloseBarButtonItem] animated:NO];
+            }else{
+                [self.navigationItem setLeftBarButtonItems:@[] animated:NO];
+
+            }
         }
     } else {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
