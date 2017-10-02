@@ -40,9 +40,9 @@
 #endif
 
 #ifndef AX_WEB_VIEW_CONTROLLER_AVAILABLITY
-#define AX_WEB_VIEW_CONTROLLER_AVAILABLITY BOOL AX_WEB_VIEW_CONTROLLER_iOS8_0_AVAILABLE();\
-                                           BOOL AX_WEB_VIEW_CONTROLLER_iOS9_0_AVAILABLE();\
-                                           BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE();
+#define AX_WEB_VIEW_CONTROLLER_AVAILABLITY BOOL AX_WEB_VIEW_CONTROLLER_iOS8_0_AVAILABLE(void);\
+                                           BOOL AX_WEB_VIEW_CONTROLLER_iOS9_0_AVAILABLE(void);\
+                                           BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE(void);
 #endif
 
 #import <UIKit/UIKit.h>
@@ -109,7 +109,7 @@ typedef NS_ENUM(NSInteger, AXWebViewControllerNavigationType) {
 - (void)webViewController:(AXWebViewController *)webViewController didFailLoadWithError:(NSError *)error;
 @end
 
-AX_WEB_VIEW_CONTROLLER_AVAILABLITY;
+AX_WEB_VIEW_CONTROLLER_AVAILABLITY ;
 
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 typedef NSURLSessionAuthChallengeDisposition (^WKWebViewDidReceiveAuthenticationChallengeHandler)(WKWebView *webView, NSURLAuthenticationChallenge *challenge, NSURLCredential * _Nullable __autoreleasing * _Nullable credential);
