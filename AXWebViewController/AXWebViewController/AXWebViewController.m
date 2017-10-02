@@ -70,7 +70,7 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 /// Navigation back bar button item.
 @property(strong, nonatomic) UIBarButtonItem *navigationBackBarButtonItem;
 /// Navigation close bar button item.
-@property(strong, nonatomic) UIBarButtonItem *navigationCloseBarButtonItem;
+@property(readonly, nonatomic) UIBarButtonItem *navigationCloseBarButtonItem;
 /// URL from label.
 @property(strong, nonatomic) UILabel *backgroundLabel;
 #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
@@ -589,7 +589,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     _webView.scrollView.backgroundColor = [UIColor clearColor];
     // Set auto layout enabled.
     _webView.translatesAutoresizingMaskIntoConstraints = NO;
-    _webView.UIDelegate = self;
+    if (_enabledWebViewUIDelegate) _webView.UIDelegate = self;
     _webView.navigationDelegate = self;
     // Obverse the content offset of the scroll view.
     [_webView addObserver:self forKeyPath:@"scrollView.contentOffset" options:NSKeyValueObservingOptionNew context:NULL];
@@ -703,13 +703,13 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 }
 
 - (UIBarButtonItem *)navigationCloseBarButtonItem {
-    if (_navigationCloseBarButtonItem) return _navigationCloseBarButtonItem;
+    if (_navigationCloseItem) return _navigationCloseItem;
     if (self.navigationItem.rightBarButtonItem == _doneItem && self.navigationItem.rightBarButtonItem != nil) {
-        _navigationCloseBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:AXWebViewControllerLocalizedString(@"close", @"close") style:0 target:self action:@selector(doneButtonClicked:)];
+        _navigationCloseItem = [[UIBarButtonItem alloc] initWithTitle:AXWebViewControllerLocalizedString(@"close", @"close") style:0 target:self action:@selector(doneButtonClicked:)];
     } else {
-        _navigationCloseBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:AXWebViewControllerLocalizedString(@"close", @"close") style:0 target:self action:@selector(navigationIemHandleClose:)];
+        _navigationCloseItem = [[UIBarButtonItem alloc] initWithTitle:AXWebViewControllerLocalizedString(@"close", @"close") style:0 target:self action:@selector(navigationIemHandleClose:)];
     }
-    return _navigationCloseBarButtonItem;
+    return _navigationCloseItem;
 }
 #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 - (NJKWebViewProgress *)progressProxy {
@@ -793,6 +793,18 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 }
 #endif
 #pragma mark - Setter
+#if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+- (void)setEnabledWebViewUIDelegate:(BOOL)enabledWebViewUIDelegate {
+    _enabledWebViewUIDelegate = enabledWebViewUIDelegate;
+    if (AX_WEB_VIEW_CONTROLLER_iOS8_0_AVAILABLE()) {
+        if (_enabledWebViewUIDelegate) {
+            _webView.UIDelegate = self;
+        } else {
+            _webView.UIDelegate = nil;
+        }
+    }
+}
+#endif
 - (void)setTimeoutInternal:(NSTimeInterval)timeoutInternal {
     _timeoutInternal = timeoutInternal;
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
@@ -1162,15 +1174,23 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     // Init the alert view controller.
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:host?:AXWebViewControllerLocalizedString(@"messages", nil) message:message preferredStyle: UIAlertControllerStyleAlert];
     // Init the cancel action.
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"cancel", @"cancel") style:UIAlertActionStyleCancel handler:NULL];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"cancel", @"cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        if (completionHandler != NULL) {
+            completionHandler();
+        }
+    }];
     // Init the ok action.
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"confirm", @"confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:NULL];
-        completionHandler();
+        if (completionHandler != NULL) {
+            completionHandler();
+        }
     }];
+    
     // Add actions.
     [alert addAction:cancelAction];
     [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:NULL];
 }
 - (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL result))completionHandler {
     // Get the host name.
@@ -1180,16 +1200,21 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     // Initialize cancel action.
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"cancel", @"cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:NULL];
-        completionHandler(NO);
+        if (completionHandler != NULL) {
+            completionHandler(NO);
+        }
     }];
     // Initialize ok action.
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"confirm", @"confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:NULL];
-        completionHandler(YES);
+        if (completionHandler != NULL) {
+            completionHandler(YES);
+        }
     }];
     // Add actions.
     [alert addAction:cancelAction];
     [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:NULL];
 }
 - (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(nullable NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * __nullable result))completionHandler {
     // Get the host of url.
@@ -1206,14 +1231,18 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         [alert dismissViewControllerAnimated:YES completion:NULL];
         // Get inputed string.
         NSString *string = [alert.textFields firstObject].text;
-        completionHandler(string?:defaultText);
+        if (completionHandler != NULL) {
+            completionHandler(string?:defaultText);
+        }
     }];
     // Initialize ok action.
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:AXWebViewControllerLocalizedString(@"confirm", @"confirm") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:NULL];
         // Get inputed string.
         NSString *string = [alert.textFields firstObject].text;
-        completionHandler(string?:defaultText);
+        if (completionHandler != NULL) {
+            completionHandler(string?:defaultText);
+        }
     }];
     // Add actions.
     [alert addAction:cancelAction];
