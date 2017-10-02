@@ -70,7 +70,7 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundle
 /// Navigation back bar button item.
 @property(strong, nonatomic) UIBarButtonItem *navigationBackBarButtonItem;
 /// Navigation close bar button item.
-@property(readonly, nonatomic) UIBarButtonItem *navigationCloseBarButtonItem;
+@property(strong, nonatomic) UIBarButtonItem *navigationCloseBarButtonItem;
 /// URL from label.
 @property(strong, nonatomic) UILabel *backgroundLabel;
 #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
@@ -223,6 +223,8 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     // Set up default values.
     _showsToolBar = YES;
     _showsBackgroundLabel = YES;
+    _showsNavigationCloseBarButtonItem = YES;
+    _checkUrlCanOpen = YES;
     _maxAllowedTitleLength = 10;
     /*
     #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
@@ -570,18 +572,29 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         if ([config respondsToSelector:@selector(setAllowsInlineMediaPlayback:)]) {
             [config setAllowsInlineMediaPlayback:YES];
         }
-        if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS9_0)) {
+        if (@available(iOS 9.0, *)) {
             if ([config respondsToSelector:@selector(setApplicationNameForUserAgent:)]) {
-                [config setApplicationNameForUserAgent:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]];
+
+            [config setApplicationNameForUserAgent:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]];
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        if (@available(iOS 10.0, *)) {
+            if ([config respondsToSelector:@selector(setMediaTypesRequiringUserActionForPlayback:)]){
+                [config setMediaTypesRequiringUserActionForPlayback:WKAudiovisualMediaTypeNone];
+            }
+        } else if (@available(iOS 9.0, *)) {
+           if ( [config respondsToSelector:@selector(setRequiresUserActionForMediaPlayback:)]) {
+                [config setRequiresUserActionForMediaPlayback:NO];
+           }
+        } else {
+            if ( [config respondsToSelector:@selector(setMediaPlaybackRequiresUserAction:)]) {
+                [config setRequiresUserActionForMediaPlayback:NO];
             }
         }
-        if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0) && [config respondsToSelector:@selector(setMediaTypesRequiringUserActionForPlayback:)]) {
-            [config setMediaTypesRequiringUserActionForPlayback:WKAudiovisualMediaTypeNone];
-        } else if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS9_0) && [config respondsToSelector:@selector(setRequiresUserActionForMediaPlayback:)]) {
-            [config setRequiresUserActionForMediaPlayback:NO];
-        } else if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS8_0) && [config respondsToSelector:@selector(setMediaPlaybackRequiresUserAction:)]) {
-            [config setMediaPlaybackRequiresUserAction:NO];
-        }
+        
     }
     _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
     _webView.allowsBackForwardNavigationGestures = YES;
@@ -629,7 +642,8 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 
 - (UIBarButtonItem *)backBarButtonItem {
     if (_backBarButtonItem) return _backBarButtonItem;
-    _backBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"AXWebViewController.bundle/AXWebViewControllerBack"]
+    NSBundle *bundle =  [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"AXWebViewController" ofType:@"bundle"]];
+    _backBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageWithContentsOfFile:[bundle pathForResource:@"AXWebViewControllerBack@2x" ofType:@"png"]]
                                                           style:UIBarButtonItemStylePlain
                                                          target:self
                                                          action:@selector(goBackClicked:)];
@@ -639,7 +653,9 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 
 - (UIBarButtonItem *)forwardBarButtonItem {
     if (_forwardBarButtonItem) return _forwardBarButtonItem;
-    _forwardBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"AXWebViewController.bundle/AXWebViewControllerNext"]
+    NSBundle *bundle =  [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"AXWebViewController" ofType:@"bundle"]];
+    
+    _forwardBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageWithContentsOfFile:[bundle pathForResource:@"AXWebViewControllerNext@2x" ofType:@"png"]]
                                                              style:UIBarButtonItemStylePlain
                                                             target:self
                                                             action:@selector(goForwardClicked:)];
@@ -667,7 +683,8 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 
 - (UIBarButtonItem *)navigationBackBarButtonItem {
     if (_navigationBackBarButtonItem) return _navigationBackBarButtonItem;
-    UIImage* backItemImage = [[[UINavigationBar appearance] backIndicatorImage] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]?:[[UIImage imageNamed:@"AXWebViewController.bundle/backItemImage"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    NSBundle *bundle =  [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"AXWebViewController" ofType:@"bundle"]];
+    UIImage* backItemImage = [[[UINavigationBar appearance] backIndicatorImage] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]?:[[UIImage imageWithContentsOfFile:[bundle pathForResource:@"backItemImage@2x" ofType:@"png"]] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     UIGraphicsBeginImageContextWithOptions(backItemImage.size, NO, backItemImage.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextTranslateCTM(context, 0, backItemImage.size.height);
@@ -679,7 +696,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     CGContextFillRect(context, rect);
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    UIImage* backItemHlImage = newImage?:[[UIImage imageNamed:@"AXWebViewController.bundle/backItemImage-hl"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIImage* backItemHlImage = newImage?:[[UIImage imageWithContentsOfFile:[bundle pathForResource:@"backItemImage-hl@2x" ofType:@"png"]] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     UIButton* backButton = [UIButton buttonWithType:UIButtonTypeSystem];
     NSDictionary *attr = [[UIBarButtonItem appearance] titleTextAttributesForState:UIControlStateNormal];
     if (attr) {
@@ -703,6 +720,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 }
 
 - (UIBarButtonItem *)navigationCloseBarButtonItem {
+    if (!_showsNavigationCloseBarButtonItem) return [[UIBarButtonItem alloc] init] ;
     if (_navigationCloseItem) return _navigationCloseItem;
     if (self.navigationItem.rightBarButtonItem == _doneItem && self.navigationItem.rightBarButtonItem != nil) {
         _navigationCloseItem = [[UIBarButtonItem alloc] initWithTitle:AXWebViewControllerLocalizedString(@"close", @"close") style:0 target:self action:@selector(doneButtonClicked:)];
@@ -843,7 +861,11 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     _backgroundLabel.hidden = !showsBackgroundLabel;
     _showsBackgroundLabel = showsBackgroundLabel;
 }
-
+- (void)setShowsNavigationCloseBarButtonItem:(BOOL)showsNavigationCloseBarButtonItem{
+    _navigationBackBarButtonItem = nil;
+    _showsNavigationCloseBarButtonItem = showsNavigationCloseBarButtonItem;
+    [self updateNavigationItems];
+}
 - (void)setMaxAllowedTitleLength:(NSUInteger)maxAllowedTitleLength {
     _maxAllowedTitleLength = maxAllowedTitleLength;
     [self _updateTitleOfWebVC];
@@ -929,7 +951,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 }
 #endif
 /// Did start load.
-/// @param object: Any object. WKNavigation if using WebKit.
+/// @param object Any object. WKNavigation if using WebKit.
 - (void)_didStartLoadWithObj:(id)object {
     // Get WKNavigation class:
     Class WKNavigationClass = NSClassFromString(@"WKNavigation");
@@ -1035,7 +1057,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     }
 #endif
      */
-    if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS9_0)) {
+    if (@available(iOS 9.0, *)) {
         NSSet *websiteDataTypes = [WKWebsiteDataStore allWebsiteDataTypes];
         NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
         [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:completion];
@@ -1057,6 +1079,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
             completion();
         }
     }
+    
 }
 
 #pragma mark - Actions
@@ -1292,7 +1315,8 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
             }
         }
         if ([[UIApplication sharedApplication] canOpenURL:components.URL]) {
-            if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0)/*UIDevice.currentDevice.systemVersion.floatValue >= 10.0*/) {
+            
+            if (@available(iOS 10.0, *)) {
                 [UIApplication.sharedApplication openURL:components.URL options:@{} completionHandler:NULL];
             } else {
                 [[UIApplication sharedApplication] openURL:components.URL];
@@ -1302,11 +1326,19 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         return;
     } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http' OR SELF MATCHES[cd] 'file' OR SELF MATCHES[cd] 'about'"] evaluateWithObject:components.scheme]) {// For any other schema but not `https`、`http` and `file`.
         if ([[UIApplication sharedApplication] canOpenURL:components.URL]) {
-            if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0)/*UIDevice.currentDevice.systemVersion.floatValue >= 10.0*/) {
+            if (@available(iOS 10.0, *)) {
                 [UIApplication.sharedApplication openURL:components.URL options:@{} completionHandler:NULL];
             } else {
                 [[UIApplication sharedApplication] openURL:components.URL];
             }
+        }
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
+    }else if (!self.checkUrlCanOpen){
+        if (@available(iOS 10.0, *)) {
+            [UIApplication.sharedApplication openURL:components.URL options:@{} completionHandler:NULL];
+        } else {
+            [[UIApplication sharedApplication] openURL:components.URL];
         }
         decisionHandler(WKNavigationActionPolicyCancel);
         return;
@@ -1458,6 +1490,14 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
             }
         }
         return NO;
+    }else if (!self.checkUrlCanOpen){
+        if (@available(iOS 10.0, *)) {
+            [UIApplication.sharedApplication openURL:components.URL options:@{} completionHandler:NULL];
+        } else {
+            [[UIApplication sharedApplication] openURL:components.URL];
+        }
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
     }
     switch (navigationType) {
         case UIWebViewNavigationTypeLinkClicked: {
