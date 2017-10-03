@@ -64,7 +64,19 @@
 }
 
 - (NSString *)activityTitle {
-    return AXWebViewControllerLocalizedString(@"OpenInChrome", @"Open in Chrome");
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    
+    NSString *resourcePath = [bundle pathForResource:@"AXWebViewController" ofType:@"bundle"] ;
+    
+    if (resourcePath){
+        NSBundle *bundle2 = [NSBundle bundleWithPath:resourcePath];
+        if (bundle2){
+            bundle = bundle2;
+        }
+    }
+    
+    return NSLocalizedStringFromTableInBundle(@"OpenInChrome", @"AXWebViewController", bundle, @"Open in Chrome");
+    
 }
 
 - (BOOL)canPerformWithActivityItems:(NSArray *)activityItems {
@@ -101,7 +113,19 @@
 
 @implementation AXWebViewControllerActivitySafari
 - (NSString *)activityTitle {
-    return AXWebViewControllerLocalizedString(@"OpenInSafari", @"Open in Safari");
+    
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    
+    NSString *resourcePath = [bundle pathForResource:@"AXWebViewController" ofType:@"bundle"] ;
+    
+    if (resourcePath){
+        NSBundle *bundle2 = [NSBundle bundleWithPath:resourcePath];
+        if (bundle2){
+            bundle = bundle2;
+        }
+    }
+    
+    return NSLocalizedStringFromTableInBundle(@"OpenInSafari", @"AXWebViewController", bundle, @"Open in Safari");
 }
 
 - (BOOL)canPerformWithActivityItems:(NSArray *)activityItems {
