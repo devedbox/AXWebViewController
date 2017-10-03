@@ -1355,13 +1355,22 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         decisionHandler(WKNavigationActionPolicyCancel);
         return;
     } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http' OR SELF MATCHES[cd] 'file' OR SELF MATCHES[cd] 'about'"] evaluateWithObject:components.scheme]) {// For any other schema but not `https`、`http` and `file`.
-        if (!self.checkUrlCanOpen || [[UIApplication sharedApplication] canOpenURL:components.URL]) {
-            if (@available(iOS 10.0, *)) {
-                [UIApplication.sharedApplication openURL:components.URL options:@{} completionHandler:NULL];
-            } else {
+        
+        if (@available(iOS 8.0, *)) { // openURL if ios version is low then 8 , app will crash
+            if (!self.checkUrlCanOpen || [[UIApplication sharedApplication] canOpenURL:components.URL]) {
+                if (@available(iOS 10.0, *)) {
+                    [UIApplication.sharedApplication openURL:components.URL options:@{} completionHandler:NULL];
+                }else{
+                    [[UIApplication sharedApplication] openURL:components.URL];
+                }
+            }
+        }else{
+            if ([[UIApplication sharedApplication] canOpenURL:components.URL]) {
                 [[UIApplication sharedApplication] openURL:components.URL];
             }
         }
+
+        
         decisionHandler(WKNavigationActionPolicyCancel);
         return;
     }
@@ -1504,13 +1513,22 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         }
         return NO;
     } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http' OR SELF MATCHES[cd] 'file' OR SELF MATCHES[cd] 'about'"] evaluateWithObject:components.scheme]) {// For any other schema.
-        if (!self.checkUrlCanOpen || [[UIApplication sharedApplication] canOpenURL:request.URL]) {
-            if (AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0)/*UIDevice.currentDevice.systemVersion.floatValue >= 10.0*/) {
-                [UIApplication.sharedApplication openURL:request.URL options:@{} completionHandler:NULL];
-            } else {
-                [[UIApplication sharedApplication] openURL:request.URL];
+        
+        
+        if (@available(iOS 8.0, *)) { // openURL if ios version is low then 8 , app will crash
+            if (!self.checkUrlCanOpen || [[UIApplication sharedApplication] canOpenURL:components.URL]) {
+                if (@available(iOS 10.0, *)) {
+                    [UIApplication.sharedApplication openURL:components.URL options:@{} completionHandler:NULL];
+                }else{
+                    [[UIApplication sharedApplication] openURL:components.URL];
+                }
+            }
+        }else{
+            if ([[UIApplication sharedApplication] canOpenURL:components.URL]) {
+                [[UIApplication sharedApplication] openURL:components.URL];
             }
         }
+
         return NO;
     }
     
