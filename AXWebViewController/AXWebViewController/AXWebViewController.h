@@ -157,6 +157,8 @@ typedef NSURLSessionAuthChallengeDisposition (^WKWebViewDidReceiveAuthentication
 @property(assign, nonatomic) BOOL showsBackgroundLabel;
 /// Shows navigationCloseBarButtonItem default YES.
 @property(assign, nonatomic) BOOL showsNavigationCloseBarButtonItem;
+/// Shows navigationBackBarButtonItemTitle default YES.
+@property(assign, nonatomic) BOOL showsNavigationBackBarButtonItemTitle;
 /// Check url can open default YES.
 @property(assign, nonatomic) BOOL checkUrlCanOpen;
 /// Navigation type.
