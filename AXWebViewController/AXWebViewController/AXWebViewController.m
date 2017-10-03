@@ -228,6 +228,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     _showsToolBar = YES;
     _showsBackgroundLabel = YES;
     _showsNavigationCloseBarButtonItem = YES;
+    _showsNavigationBackBarButtonItemTitle = YES;
     _checkUrlCanOpen = YES;
     _maxAllowedTitleLength = 10;
     /*
