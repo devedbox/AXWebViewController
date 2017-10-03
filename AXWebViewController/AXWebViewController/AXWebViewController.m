@@ -32,7 +32,7 @@
 
 #ifndef AXWebViewControllerLocalizedString
 #define AXWebViewControllerLocalizedString(key, comment) \
-NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", [NSBundle bundleWithPath:[[[NSBundle bundleForClass:[AXWebViewController class]] resourcePath] stringByAppendingPathComponent:@"AXWebViewController.bundle"]], comment)
+NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", self.myBundle, comment)
 #endif
 #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 @interface _AXWebViewProgressView : NJKWebViewProgressView
