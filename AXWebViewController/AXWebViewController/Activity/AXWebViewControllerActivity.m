@@ -25,19 +25,28 @@
 
 #import "AXWebViewControllerActivity.h"
 
-extern BOOL AX_WEB_VIEW_CONTROLLER_iOS9_0_AVAILABLE();
-extern BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE();
-
 @implementation AXWebViewControllerActivity
 - (NSString *)activityType {
     return NSStringFromClass([self class]);
 }
 
 - (UIImage *)activityImage {
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    
+    NSString *resourcePath = [bundle pathForResource:@"AXWebViewController" ofType:@"bundle"] ;
+    
+    if (resourcePath){
+        NSBundle *bundle2 = [NSBundle bundleWithPath:resourcePath];
+        if (bundle2){
+            bundle = bundle2;
+        }
+    }
+    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        return [UIImage imageNamed:[NSString stringWithFormat:@"AXWebViewController.bundle/%@",[self.activityType stringByAppendingString:@"-iPad"]]];
+    return  [UIImage imageNamed:[self.activityType stringByAppendingString:@"-iPad"] inBundle:bundle compatibleWithTraitCollection:nil];
+    
     else
-        return [UIImage imageNamed:[NSString stringWithFormat:@"AXWebViewController.bundle/%@",self.activityType]];
+        return [UIImage imageNamed:self.activityType inBundle:bundle compatibleWithTraitCollection:nil];
 }
 
 - (void)prepareWithActivityItems:(NSArray *)activityItems {
@@ -55,7 +64,19 @@ extern BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE();
 }
 
 - (NSString *)activityTitle {
-    return AXWebViewControllerLocalizedString(@"OpenInChrome", @"Open in Chrome");
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    
+    NSString *resourcePath = [bundle pathForResource:@"AXWebViewController" ofType:@"bundle"] ;
+    
+    if (resourcePath){
+        NSBundle *bundle2 = [NSBundle bundleWithPath:resourcePath];
+        if (bundle2){
+            bundle = bundle2;
+        }
+    }
+    
+    return NSLocalizedStringFromTableInBundle(@"OpenInChrome", @"AXWebViewController", bundle, @"Open in Chrome");
+    
 }
 
 - (BOOL)canPerformWithActivityItems:(NSArray *)activityItems {
@@ -69,7 +90,7 @@ extern BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE();
 
 - (void)performActivity {
     NSString *openingURL;
-    if (AX_WEB_VIEW_CONTROLLER_iOS9_0_AVAILABLE()) {
+    if (@available(iOS 9.0, *)) {
         openingURL = [self.URL.absoluteString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     } else {
 #pragma clang diagnostic push
@@ -80,7 +101,7 @@ extern BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE();
 
     NSURL *activityURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", self.schemePrefix, openingURL]];
     
-    if (AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE()) {
+    if (@available(iOS 10.0, *)) {
         [[UIApplication sharedApplication] openURL:activityURL options:@{} completionHandler:NULL];
     } else {
         [[UIApplication sharedApplication] openURL:activityURL];
@@ -92,7 +113,19 @@ extern BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE();
 
 @implementation AXWebViewControllerActivitySafari
 - (NSString *)activityTitle {
-    return AXWebViewControllerLocalizedString(@"OpenInSafari", @"Open in Safari");
+    
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    
+    NSString *resourcePath = [bundle pathForResource:@"AXWebViewController" ofType:@"bundle"] ;
+    
+    if (resourcePath){
+        NSBundle *bundle2 = [NSBundle bundleWithPath:resourcePath];
+        if (bundle2){
+            bundle = bundle2;
+        }
+    }
+    
+    return NSLocalizedStringFromTableInBundle(@"OpenInSafari", @"AXWebViewController", bundle, @"Open in Safari");
 }
 
 - (BOOL)canPerformWithActivityItems:(NSArray *)activityItems {
