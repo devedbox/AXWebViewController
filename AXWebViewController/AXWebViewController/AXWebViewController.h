@@ -160,7 +160,7 @@ typedef NSURLSessionAuthChallengeDisposition (^WKWebViewDidReceiveAuthentication
 /// Shows navigationBackBarButtonItemTitle default YES.
 @property(assign, nonatomic) BOOL showsNavigationBackBarButtonItemTitle;
 /// Check url can open default YES ,only work after iOS 8.
-@property(assign, nonatomic) BOOL checkUrlCanOpen;
+@property(assign, nonatomic) BOOL checkUrlCanOpen API_AVAILABLE(ios(8.0));
 /// Navigation type.
 @property(assign, nonatomic) AXWebViewControllerNavigationType navigationType;
 /// Navigation close bar button item.
