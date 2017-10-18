@@ -32,7 +32,7 @@
 
 #ifndef AXWebViewControllerLocalizedString
 #define AXWebViewControllerLocalizedString(key, comment) \
-NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", self.myBundle, comment)
+NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", self.resourceBundle, comment)
 #endif
 #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 @interface _AXWebViewProgressView : NJKWebViewProgressView
@@ -56,6 +56,8 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", self.myBundle, c
 #endif
     
     NSURLRequest *_request;
+    /// Located bundle storage.
+    NSBundle *_resourceBundle;
 }
 /// Back bar button item of tool bar.
 @property(strong, nonatomic) UIBarButtonItem *backBarButtonItem;
@@ -110,10 +112,11 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", self.myBundle, c
 @property(strong, nonatomic) UIProgressView *progressView;
 /// Container view.
 @property(readonly, nonatomic) UIView *containerView;
+@end
+
+@interface AXWebViewController (BundleAccess)
 /// default NSBundle
-@property(strong, nonatomic) NSBundle *myBundle;
-
-
+@property(strong, nonatomic) NSBundle *resourceBundle;
 @end
 
 @interface _AXWebContainerView: UIView { dispatch_block_t _hitBlock; } @end
@@ -645,8 +648,8 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 }
 #endif
 
-- (NSBundle *)myBundle{
-    if (_myBundle) return _myBundle;
+- (NSBundle *)resourceBundle{
+    if (_resourceBundle) return _resourceBundle;
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
     
     NSString *resourcePath = [bundle pathForResource:@"AXWebViewController" ofType:@"bundle"] ;
@@ -658,16 +661,16 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         }
     }
     
-    _myBundle = bundle;
+    _resourceBundle = bundle;
     
-    return _myBundle;
+    return _resourceBundle;
 }
 
 - (UIBarButtonItem *)backBarButtonItem {
     if (_backBarButtonItem) return _backBarButtonItem;
 
     _backBarButtonItem = [[UIBarButtonItem alloc] initWithImage:
-                          [UIImage imageNamed:@"AXWebViewControllerBack" inBundle:self.myBundle compatibleWithTraitCollection:nil]
+                          [UIImage imageNamed:@"AXWebViewControllerBack" inBundle:self.resourceBundle compatibleWithTraitCollection:nil]
                                                           style:UIBarButtonItemStylePlain
                                                          target:self
                                                          action:@selector(goBackClicked:)];
@@ -679,7 +682,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     if (_forwardBarButtonItem) return _forwardBarButtonItem;
     
     _forwardBarButtonItem = [[UIBarButtonItem alloc] initWithImage:
-                             [UIImage imageNamed:@"AXWebViewControllerNext" inBundle:self.myBundle compatibleWithTraitCollection:nil]
+                             [UIImage imageNamed:@"AXWebViewControllerNext" inBundle:self.resourceBundle compatibleWithTraitCollection:nil]
                                                              style:UIBarButtonItemStylePlain
                                                             target:self
                                                             action:@selector(goForwardClicked:)];
@@ -708,7 +711,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 - (UIBarButtonItem *)navigationBackBarButtonItem {
     if (_navigationBackBarButtonItem) return _navigationBackBarButtonItem;
 
-    UIImage* backItemImage = [[[UINavigationBar appearance] backIndicatorImage] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]?:[[UIImage imageNamed:@"backItemImage" inBundle:self.myBundle compatibleWithTraitCollection:nil]  imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIImage* backItemImage = [[[UINavigationBar appearance] backIndicatorImage] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]?:[[UIImage imageNamed:@"backItemImage" inBundle:self.resourceBundle compatibleWithTraitCollection:nil]  imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     UIGraphicsBeginImageContextWithOptions(backItemImage.size, NO, backItemImage.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextTranslateCTM(context, 0, backItemImage.size.height);
@@ -720,7 +723,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     CGContextFillRect(context, rect);
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    UIImage* backItemHlImage = newImage?:[[UIImage imageNamed:@"backItemImage-hl" inBundle:self.myBundle compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIImage* backItemHlImage = newImage?:[[UIImage imageNamed:@"backItemImage-hl" inBundle:self.resourceBundle compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     UIButton* backButton = [UIButton buttonWithType:UIButtonTypeSystem];
     NSDictionary *attr = [[UIBarButtonItem appearance] titleTextAttributesForState:UIControlStateNormal];
     NSString *backBarButtonItemTitleString = self.showsNavigationBackBarButtonItemTitle ? AXWebViewControllerLocalizedString(@"back", @"back") : @"    ";
