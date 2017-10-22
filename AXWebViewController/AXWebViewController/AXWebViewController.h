@@ -275,7 +275,7 @@ API_AVAILABLE(ios(7.0))
 @property(copy, nonatomic, nullable) WKWebViewDidReceiveAuthenticationChallengeHandler challengeHandler;
 /// The security policy used by created session to evaluate server trust for secure connections.
 /// `AXWebViewController` uses the `defaultPolicy` unless otherwise specified.
-@property (strong, nonatomic, nullable) AXSecurityPolicy *securityPolicy;
+@property(readwrite, nonatomic, nullable) AXSecurityPolicy *securityPolicy;
 @end
 #endif
 NS_ASSUME_NONNULL_END
