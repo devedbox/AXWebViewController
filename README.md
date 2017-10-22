@@ -5,22 +5,24 @@
 
 ## Summary
 
-`AXWebViewController`是一款易用的基于`UIWebView`（20160716更新：iOS8.0以上使用`WKWebView`实现）封装的网页浏览控制器. 在系统功能的基础上添加了工具条导航，可以刷新、返回、前进、等操作，同时，`AXWebViewController`还实现了`微信样式`的导航返回支持，集成简单，使用方便。如图所示：
+`AXWebViewController`是一款基于`WKWebView(WebKit)`封装的**view controller**，高度集成，一行代码即可使用；能够满足大部分的App加载html网页的场景，`AXWebViewController`实现了`WKUIDelegate`和`WKNavigationDelegate`两个协议，在使用过程中，若需要自定义功能，可自行**Overrides**相关方法予以实现；
+
+`AXWebViewController`可实现**微信样式**的网页浏览导航控制，可在导航栏显示`返回`和`关闭`两个功能按钮，这个功能主要基于[`AXNavigationBackItemInjection`](https://github.com/devedbox/AXNavigationBackItemInjection)而实现，**AXNavigationBackItemInjection**可以拦截点击返回导航或者手势滑动返回，有兴趣的朋友可以了解了解！
 
 [![sample2](http://ww3.sinaimg.cn/large/d2297bd2gw1f5wpniezqpg209o0h44qr.gif)](http://ww3.sinaimg.cn/large/d2297bd2gw1f5wpniezqpg209o0h44qr.gif)	[![sample](http://ww4.sinaimg.cn/large/d2297bd2gw1f5wpmh7vfgg209o0h4qv5.gif)](http://ww4.sinaimg.cn/large/d2297bd2gw1f5wpmh7vfgg209o0h4qv5.gif)
 
 [视频链接](http://video.weibo.com/show?fid=1034:5a4102ad40573447a44ae74d56a80451)
 ## Features
->* 手势滑动返回上个网页
->* 微信样式导航返回
->* 网页加载失败提示（iOS8.0以下）
+>* 手势滑动返回上个页面
+>* 微信样式导航返回、关闭
+>* 网页加载失败提示
 >* 网页加载进度提示
->* 网页来源提示
->* 支持__Peek__和__Pop__浏览网页，并且commit之后在本网页进行加载，不用跳转到Safari进行浏览，这里使用到了很多运行时的方法，因此，在使用的过程中可能会抛异常。
+>* 网页来源host提示
+>* 支持__Peek__和__Pop__浏览网页，并且commit之后在本网页进行加载，不用跳转到Safari进行浏览，这里使用到了很多运行时的方法，因此，谨慎使用！
 
 ## Requirements
 
-`AXWebViewController` 对系统版本支持到iOS7.0，需要使用到：
+`AXWebViewController` 对系统版本支持到iOS7.0；版本`0.7.0`以后仅支持`Xcode9`，需要使用到：
 
 >* Foundation.framework
 >* UIKit.framework
@@ -31,17 +33,17 @@
 ### CocoaPods
 [CocoaPods](http://cocoapods.org) is the recommended way to add AXWebViewController to your project.
 
-1. Add a pod entry for AXPopoverView to your Podfile `pod 'AXWebViewController', '~> 0.6.0'`
+1. Add a pod entry for `AXWebViewController` to your Podfile `pod 'AXWebViewController', '~> 0.6.0'`
 2. Install the pod(s) by running `pod install`.
-3. Include AXPopoverView wherever you need it with `#import "AXWebViewController.h"`.
+3. Include `AXWebViewController` wherever you need it with `#import "AXWebViewController.h"`.
 
 ### Source files
 
-Alternatively you can directly add the `AXWebViewController.h`、`AXWebNavigationViewController.h` and `AXWebViewController.m`、`AXWebNavigationViewController.m` source files to your project.
+Alternatively you can directly add the source files under path `*/AXWebViewController/` to your project.
 
 1. Download the [latest code version](https://github.com/devedbox/AXWebViewController/archive/master.zip) or add the repository as a git submodule to your git-tracked project. 
-2. Open your project in Xcode, then drag and drop `AXWebViewController.h` and `AXWebViewControllerm` onto your project (use the "Product Navigator view"). Make sure to select Copy items when asked if you extracted the code archive outside of your project. 
-3. Include AXPopoverView wherever you need it with `#import "AXWebViewController.h"`.
+2. Open your project in Xcode, then drag and drop the source files onto your project (use the "Product Navigator view"). Make sure to select Copy items when asked if you extracted the code archive outside of your project. 
+3. Include `AXWebViewController` wherever you need it with `#import "AXWebViewController.h"`.
 
 ## License
 
@@ -156,7 +158,7 @@ Peek和Pop使用的是原生的系统功能，在使用的时候只需要将`web
 ## 致谢
 [RxWebViewController](https://github.com/Roxasora/RxWebViewController)为我提供了思路，有些地方做了参考
 
-使用了[NJKWebViewProgress](https://github.com/ninjinkun/NJKWebViewProgress)作为进度条，感谢！
+`iOS8.0`以下使用了[NJKWebViewProgress](https://github.com/ninjinkun/NJKWebViewProgress)作为进度条，感谢！
 ## 更新日志
 ### 0.1.10 
 使用基于`UIWebView`的实现，进度条使用`NJKWebViewProgress`实现.
