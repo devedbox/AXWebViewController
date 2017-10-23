@@ -1835,13 +1835,10 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         fixedSpace.width = 35.0f;
-        
         NSArray *items = [NSArray arrayWithObjects:fixedSpace, refreshStopBarButtonItem, fixedSpace, self.backBarButtonItem, fixedSpace, self.forwardBarButtonItem, fixedSpace, self.actionBarButtonItem, nil];
         
         self.navigationItem.rightBarButtonItems = items.reverseObjectEnumerator.allObjects;
-    }
-    
-    else {
+    } else {
         NSArray *items = [NSArray arrayWithObjects: fixedSpace, self.backBarButtonItem, flexibleSpace, self.forwardBarButtonItem, flexibleSpace, refreshStopBarButtonItem, flexibleSpace, self.actionBarButtonItem, fixedSpace, nil];
         
         self.navigationController.toolbar.barStyle = self.navigationController.navigationBar.barStyle;
@@ -1859,19 +1856,17 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
         if (self.navigationController.viewControllers.count == 1) {
             NSMutableArray *leftBarButtonItems = [NSMutableArray arrayWithArray:@[spaceButtonItem,self.navigationBackBarButtonItem]];
-            
-            if (self.showsNavigationCloseBarButtonItem){
+            // If the top view controller of the navigation controller is current vc, the close item is ignored.
+            if (self.showsNavigationCloseBarButtonItem && self.navigationController.topViewController != self){
                 [leftBarButtonItems addObject:self.navigationCloseBarButtonItem];
             }
             
             [self.navigationItem setLeftBarButtonItems:leftBarButtonItems animated:NO];
         } else {
-            
             if (self.showsNavigationCloseBarButtonItem){
                 [self.navigationItem setLeftBarButtonItems:@[self.navigationCloseBarButtonItem] animated:NO];
             }else{
                 [self.navigationItem setLeftBarButtonItems:@[] animated:NO];
-
             }
         }
     } else {
