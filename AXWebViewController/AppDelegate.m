@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <objc/runtime.h>
+// #import "AXWebViewController.h"
 
 @interface AppDelegate ()
 
@@ -32,6 +33,18 @@
     /*
     NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"AXWebViewController")];
     NSString *bundlePath = [bundle pathForResource:@"AXWebViewController.bundle/html.bundle/404" ofType:@"html"];
+     */
+    /*
+    AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"https://www.baidu.com"];
+    webVC.showsToolBar = NO;
+    webVC.webView.allowsLinkPreview = YES;
+    webVC.navigationType = AXWebViewControllerNavigationBarItem;
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:webVC];
+    self.window = [[UIWindow alloc] init];
+    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.frame = [UIScreen mainScreen].bounds;
+    self.window.rootViewController = nav;
+    [self.window makeKeyAndVisible];
      */
     
     return YES;
