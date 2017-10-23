@@ -811,6 +811,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 - (UILabel *)descriptionLabel {
     return self.backgroundLabel;
 }
+
 #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 -(UIView*)swipingBackgoundView{
     if (!_swipingBackgoundView) {
@@ -1413,7 +1414,13 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 
 - (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(null_unspecified WKNavigation *)navigation {}
 
-- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {}
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
+    if (error.code == NSURLErrorCancelled) {
+        // [webView reloadFromOrigin];
+        return;
+    }
+    [self didFailLoadWithError:error];
+}
 
 - (void)webView:(WKWebView *)webView didCommitNavigation:(null_unspecified WKNavigation *)navigation {}
 
@@ -1422,7 +1429,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 }
 - (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
     if (error.code == NSURLErrorCancelled) {
-        [webView reloadFromOrigin];
+        // [webView reloadFromOrigin];
         return;
     }
     // id _request = [navigation valueForKeyPath:@"_request"];
