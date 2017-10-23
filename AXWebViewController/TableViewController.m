@@ -70,6 +70,7 @@
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"https://github.com/devedbox/AXWebViewController"];
             webVC.showsToolBar = NO;
             webVC.showsBackgroundLabel = NO;
+            // webVC.showsNavigationBackBarButtonItemTitle = NO;
             if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_9_0) {
                 webVC.webView.allowsLinkPreview = YES;
             }
