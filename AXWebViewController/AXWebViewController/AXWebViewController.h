@@ -150,17 +150,17 @@ API_AVAILABLE(ios(7.0))
 @property(assign, nonatomic) NSTimeInterval timeoutInternal;
 /// Cache policy.
 @property(assign, nonatomic) NSURLRequestCachePolicy cachePolicy;
-/// Url.
+/// The based initialized url of the web view controller if any.
 @property(readonly, nonatomic) NSURL *URL;
-/// Shows tool bar.Default is YES.
+/// Shows tool bar. Default is YES.
 @property(assign, nonatomic) BOOL showsToolBar;
-/// Shows showsBackgroundLabel default YES.
+/// Shows background description label. Default is YES.
 @property(assign, nonatomic) BOOL showsBackgroundLabel;
-/// Shows navigationCloseBarButtonItem default YES.
+/// Shows navigation close bar button item. Default is YES.
 @property(assign, nonatomic) BOOL showsNavigationCloseBarButtonItem;
-/// Shows navigationBackBarButtonItemTitle default YES.
+/// Shows the title of navigation back bar button item. Default is YES.
 @property(assign, nonatomic) BOOL showsNavigationBackBarButtonItemTitle;
-/// Check url can open default YES ,only work after iOS 8.
+/// Check url can open default YES, only work after iOS 8.
 @property(assign, nonatomic) BOOL checkUrlCanOpen API_AVAILABLE(ios(8.0));
 /// Navigation type.
 @property(assign, nonatomic) AXWebViewControllerNavigationType navigationType;
