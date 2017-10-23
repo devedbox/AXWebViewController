@@ -748,13 +748,17 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 }
 
 - (UIBarButtonItem *)navigationCloseBarButtonItem {
-    if (_navigationCloseItem) return _navigationCloseItem;
+    if (_navigationCloseBarButtonItem) return _navigationCloseBarButtonItem;
     if (self.navigationItem.rightBarButtonItem == _doneItem && self.navigationItem.rightBarButtonItem != nil) {
-        _navigationCloseItem = [[UIBarButtonItem alloc] initWithTitle:AXWebViewControllerLocalizedString(@"close", @"close") style:0 target:self action:@selector(doneButtonClicked:)];
+        _navigationCloseBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:AXWebViewControllerLocalizedString(@"close", @"close") style:0 target:self action:@selector(doneButtonClicked:)];
     } else {
-        _navigationCloseItem = [[UIBarButtonItem alloc] initWithTitle:AXWebViewControllerLocalizedString(@"close", @"close") style:0 target:self action:@selector(navigationIemHandleClose:)];
+        _navigationCloseBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:AXWebViewControllerLocalizedString(@"close", @"close") style:0 target:self action:@selector(navigationIemHandleClose:)];
     }
-    return _navigationCloseItem;
+    return _navigationCloseBarButtonItem;
+}
+
+- (UIBarButtonItem *)navigationCloseItem {
+    return _navigationCloseBarButtonItem;
 }
 #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
 - (NJKWebViewProgress *)progressProxy {
@@ -895,13 +899,18 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 }
 - (void)setShowsNavigationBackBarButtonItemTitle:(BOOL)showsNavigationBackBarButtonItemTitle{
     _navigationBackBarButtonItem = nil;
-    _showsNavigationBackBarButtonItemTitle= showsNavigationBackBarButtonItemTitle;
+    _showsNavigationBackBarButtonItemTitle = showsNavigationBackBarButtonItemTitle;
     [self updateNavigationItems];
 }
 
 - (void)setMaxAllowedTitleLength:(NSUInteger)maxAllowedTitleLength {
     _maxAllowedTitleLength = maxAllowedTitleLength;
     [self _updateTitleOfWebVC];
+}
+
+- (void)setNavigationCloseItem:(UIBarButtonItem *)navigationCloseItem {
+    _navigationCloseBarButtonItem = navigationCloseItem;
+    [self updateNavigationItems];
 }
 
 #pragma mark - Public
