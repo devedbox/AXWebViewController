@@ -29,6 +29,7 @@
 #import <objc/runtime.h>
 #import <StoreKit/StoreKit.h>
 #import <AXPracticalHUD/AXPracticalHUD.h>
+#import "FullScreenViewController.h"
 
 #ifndef AXWebViewControllerLocalizedString
 #define AXWebViewControllerLocalizedString(key, comment) \
@@ -1316,6 +1317,9 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 }
 #pragma mark - WKNavigationDelegate
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    FullScreenViewController *fullScreen = [[FullScreenViewController alloc] initWithNibName:nil bundle:nil];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:fullScreen];
+    [self presentViewController:nav animated:YES completion:NULL];
     // Disable all the '_blank' target in page's target.
     if (!navigationAction.targetFrame.isMainFrame) {
         [webView evaluateJavaScript:@"var a = document.getElementsByTagName('a');for(var i=0;i<a.length;i++){a[i].setAttribute('target','');}" completionHandler:nil];
