@@ -93,12 +93,7 @@
 			children = (
 				01513BF11C28F70700CB8238 /* AppDelegate.h */,
 				01513BF21C28F70700CB8238 /* AppDelegate.m */,
-				01CDC15B1C2A41DF00D9AF53 /* TableViewController.h */,
-				01CDC15C1C2A41DF00D9AF53 /* TableViewController.m */,
-				01AA4F171D4F28C2008F2A2C /* TabbarViewController1.h */,
-				01AA4F181D4F28C2008F2A2C /* TabbarViewController1.m */,
-				01AA4F1A1D4F28DD008F2A2C /* TabbarViewController2.h */,
-				01AA4F1B1D4F28DD008F2A2C /* TabbarViewController2.m */,
+				DCA3C59B1FB02FEE008DB632 /* Samples */,
 				01513C081C28F90300CB8238 /* AXWebViewController */,
 				01513BF71C28F70700CB8238 /* Main.storyboard */,
 				DCCF48231E7987C9009CF38E /* Swift.pdf */,
@@ -146,6 +141,19 @@
 				2642E682614F41BF460E7673 /* libPods-AXWebViewController.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DCA3C59B1FB02FEE008DB632 /* Samples */ = {
+			isa = PBXGroup;
+			children = (
+				01CDC15B1C2A41DF00D9AF53 /* TableViewController.h */,
+				01CDC15C1C2A41DF00D9AF53 /* TableViewController.m */,
+				01AA4F171D4F28C2008F2A2C /* TabbarViewController1.h */,
+				01AA4F181D4F28C2008F2A2C /* TabbarViewController1.m */,
+				01AA4F1A1D4F28DD008F2A2C /* TabbarViewController2.h */,
+				01AA4F1B1D4F28DD008F2A2C /* TabbarViewController2.m */,
+			);
+			name = Samples;
 			sourceTree = "<group>";
 		};
 		DCABA0181EC5EE2A005C7D31 /* Security */ = {
