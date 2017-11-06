@@ -21,6 +21,7 @@
 		97F6BE6D557C0BB485DDCF88 /* libPods-AXWebViewController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2642E682614F41BF460E7673 /* libPods-AXWebViewController.a */; };
 		DCA3C59F1FB0302F008DB632 /* FullScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCA3C59E1FB0302F008DB632 /* FullScreenViewController.m */; };
 		DCA3C5A31FB05C9C008DB632 /* AXWebContentFrameStateList.m in Sources */ = {isa = PBXBuildFile; fileRef = DCA3C5A21FB05C9C008DB632 /* AXWebContentFrameStateList.m */; };
+		DCA3C5A61FB05E09008DB632 /* AXWebContentFrameState.m in Sources */ = {isa = PBXBuildFile; fileRef = DCA3C5A51FB05E09008DB632 /* AXWebContentFrameState.m */; };
 		DCABA01B1EC5EE2A005C7D31 /* AXSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = DCABA01A1EC5EE2A005C7D31 /* AXSecurityPolicy.m */; };
 		DCABA0231EC5FDFF005C7D31 /* AXWebViewControllerActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = DCABA01E1EC5FDFF005C7D31 /* AXWebViewControllerActivity.m */; };
 		DCCF48241E7987C9009CF38E /* Swift.pdf in Resources */ = {isa = PBXBuildFile; fileRef = DCCF48231E7987C9009CF38E /* Swift.pdf */; };
@@ -56,6 +57,8 @@
 		DCA3C59E1FB0302F008DB632 /* FullScreenViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FullScreenViewController.m; sourceTree = "<group>"; };
 		DCA3C5A11FB05C9C008DB632 /* AXWebContentFrameStateList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXWebContentFrameStateList.h; sourceTree = "<group>"; };
 		DCA3C5A21FB05C9C008DB632 /* AXWebContentFrameStateList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXWebContentFrameStateList.m; sourceTree = "<group>"; };
+		DCA3C5A41FB05E09008DB632 /* AXWebContentFrameState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXWebContentFrameState.h; sourceTree = "<group>"; };
+		DCA3C5A51FB05E09008DB632 /* AXWebContentFrameState.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXWebContentFrameState.m; sourceTree = "<group>"; };
 		DCABA0191EC5EE2A005C7D31 /* AXSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXSecurityPolicy.h; sourceTree = "<group>"; };
 		DCABA01A1EC5EE2A005C7D31 /* AXSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXSecurityPolicy.m; sourceTree = "<group>"; };
 		DCABA01D1EC5FDFF005C7D31 /* AXWebViewControllerActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXWebViewControllerActivity.h; sourceTree = "<group>"; };
@@ -176,6 +179,8 @@
 		DCA3C5A01FB05BF1008DB632 /* State */ = {
 			isa = PBXGroup;
 			children = (
+				DCA3C5A41FB05E09008DB632 /* AXWebContentFrameState.h */,
+				DCA3C5A51FB05E09008DB632 /* AXWebContentFrameState.m */,
 				DCA3C5A11FB05C9C008DB632 /* AXWebContentFrameStateList.h */,
 				DCA3C5A21FB05C9C008DB632 /* AXWebContentFrameStateList.m */,
 			);
@@ -331,6 +336,7 @@
 				01AA4F191D4F28C2008F2A2C /* TabbarViewController1.m in Sources */,
 				01513BF31C28F70700CB8238 /* AppDelegate.m in Sources */,
 				DCA3C59F1FB0302F008DB632 /* FullScreenViewController.m in Sources */,
+				DCA3C5A61FB05E09008DB632 /* AXWebContentFrameState.m in Sources */,
 				01513C071C28F90000CB8238 /* AXWebViewController.m in Sources */,
 				DCABA0231EC5FDFF005C7D31 /* AXWebViewControllerActivity.m in Sources */,
 				01513BF01C28F70700CB8238 /* main.m in Sources */,
