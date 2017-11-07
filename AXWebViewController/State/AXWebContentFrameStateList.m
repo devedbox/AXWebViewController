@@ -25,6 +25,19 @@
 
 #import "AXWebContentFrameStateList.h"
 
+@interface AXWebContentFrameStateList ()
+/// The underlying managed web view.
+@property(weak, nonatomic) WKWebView *webView;
+@end
+
 @implementation AXWebContentFrameStateList
+- (instancetype)initWithWebView:(WKWebView *)webView {
+    if (self = [super init]) {
+        _webView = webView;
+    }
+    return self;
+}
+
+#pragma mark - Getters.
 
 @end

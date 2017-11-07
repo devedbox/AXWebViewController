@@ -25,8 +25,21 @@
 
 #import <Foundation/Foundation.h>
 #import <WebKit/WebKit.h>
+#import "AXWebContentFrameState.h"
+
+NS_ASSUME_NONNULL_BEGIN
 /// A type managing the states of each frame of wk web view, such as the latest content offset of the
 /// scroll view of the wkWebView.
 @interface AXWebContentFrameStateList : NSObject
+/// The back forward list of the managed web view.
+@property(readonly, nonatomic, nullable) WKBackForwardList *backForwardList;
+/// The current state for the current list item.
+@property(readonly, nonatomic, nullable) AXWebContentFrameState *currentState;
+/// The forward state object for the forward list item.
+@property(readonly, nonatomic, nullable) AXWebContentFrameState *forwardState;
+/// The back state for the back list item.
+@property(readonly, nonatomic, nullable) AXWebContentFrameState *backState;
 
+- (nullable instancetype)initWithWebView:(WKWebView *)webView;
 @end
+NS_ASSUME_NONNULL_END
