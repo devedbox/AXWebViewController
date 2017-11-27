@@ -35,6 +35,12 @@
 NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", self.resourceBundle, comment)
 #endif
 #if !AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
+
+typedef struct {
+    char *identifier;
+    CGPoint contentOffset;
+} _AXWebViewFrameState;
+
 @interface _AXWebViewProgressView : NJKWebViewProgressView
 /// The view controller controller.
 @property(weak, nonatomic) AXWebViewController *webViewController;
@@ -61,6 +67,8 @@ NSLocalizedStringFromTableInBundle(key, @"AXWebViewController", self.resourceBun
     
     /// Should adjust the content inset of web view.
     BOOL _automaticallyAdjustsScrollViewInsets;
+    /// Cached content offset state of the web view.
+    NSCache *_contentOffsetCache;
 }
 /// Back bar button item of tool bar.
 @property(strong, nonatomic) UIBarButtonItem *backBarButtonItem;
@@ -205,6 +213,21 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS9_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_A
 BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_AVAILABLE_ON(_kiOS10_0); }
 
 #pragma clang diagnostic pop
+
+@interface UIScrollView (ContentOffsetHook)
+@end
+
+@implementation UIScrollView (ContentOffsetHook)
++ (void)load {
+    Method original = class_getInstanceMethod(self.class, @selector(setContentOffset:));
+    Method target   = class_getInstanceMethod(self.class, @selector(ax_setContentOffset:));
+    method_exchangeImplementations(original, target);
+}
+
+- (void)ax_setContentOffset:(CGPoint)contentOffset {
+    [self ax_setContentOffset:contentOffset];
+}
+@end
 
 @implementation AXWebViewController
 #pragma mark - Life cycle
