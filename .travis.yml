@@ -1,4 +1,3 @@
-xcode_sdk: xcode9.2
 language: objective-c
 xcode_workspace: AXWebViewController.xcworkspace
 xcode_scheme: AXWebViewController
