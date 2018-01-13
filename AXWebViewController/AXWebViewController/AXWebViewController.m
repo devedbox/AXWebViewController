@@ -1141,7 +1141,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 #endif
 }
 
-- (void)actionButtonClicked:(id)sender {
+- (void)actionButtonClicked:(UIBarButtonItem *)sender {
     NSArray *activities = @[[AXWebViewControllerActivitySafari new], [AXWebViewControllerActivityChrome new]];
     NSURL *URL;
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
@@ -1149,7 +1149,14 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 #else
     URL = _webView.request.URL;
 #endif
+    
     UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:@[URL] applicationActivities:activities];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        UIPopoverPresentationController *popover = activityController.popoverPresentationController;
+        popover.barButtonItem = sender;
+        popover.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    }
+    
     [self presentViewController:activityController animated:YES completion:nil];
 }
 
