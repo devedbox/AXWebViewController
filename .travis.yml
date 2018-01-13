@@ -1,5 +1,5 @@
 osx_image: xcode9.2
-fanguage: objective-c
+language: objective-c
 xcode_workspace: AXWebViewController.xcworkspace
 xcode_scheme: AXWebViewController
 bundle exec pod install
