@@ -206,7 +206,7 @@ API_AVAILABLE(ios(7.0))
 /// @param baseURL a baseURL to be loaded.
 ///
 /// @return a instance of `AXWebViewController`.
-- (instancetype)initWithHTMLString:(NSString*)HTMLString baseURL:(NSURL*)baseURL;
+- (instancetype)initWithHTMLString:(NSString *)HTMLString baseURL:(NSURL * _Nullable)baseURL;
 /// Load a new url.
 ///
 /// @param URL a new url.

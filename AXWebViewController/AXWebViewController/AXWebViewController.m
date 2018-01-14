@@ -342,7 +342,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         [self loadURLRequest:_request];
     } else if (_URL) {
         [self loadURL:_URL];
-    } else if (_baseURL && _HTMLString) {
+    } else if (/*_baseURL && */_HTMLString) {
         [self loadHTMLString:_HTMLString baseURL:_baseURL];
     } else {
         // Handle none resource case.
