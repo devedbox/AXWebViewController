@@ -1367,7 +1367,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     }
     
     // URL actions for 404 and Errors:
-    if ([navigationAction.request.URL.absoluteString isEqualToString:kAX404NotFoundURLKey] || [navigationAction.request.URL.absoluteString isEqualToString:kAXNetworkErrorURLKey]) {
+    if ([[NSPredicate predicateWithFormat:@"SELF ENDSWITH[cd] %@ OR SELF ENDSWITH[cd] %@", kAX404NotFoundURLKey, kAXNetworkErrorURLKey] evaluateWithObject:components.URL.absoluteString]) {
         // Reload the original URL.
         [self loadURL:_URL];
     }
