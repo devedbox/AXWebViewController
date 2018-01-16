@@ -50,6 +50,7 @@
         {
             AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:@"http://www.baidu.com"];
             webVC.showsToolBar = NO;
+            // webVC.showsNavigationCloseBarButtonItem = NO;
             if (AX_WEB_VIEW_CONTROLLER_iOS9_0_AVAILABLE()) {
                 webVC.webView.allowsLinkPreview = YES;
             }
