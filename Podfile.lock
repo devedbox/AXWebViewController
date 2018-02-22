@@ -1,8 +1,8 @@
 PODS:
   - Aspects (1.4.1)
-  - AXIndicatorView (0.0.7)
+  - AXIndicatorView (0.1.1)
   - AXNavigationBackItemInjection (0.0.2)
-  - AXPracticalHUD (1.1.6):
+  - AXPracticalHUD (2.0.2):
     - AXIndicatorView
   - NJKWebViewProgress (0.2.3):
     - NJKWebViewProgress/Core (= 0.2.3)
@@ -18,11 +18,11 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
-  AXIndicatorView: caa6c08cc6b732fad163fa26197e3c34b1339060
+  AXIndicatorView: 566b490a2dd9781d4ffbcc9752be9b9cdc6e728e
   AXNavigationBackItemInjection: efe0446967f3cbcc85a9118decd1e145138912dd
-  AXPracticalHUD: eba707b5515a4da7424ac3d36f07e643df1c8fc3
+  AXPracticalHUD: 16c3ff6d97c061e80e80897b2e6ac8e330079472
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
 
 PODFILE CHECKSUM: 207fd9270929cf3153a3b3d5d06cc43eac68880f
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.3.1

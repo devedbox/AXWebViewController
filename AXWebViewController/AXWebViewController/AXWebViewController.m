@@ -1308,7 +1308,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     // For appstore and system defines. This action will jump to AppStore app or the system apps.
     if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/' OR SELF BEGINSWITH[cd] 'mailto:' OR SELF BEGINSWITH[cd] 'tel:' OR SELF BEGINSWITH[cd] 'telprompt:'"] evaluateWithObject:components.URL.absoluteString]) {
         if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/'"] evaluateWithObject:components.URL.absoluteString] && !_reviewsAppInAppStore) {
-            [[AXPracticalHUD sharedHUD] showSimpleInView:self.view.window text:nil detail:nil configuration:^(AXPracticalHUD *HUD) {
+            [[AXPracticalHUD sharedHUD] showNormalInView:self.view.window text:nil detail:nil configuration:^(AXPracticalHUD *HUD) {
                 // Disabled the background touching lock to fix the
                 // issue: https://github.com/devedbox/AXWebViewController/issues/67
                 // HUD.lockBackground = YES;
@@ -1472,7 +1472,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     // For appstore.
     if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/' OR SELF BEGINSWITH[cd] 'mailto:' OR SELF BEGINSWITH[cd] 'tel:' OR SELF BEGINSWITH[cd] 'telprompt:'"] evaluateWithObject:request.URL.absoluteString]) {
         if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/'"] evaluateWithObject:components.URL.absoluteString] && !_reviewsAppInAppStore) {
-            [[AXPracticalHUD sharedHUD] showSimpleInView:self.view.window text:nil detail:nil configuration:^(AXPracticalHUD *HUD) {
+            [[AXPracticalHUD sharedHUD] showNormalInView:self.view.window text:nil detail:nil configuration:^(AXPracticalHUD *HUD) {
                 HUD.removeFromSuperViewOnHide = YES;
             }];
             SKStoreProductViewController *productVC = [[SKStoreProductViewController alloc] init];
