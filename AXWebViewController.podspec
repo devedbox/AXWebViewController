@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 #
 
 s.name         = "AXWebViewController"
-s.version      = "0.7.1"
+s.version      = "0.7.2"
 s.summary      = "A light weight web view controller in iOS."
 
 # This description is used to generate tags and improve search results.
