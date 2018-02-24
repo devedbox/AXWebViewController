@@ -110,7 +110,7 @@
 }
 
 - (IBAction)clearCache:(id)sender {
-    [[AXPracticalHUD sharedHUD] showSimpleInView:self.navigationController.view text:@"清理缓存..." detail:nil configuration:NULL];
+    [[AXPracticalHUD sharedHUD] showNormalInView:self.navigationController.view text:@"清理缓存..." detail:nil configuration:NULL];
     [AXWebViewController clearWebCacheCompletion:^{
         [[AXPracticalHUD sharedHUD] hide:YES afterDelay:0.5 completion:NULL];
     }];
