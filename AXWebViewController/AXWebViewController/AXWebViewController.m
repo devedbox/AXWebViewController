@@ -254,6 +254,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 
 - (void)initializer {
     // Set up default values.
+    _hasRunViewDidLoadMethod = NO;//init 方法里还没有跑过
     _showsToolBar = YES;
     _showsBackgroundLabel = YES;
     _showsNavigationCloseBarButtonItem = YES;
@@ -342,7 +343,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         [self loadURLRequest:_request];
     } else if (_URL) {
         [self loadURL:_URL];
-    } else if (_baseURL && _HTMLString) {
+    } else if (/*_baseURL && */_HTMLString) {
         [self loadHTMLString:_HTMLString baseURL:_baseURL];
     } else {
         // Handle none resource case.
@@ -363,6 +364,8 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     
     // [_webView.scrollView addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew context:NULL];
 #endif
+    
+    _hasRunViewDidLoadMethod = YES;
 }
 
 - (void)viewDidLayoutSubviews {
@@ -504,10 +507,17 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     _webView.UIDelegate = nil;
     _webView.navigationDelegate = nil;
-    [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
-    [_webView removeObserver:self forKeyPath:@"scrollView.contentOffset"];
-    [_webView removeObserver:self forKeyPath:@"title"];
-    // [_webView.scrollView removeObserver:self forKeyPath:@"backgroundColor"];
+    
+    
+    if (_hasRunViewDidLoadMethod) {//如果加载过 再进行移除 防止崩溃
+        [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
+        [_webView removeObserver:self forKeyPath:@"scrollView.contentOffset"];
+        [_webView removeObserver:self forKeyPath:@"title"];
+        // [_webView.scrollView removeObserver:self forKeyPath:@"backgroundColor"];
+    }
+    
+    
+   
 #else
     _webView.delegate = nil;
 #endif
@@ -1141,7 +1151,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 #endif
 }
 
-- (void)actionButtonClicked:(id)sender {
+- (void)actionButtonClicked:(UIBarButtonItem *)sender {
     NSArray *activities = @[[AXWebViewControllerActivitySafari new], [AXWebViewControllerActivityChrome new]];
     NSURL *URL;
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
@@ -1149,7 +1159,14 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 #else
     URL = _webView.request.URL;
 #endif
+    
     UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:@[URL] applicationActivities:activities];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        UIPopoverPresentationController *popover = activityController.popoverPresentationController;
+        popover.barButtonItem = sender;
+        popover.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    }
+    
     [self presentViewController:activityController animated:YES completion:nil];
 }
 
@@ -1301,8 +1318,10 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     // For appstore and system defines. This action will jump to AppStore app or the system apps.
     if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/' OR SELF BEGINSWITH[cd] 'mailto:' OR SELF BEGINSWITH[cd] 'tel:' OR SELF BEGINSWITH[cd] 'telprompt:'"] evaluateWithObject:components.URL.absoluteString]) {
         if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/'"] evaluateWithObject:components.URL.absoluteString] && !_reviewsAppInAppStore) {
-            [[AXPracticalHUD sharedHUD] showSimpleInView:self.view.window text:nil detail:nil configuration:^(AXPracticalHUD *HUD) {
-                HUD.lockBackground = YES;
+            [[AXPracticalHUD sharedHUD] showNormalInView:self.view.window text:nil detail:nil configuration:^(AXPracticalHUD *HUD) {
+                // Disabled the background touching lock to fix the
+                // issue: https://github.com/devedbox/AXWebViewController/issues/67
+                // HUD.lockBackground = YES;
                 HUD.removeFromSuperViewOnHide = YES;
             }];
             SKStoreProductViewController *productVC = [[SKStoreProductViewController alloc] init];
@@ -1316,7 +1335,6 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
                 [productVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier: @([[components.URL.absoluteString substringWithRange:range] integerValue])} completionBlock:^(BOOL result, NSError * _Nullable error) {
                     if (!result || error) {
                         [[AXPracticalHUD sharedHUD] showErrorInView:self.view.window text:error.localizedDescription detail:nil configuration:^(AXPracticalHUD *HUD) {
-                            HUD.lockBackground = YES;
                             HUD.removeFromSuperViewOnHide = YES;
                         }];
                         [[AXPracticalHUD sharedHUD] hide:YES afterDelay:1.5 completion:NULL];
@@ -1332,7 +1350,6 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
             }
         }
         if ([[UIApplication sharedApplication] canOpenURL:components.URL]) {
-            
             if (@available(iOS 10.0, *)) {
                 [UIApplication.sharedApplication openURL:components.URL options:@{} completionHandler:NULL];
             } else {
@@ -1342,12 +1359,11 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
         decisionHandler(WKNavigationActionPolicyCancel);
         return;
     } else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] 'https' OR SELF MATCHES[cd] 'http' OR SELF MATCHES[cd] 'file' OR SELF MATCHES[cd] 'about'"] evaluateWithObject:components.scheme]) {// For any other schema but not `https`、`http` and `file`.
-        
         if (@available(iOS 8.0, *)) { // openURL if ios version is low then 8 , app will crash
             if (!self.checkUrlCanOpen || [[UIApplication sharedApplication] canOpenURL:components.URL]) {
                 if (@available(iOS 10.0, *)) {
                     [UIApplication.sharedApplication openURL:components.URL options:@{} completionHandler:NULL];
-                }else{
+                } else {
                     [[UIApplication sharedApplication] openURL:components.URL];
                 }
             }
@@ -1357,13 +1373,12 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
             }
         }
 
-        
         decisionHandler(WKNavigationActionPolicyCancel);
         return;
     }
     
     // URL actions for 404 and Errors:
-    if ([navigationAction.request.URL.absoluteString isEqualToString:kAX404NotFoundURLKey] || [navigationAction.request.URL.absoluteString isEqualToString:kAXNetworkErrorURLKey]) {
+    if ([[NSPredicate predicateWithFormat:@"SELF ENDSWITH[cd] %@ OR SELF ENDSWITH[cd] %@", kAX404NotFoundURLKey, kAXNetworkErrorURLKey] evaluateWithObject:components.URL.absoluteString]) {
         // Reload the original URL.
         [self loadURL:_URL];
     }
@@ -1467,8 +1482,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     // For appstore.
     if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/' OR SELF BEGINSWITH[cd] 'mailto:' OR SELF BEGINSWITH[cd] 'tel:' OR SELF BEGINSWITH[cd] 'telprompt:'"] evaluateWithObject:request.URL.absoluteString]) {
         if ([[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] 'https://itunes.apple.com/'"] evaluateWithObject:components.URL.absoluteString] && !_reviewsAppInAppStore) {
-            [[AXPracticalHUD sharedHUD] showSimpleInView:self.view.window text:nil detail:nil configuration:^(AXPracticalHUD *HUD) {
-                HUD.lockBackground = YES;
+            [[AXPracticalHUD sharedHUD] showNormalInView:self.view.window text:nil detail:nil configuration:^(AXPracticalHUD *HUD) {
                 HUD.removeFromSuperViewOnHide = YES;
             }];
             SKStoreProductViewController *productVC = [[SKStoreProductViewController alloc] init];
@@ -1482,7 +1496,6 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
                 [productVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier: @([[components.URL.absoluteString substringWithRange:range] integerValue])} completionBlock:^(BOOL result, NSError * _Nullable error) {
                     if (!result || error) {
                         [[AXPracticalHUD sharedHUD] showErrorInView:self.view.window text:error.localizedDescription detail:nil configuration:^(AXPracticalHUD *HUD) {
-                            HUD.lockBackground = YES;
                             HUD.removeFromSuperViewOnHide = YES;
                         }];
                         [[AXPracticalHUD sharedHUD] hide:YES afterDelay:1.5 completion:NULL];
