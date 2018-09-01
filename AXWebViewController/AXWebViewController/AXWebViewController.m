@@ -655,7 +655,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 
 - (NSBundle *)resourceBundle{
     if (_resourceBundle) return _resourceBundle;
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSBundle *bundle = [NSBundle bundleForClass:AXWebViewController.class];
     
     NSString *resourcePath = [bundle pathForResource:@"AXWebViewController" ofType:@"bundle"] ;
     
