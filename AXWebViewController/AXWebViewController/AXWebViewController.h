@@ -154,6 +154,10 @@ API_AVAILABLE(ios(7.0))
 @property(readonly, nonatomic) NSURL *URL;
 /// Shows tool bar. Default is YES.
 @property(assign, nonatomic) BOOL showsToolBar;
+
+///记录有没有跑过视图加载方法  如果没有跑过 就无需移除通知KVO
+@property(assign, nonatomic) BOOL hasRunViewDidLoadMethod;
+
 /// Shows background description label. Default is YES.
 @property(assign, nonatomic) BOOL showsBackgroundLabel;
 /// Shows navigation close bar button item. Default is YES.

@@ -254,6 +254,7 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 
 - (void)initializer {
     // Set up default values.
+    _hasRunViewDidLoadMethod = NO;//init 方法里还没有跑过
     _showsToolBar = YES;
     _showsBackgroundLabel = YES;
     _showsNavigationCloseBarButtonItem = YES;
@@ -363,6 +364,8 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
     
     // [_webView.scrollView addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew context:NULL];
 #endif
+    
+    _hasRunViewDidLoadMethod = YES;
 }
 
 - (void)viewDidLayoutSubviews {
@@ -504,10 +507,17 @@ BOOL AX_WEB_VIEW_CONTROLLER_iOS10_0_AVAILABLE() { return AX_WEB_VIEW_CONTROLLER_
 #if AX_WEB_VIEW_CONTROLLER_USING_WEBKIT
     _webView.UIDelegate = nil;
     _webView.navigationDelegate = nil;
-    [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
-    [_webView removeObserver:self forKeyPath:@"scrollView.contentOffset"];
-    [_webView removeObserver:self forKeyPath:@"title"];
-    // [_webView.scrollView removeObserver:self forKeyPath:@"backgroundColor"];
+    
+    
+    if (_hasRunViewDidLoadMethod) {//如果加载过 再进行移除 防止崩溃
+        [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
+        [_webView removeObserver:self forKeyPath:@"scrollView.contentOffset"];
+        [_webView removeObserver:self forKeyPath:@"title"];
+        // [_webView.scrollView removeObserver:self forKeyPath:@"backgroundColor"];
+    }
+    
+    
+   
 #else
     _webView.delegate = nil;
 #endif
